@@ -1,0 +1,37 @@
+MANTENEDOR DE GRÁFICAS RRSS · SERCOTEC
+=======================================
+
+CÓMO USAR
+1. Haz doble clic en "index.html" (se abre en tu navegador, no necesita internet).
+   Funciona en computador y también en teléfono.
+2. Elige el formato: Feed, Feed vertical, Historia, Portada de Reel o Portada Facebook.
+3. Elige el tipo de pieza (Programas, Sercotec en Terreno, Caso de Éxito, etc.)
+   — la etiqueta se completa sola, pero puedes editarla.
+4. Elige plantilla y color de fondo (paleta oficial del manual 2024).
+5. Escribe título, bajada y llamado a la acción.
+6. Sube una fotografía O un video: puedes arrastrar el archivo sobre la vista
+   previa para encuadrarlo y usar el control de zoom.
+7. Si subiste un video, puedes completar el GC (nombre y cargo): aparece
+   deslizándose desde el costado izquierdo y sale solo, como en TV.
+8. Presiona "Generar":
+   - Foto → PNG o JPG en tamaño real.
+   - Video → se graba la pieza completa con el GC animado y el audio original
+     (MP4 en Chrome/Edge; la grabación demora lo que dura el video).
+
+DETALLES
+- Dimensiones según Manual de Identidad Sercotec 2024:
+  Feed 2000×2000 · Historia/Reel 1127×2008 (zona segura 1080×1920) ·
+  Portada Facebook 820×312 · Feed vertical 4:5 2000×2500.
+- Complemento gráfico de Gobierno según "Instructivo uso complemento 2026":
+  proporción de 13 cuadrados, ubicado arriba a la derecha con margen igual a
+  la medida de la línea azul; en Historias y Reels va vertical al costado
+  derecho con la estrella siempre derecha. En RRSS reemplaza al logo
+  institucional (por eso la pieza no lleva logo Sercotec).
+- La línea punteada roja es la "zona segura": solo se ve en pantalla,
+  nunca sale en el archivo descargado.
+- Las fotos y videos se procesan en tu propio computador; no se suben a
+  ningún sitio.
+- Tipografía gobCL incluida dentro del archivo (no hay que instalarla).
+- Para grabar video usa Chrome o Edge (Safari puede no permitirlo).
+
+Puedes copiar o enviar el archivo index.html a colegas: funciona solo.
