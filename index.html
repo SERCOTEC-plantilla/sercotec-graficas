@@ -212,7 +212,7 @@
     <button class="btn btn-primario" id="btnPng">⬇ Generar PNG</button>
     <div style="height:8px"></div>
     <button class="btn btn-sec" id="btnJpg">⬇ Generar JPG</button>
-    <div class="hint" style="margin-top:8px" id="hintGenerar">El archivo se descarga en tamaño real, listo para publicar en Instagram / Facebook.</div>
+    <div class="hint" style="margin-top:8px" id="hintGenerar">En el teléfono se abre el menú para guardar en la fototeca o compartir directo a Instagram. En computador se descarga como archivo.</div>
   </div>
 
 </aside>
@@ -719,6 +719,23 @@ function renderPreview(){
     `<b>${F.nombre}</b> · ${F.w} × ${F.h} px` + (F.safe?` · zona segura ${F.safe.w} × ${Math.min(F.safe.h,F.h)} px`:'');
 }
 
+/* En teléfonos se usa la hoja de compartir nativa: permite "Guardar imagen/
+   video" (queda en la fototeca) o enviarla directo a Instagram/WhatsApp.
+   En computador se descarga como archivo normal. */
+function esMovil(){
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    || (navigator.maxTouchPoints>1 && /Mac/.test(navigator.userAgent)); // iPad moderno
+}
+async function entregarArchivo(blob,nombre){
+  const file=new File([blob],nombre,{type:blob.type});
+  if(esMovil() && navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file]}); return; }
+    catch(err){ if(err && err.name==='AbortError') return; /* canceló */ }
+  }
+  const a=document.createElement('a');
+  a.download=nombre; a.href=URL.createObjectURL(file); a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),10000);
+}
 function exportar(tipoMime){
   const F=FORMATOS[S.formato];
   const off=document.createElement('canvas'); off.width=F.w; off.height=F.h;
@@ -727,10 +744,8 @@ function exportar(tipoMime){
   render(octx,F.w,F.h,false);
   const ext=tipoMime==='image/jpeg'?'jpg':'png';
   const fecha=new Date().toISOString().slice(0,16).replace(/[T:]/g,'-');
-  const a=document.createElement('a');
-  a.download=`sercotec_${F.archivo}_${S.tipo}_${fecha}.${ext}`;
-  a.href=off.toDataURL(tipoMime,0.92);
-  a.click();
+  const nombre=`sercotec_${F.archivo}_${S.tipo}_${fecha}.${ext}`;
+  off.toBlob(b=>{ if(b) entregarArchivo(b,nombre); },tipoMime,0.92);
 }
 
 /* ================= Controles ================= */
@@ -779,8 +794,8 @@ function modoVideoUI(on){
   $('btnVideo').style.display=on?'':'none';
   $('sepVideo').style.display=on?'':'none';
   $('hintGenerar').textContent=on
-    ? 'El video se graba en tamaño real con el GC animado. PNG y JPG descargan el cuadro actual.'
-    : 'El archivo se descarga en tamaño real, listo para publicar en Instagram / Facebook.';
+    ? 'El video se graba en tamaño real con el GC animado (espera a que termine). En el teléfono, al finalizar toca "Guardar video" para llevarlo a tu fototeca o directo a Instagram.'
+    : 'En el teléfono se abre el menú para guardar en la fototeca o compartir directo a Instagram. En computador se descarga como archivo.';
 }
 function quitarVideo(){
   if(S.video){
@@ -789,6 +804,8 @@ function quitarVideo(){
     URL.revokeObjectURL(S.video.src);
     S.video=null;
   }
+  videoListo=null;
+  const btn=$('btnVideo'); if(btn) btn.textContent='🎬 Generar Video';
   modoVideoUI(false);
 }
 function etiquetaDrop(nombre,icono){
@@ -809,16 +826,26 @@ function cargarMedia(archivo){
     lector.readAsDataURL(archivo);
   } else if(archivo.type.startsWith('video/')){
     const v=document.createElement('video');
-    v.muted=true; v.loop=true; v.playsInline=true;
+    // Safari iOS: exige atributos explícitos y carga manual (no pre-carga solo)
+    v.muted=true; v.setAttribute('muted','');
+    v.loop=true;
+    v.playsInline=true; v.setAttribute('playsinline','');
+    v.preload='auto';
     v.src=URL.createObjectURL(archivo);
-    v.onloadeddata=()=>{
+    let iniciado=false;
+    const listo=()=>{
+      if(iniciado) return; iniciado=true;
       quitarVideo(); S.foto=null; S.video=v; reencuadrar();
       etiquetaDrop(archivo.name,'🎬');
       modoVideoUI(true);
-      v.play();
+      v.play().catch(()=>{});
       if(!rafPreview) cicloVideo();
     };
-    v.onerror=()=>{ alert('No se pudo leer el video. Prueba con formato MP4 (H.264).'); URL.revokeObjectURL(v.src); };
+    v.onloadedmetadata=listo; // en iOS 'loadeddata' puede no dispararse
+    v.onloadeddata=listo;
+    v.onerror=()=>{ alert('No se pudo leer el video. Prueba con formato MP4 (H.264) o MOV.'); URL.revokeObjectURL(v.src); };
+    v.load();
+    v.play().catch(()=>{}); // dentro del gesto de selección: fuerza la carga en iOS
   }
 }
 $('inFoto').onchange=e=>cargarMedia(e.target.files[0]);
@@ -838,26 +865,35 @@ function audioDeVideo(v){
     return v._audioDest.stream.getAudioTracks();
   }catch(e){ return []; }
 }
-let exportandoVideo=false;
+let exportandoVideo=false, videoListo=null; // {blob,nombre} esperando el toque "Guardar"
 async function exportarVideo(){
+  const btn=$('btnVideo');
+  if(videoListo){ // segundo toque: abrir hoja de compartir (requiere gesto del usuario)
+    const p=videoListo; videoListo=null;
+    btn.textContent='🎬 Generar Video';
+    await entregarArchivo(p.blob,p.nombre);
+    return;
+  }
   if(!S.video||exportandoVideo) return;
-  const F=FORMATOS[S.formato], v=S.video, btn=$('btnVideo');
+  const F=FORMATOS[S.formato], v=S.video;
   exportandoVideo=true; btn.disabled=true;
   try{
+    // audio primero: en iOS el AudioContext solo se activa durante el toque
+    const pistasAudio=audioDeVideo(v);
+    if(v._audioCtx) v._audioCtx.resume().catch(()=>{});
     const off=document.createElement('canvas'); off.width=F.w; off.height=F.h;
     const octx=off.getContext('2d');
     const stream=off.captureStream(30);
-    audioDeVideo(v).forEach(t=>stream.addTrack(t));
+    pistasAudio.forEach(t=>stream.addTrack(t));
     const mime=['video/mp4;codecs=avc1','video/mp4','video/webm;codecs=vp9','video/webm']
       .find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported(m));
-    if(!mime) throw new Error('Este navegador no permite grabar video. Usa Chrome o Edge.');
+    if(!mime) throw new Error('Este navegador no permite grabar video. Usa Chrome, Edge o Safari actualizado.');
     const rec=new MediaRecorder(stream,{mimeType:mime, videoBitsPerSecond:10_000_000});
     const trozos=[];
     rec.ondataavailable=e=>{ if(e.data.size) trozos.push(e.data); };
     const fin=new Promise(res=>rec.onstop=res);
     const loopPrevio=v.loop; v.loop=false; v.pause(); v.currentTime=0;
     await new Promise(res=>{ const h=()=>{v.removeEventListener('seeked',h); res();}; v.addEventListener('seeked',h); });
-    if(v._audioCtx) v._audioCtx.resume();
     await v.play();
     rec.start(200);
     const t0=performance.now();
@@ -871,18 +907,24 @@ async function exportarVideo(){
     };
     paso();
     await fin;
-    v.loop=loopPrevio; v.play();
+    v.loop=loopPrevio; v.play().catch(()=>{});
     const blob=new Blob(trozos,{type:mime.split(';')[0]});
     const ext=mime.startsWith('video/mp4')?'mp4':'webm';
     const fecha=new Date().toISOString().slice(0,16).replace(/[T:]/g,'-');
-    const a=document.createElement('a');
-    a.download=`sercotec_${F.archivo}_${S.tipo}_${fecha}.${ext}`;
-    a.href=URL.createObjectURL(blob); a.click();
-    setTimeout(()=>URL.revokeObjectURL(a.href),10000);
+    const nombre=`sercotec_${F.archivo}_${S.tipo}_${fecha}.${ext}`;
+    const file=new File([blob],nombre,{type:blob.type});
+    if(esMovil() && navigator.canShare && navigator.canShare({files:[file]})){
+      videoListo={blob,nombre};
+      btn.textContent='💾 Guardar video en el teléfono';
+    } else {
+      await entregarArchivo(blob,nombre);
+      btn.textContent='🎬 Generar Video';
+    }
   }catch(err){
     alert('No se pudo generar el video: '+err.message);
+    btn.textContent='🎬 Generar Video';
   }
-  btn.textContent='🎬 Generar Video'; btn.disabled=false; exportandoVideo=false;
+  btn.disabled=false; exportandoVideo=false;
 }
 
 /* Arrastre de la foto sobre el preview */
