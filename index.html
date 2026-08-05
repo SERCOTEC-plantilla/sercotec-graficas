@@ -114,10 +114,10 @@
   <div class="campo">
     <label for="selFormato">1 · Formato de publicación</label>
     <select id="selFormato">
-      <option value="feed">Feed (cuadrado) — 2000 × 2000 px</option>
       <option value="feed45">Feed vertical (4:5) — 2000 × 2500 px</option>
-      <option value="historia">Historia — 1127 × 2008 px</option>
+      <option value="historia">Historia / video — 1127 × 2008 px</option>
       <option value="reel">Portada de Reel — 1127 × 2008 px</option>
+      <option value="feed">Feed (cuadrado) — 2000 × 2000 px</option>
       <option value="fb">Portada Facebook — 820 × 312 px</option>
     </select>
     <div class="hint">Dimensiones oficiales del Manual de Identidad Sercotec 2024.</div>
@@ -266,7 +266,7 @@ const TIPOS = {
 
 /* ================= Estado ================= */
 const S = {
-  formato:'feed', tipo:'programas', plantilla:'foto', bg:'#173277',
+  formato:'feed45', tipo:'programas', plantilla:'foto', bg:'#173277',
   etiqueta:TIPOS.programas.etiqueta,
   titulo:'Postula al Capital Semilla Emprende',
   bajada:'Fondo concursable para que tu negocio crezca y se consolide.',
