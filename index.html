@@ -159,7 +159,7 @@
     </div>
     <div class="campo">
       <label for="inTitulo">Título</label>
-      <textarea id="inTitulo" rows="2" maxlength="90" placeholder="Ej: Postula al Capital Semilla Emprende"></textarea>
+      <textarea id="inTitulo" rows="2" maxlength="60" placeholder="Ej: Postula al Capital Semilla Emprende"></textarea>
     </div>
     <div class="campo">
       <label for="inBajada">Bajada</label>
@@ -279,7 +279,6 @@ const S = {
 /* Medio visual activo: video si hay, si no la foto */
 function mediaSel(){ return S.video||S.foto; }
 let metricaFoto=null; // overflow de la foto en el último render (para arrastre)
-let topeTextoGC=null; // dónde empieza el bloque de texto: el GC se ubica encima
 
 /* ================= Utilidades de dibujo ================= */
 function esClaro(hex){
@@ -401,19 +400,23 @@ function dibujarBarraGobVertical(ctx,leftX,topY,largo,bgHex){
   ctx.fillStyle='#ffffff'; ctx.fill();
   return topY+largo;
 }
-/* Posición según instructivo 2026. Devuelve la coordenada Y donde termina. */
+/* Posición según instructivo 2026 (tamaño +25% a pedido de Sercotec).
+   Con foto: a la derecha con margen = línea azul. Con video: pegada al borde.
+   Devuelve la coordenada Y donde termina. */
+const ESCALA_BARRA=1.25;
 function dibujarComplemento(ctx,W,H,bgHex){
   const F=FORMATOS[S.formato];
   const inX=F.safe?(W-F.safe.w)/2:0, inY=F.safe?Math.max(0,(H-F.safe.h)/2):0;
   if(F.safe && F.kind==='v'){ // Historias / Reels: vertical al costado derecho
-    const largo=H*LARGO_BARRA_V, grosor=largo/RATIO_BARRA;
-    const y=inY+largo*UNION_BARRA;      // margen superior = medida de la línea azul
+    const largo=H*LARGO_BARRA_V*ESCALA_BARRA, grosor=largo/RATIO_BARRA;
+    const y=S.video ? inY : inY+largo*UNION_BARRA; // margen sup = línea azul (foto)
     dibujarBarraGobVertical(ctx,W-inX-grosor,y,largo,bgHex);
     return y+largo;
   }
-  const ancho=W*ANCHO_BARRA_REF, alto=ancho/RATIO_BARRA;
-  const x=W-inX-ancho-ancho*UNION_BARRA; // margen derecho = medida de la línea azul
-  return dibujarBarraGob(ctx,x,inY+alto,ancho,bgHex);
+  const ancho=W*ANCHO_BARRA_REF*ESCALA_BARRA, alto=ancho/RATIO_BARRA;
+  const x=S.video ? W-inX-ancho : W-inX-ancho-ancho*UNION_BARRA;
+  const y=S.video ? inY : inY+alto;
+  return dibujarBarraGob(ctx,x,y,ancho,bgHex);
 }
 
 /* Patrones decorativos del manual (ondas, puntos, montañas) */
@@ -505,18 +508,15 @@ function dibujarGC(ctx,W,H,prog){
      banda azul degradada de 100px + cinta inferior de 16px rojo→azul,
      bloque rojo cuadrado con estrella blanca al inicio, textos en blanco. */
   const e=W/1920;
-  const barH=100*e, cintaH=16*e, rojoW=104*e;
+  const barH=130*e, cintaH=20*e, rojoW=134*e;
   const x0=96*e;
-  const pxN=44*e, pxC=24*e, pxSlogan=13*e;
+  const pxN=58*e, pxC=32*e, pxSlogan=17*e;
   ctx.save();
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   ctx.font=fuente(700,pxN); const wN=nom?ctx.measureText(nom).width:0;
   ctx.font=fuente(700,pxC); const wC=car?ctx.measureText(car).width:0;
-  const barW=Math.max(1332*e, rojoW+18*e+Math.max(wN,wC)+40*e);
-  const despeje=S.cta?H*.17:H*.10; // deja libre el llamado a la acción si existe
-  let yBase=H-inY-despeje;
-  if(topeTextoGC) yBase=Math.min(yBase, topeTextoGC-H*.025); // siempre sobre el bloque de texto
-  const yTop=yBase-(barH+cintaH);
+  const barW=Math.max(1332*e, rojoW+22*e+Math.max(wN,wC)+40*e);
+  const yTop=H*.52; // posición fija: desde la mitad hacia abajo; el texto va debajo
   const dx=(1-prog)*(x0+barW+30*e); // desliza desde el costado izquierdo
   const x=x0-dx;
   // banda azul degradada
@@ -532,7 +532,7 @@ function dibujarGC(ctx,W,H,prog){
   trazarEstrella(ctx,x+rojoW/2,yTop+barH/2,rojoW*.46);
   ctx.fillStyle='#ffffff'; ctx.fill();
   // textos
-  const tx=x+rojoW+18*e;
+  const tx=x+rojoW+22*e;
   ctx.fillStyle='#ffffff';
   if(nom&&car){
     ctx.font=fuente(700,pxN); ctx.fillText(nom,tx,yTop+barH*.52);
@@ -550,7 +550,6 @@ function dibujarGC(ctx,W,H,prog){
 function render(ctx,W,H,conGuias,tVideo){
   const F=FORMATOS[S.formato];
   metricaFoto=null;
-  topeTextoGC=null;
   ctx.clearRect(0,0,W,H);
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
 
@@ -597,17 +596,18 @@ function renderVertical(ctx,W,H,margen,mTop,mBot){
     dibujarComplemento(ctx,W,H,null);
 
     // bloque de texto anclado abajo
+    // con video, el bloque de texto se compacta para caber bajo el GC fijo
+    const maxHTit=S.video?H*.16:H*.24, maxHBaj=S.video?H*.09:H*.12;
     ctx.font=fuente(900,pxTit);
-    const tit=ajustarTexto(ctx,S.titulo,900,pxTit,pxTit*.55,maxW,H*.24,1.12);
+    const tit=ajustarTexto(ctx,S.titulo,900,pxTit,pxTit*.55,maxW,maxHTit,1.12);
     ctx.font=fuente(400,pxBaj);
-    const baj=S.bajada?ajustarTexto(ctx,S.bajada,400,pxBaj,pxBaj*.7,maxW,H*.12,1.32):null;
+    const baj=S.bajada?ajustarTexto(ctx,S.bajada,400,pxBaj,pxBaj*.7,maxW,maxHBaj,1.32):null;
 
     const altoCta=S.cta?pxCta*2.2+W*.025:0;
     const altoBaj=baj?baj.lineas.length*baj.px*1.32+W*.012:0;
     const altoTit=tit.lineas.length*tit.px*1.12+W*.02;
     const altoEti=S.etiqueta?pxEti*1.9+W*.022:0;
     let y=H-mBot-altoCta-altoBaj-altoTit-altoEti;
-    topeTextoGC=y;
 
     if(S.etiqueta){ dibujarEtiqueta(ctx,S.etiqueta,margen,y,pxEti); y+=altoEti; }
     ctx.font=fuente(900,tit.px);
