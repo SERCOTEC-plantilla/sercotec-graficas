@@ -400,23 +400,27 @@ function dibujarBarraGobVertical(ctx,leftX,topY,largo,bgHex){
   ctx.fillStyle='#ffffff'; ctx.fill();
   return topY+largo;
 }
-/* Posición según instructivo 2026 (tamaño +25% a pedido de Sercotec).
-   Con foto: a la derecha con margen = línea azul (vertical en Historias/Reels).
-   Con video: siempre horizontal —como antes del instructivo—, un poco más
-   grande aún, pegada a la esquina física superior derecha, incluso si eso
-   la saca de la zona segura (pedido explícito de Cristian).
+/* Posición según "Instructivo uso complemento 2026" (pág. 5-10): el margen
+   de separación hasta donde empieza la franja es SIEMPRE la misma medida
+   que el grosor de la propia franja (la "línea azul" de referencia del
+   manual) — no un porcentaje de su largo. Tamaño +25% a pedido de Sercotec.
+   Con foto: vertical al costado derecho, respetando la zona segura.
+   Con video: igual vertical (pág. 10, Reels/Stories) pero pegada al borde
+   físico derecho —fuera de la zona segura si hace falta—, un poco más
+   grande, con el margen superior = grosor tal como indica el manual.
    Devuelve la coordenada Y donde termina. */
 const ESCALA_BARRA=1.25, ESCALA_BARRA_VIDEO=1.5;
 function dibujarComplemento(ctx,W,H,bgHex){
   if(S.video){
-    const ancho=W*ANCHO_BARRA_REF*ESCALA_BARRA_VIDEO, alto=ancho/RATIO_BARRA;
-    return dibujarBarraGob(ctx,W-ancho,0,ancho,bgHex);
+    const largo=H*LARGO_BARRA_V*ESCALA_BARRA_VIDEO, grosor=largo/RATIO_BARRA;
+    dibujarBarraGobVertical(ctx,W-grosor,grosor,largo,bgHex);
+    return grosor+largo;
   }
   const F=FORMATOS[S.formato];
   const inX=F.safe?(W-F.safe.w)/2:0, inY=F.safe?Math.max(0,(H-F.safe.h)/2):0;
   if(F.safe && F.kind==='v'){ // Historias / Reels con foto: vertical al costado derecho
     const largo=H*LARGO_BARRA_V*ESCALA_BARRA, grosor=largo/RATIO_BARRA;
-    const y=inY+largo*UNION_BARRA; // margen superior = medida de la línea azul
+    const y=inY+grosor; // margen superior = grosor de la franja (manual pág. 10)
     dibujarBarraGobVertical(ctx,W-inX-grosor,y,largo,bgHex);
     return y+largo;
   }
