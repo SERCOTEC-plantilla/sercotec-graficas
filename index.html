@@ -71,7 +71,7 @@
   /* ------- Zona de preview ------- */
   .visor{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; min-width:0; gap:12px;}
   .lienzo-wrap{flex:1; display:flex; align-items:center; justify-content:center; min-height:0; min-width:0; width:100%;}
-  #preview{box-shadow:0 10px 40px rgba(20,53,91,.18); border-radius:4px; max-width:100%; max-height:100%; min-width:0; min-height:0; background:#fff; touch-action:none;}
+  #preview{display:block; width:auto; height:auto; box-shadow:0 10px 40px rgba(20,53,91,.18); border-radius:4px; max-width:100%; max-height:100%; min-width:0; min-height:0; background:#fff; touch-action:none;}
   #preview.arrastrable{cursor:grab;}
   #preview.arrastrando{cursor:grabbing;}
   .info-formato{font-size:12.5px; color:#67718a; text-align:center;}
@@ -90,7 +90,7 @@
       width:100%; max-width:100vw; overflow:hidden; padding:10px 12px 8px; gap:6px;
       box-shadow:0 8px 18px rgba(20,53,91,.10);}
     .lienzo-wrap{flex:none; width:100%; height:42vh; height:42dvh; max-width:100%; overflow:hidden;}
-    #preview{display:block; max-width:calc(100vw - 24px); max-height:42vh; max-height:42dvh;}
+    #preview{display:block; width:auto; height:auto; max-width:calc(100vw - 24px); max-height:42vh; max-height:42dvh; object-fit:contain;}
     .info-formato{font-size:11px;}
     aside{order:2; width:100%; border-right:none; border-top:1px solid var(--borde);
       overflow:visible; padding:14px 16px 40px;}
@@ -248,7 +248,7 @@
 </aside>
 
 <section class="visor">
-  <div class="lienzo-wrap"><canvas id="preview"></canvas></div>
+  <div class="lienzo-wrap"><canvas id="preview" width="2000" height="2500" aria-label="Vista previa de la gráfica"></canvas></div>
   <div class="info-formato" id="infoFormato"></div>
 </section>
 </main>
@@ -798,8 +798,10 @@ function renderPreview(){
   const F=FORMATOS[S.formato];
   if(cv.width!==F.w||cv.height!==F.h){cv.width=F.w;cv.height=F.h;}
   if(window.matchMedia('(max-width: 860px)').matches){
-    const altoMax=Math.floor(window.innerHeight*.42);
-    const anchoMax=Math.max(1,window.innerWidth-24);
+    const altoVentana=(window.visualViewport&&window.visualViewport.height)||window.innerHeight||640;
+    const anchoVentana=document.documentElement.clientWidth||window.innerWidth||360;
+    const altoMax=Math.max(180,Math.floor(altoVentana*.42));
+    const anchoMax=Math.max(1,anchoVentana-24);
     const escala=Math.min(anchoMax/F.w,altoMax/F.h);
     cv.style.width=`${Math.floor(F.w*escala)}px`;
     cv.style.height=`${Math.floor(F.h*escala)}px`;
@@ -814,6 +816,9 @@ function renderPreview(){
     `<b>${F.nombre}</b> · ${F.w} × ${F.h} px` + (F.safe?` · zona segura ${F.safe.w} × ${Math.min(F.safe.h,F.h)} px`:'');
 }
 window.addEventListener('resize',renderPreview);
+window.addEventListener('orientationchange',()=>setTimeout(renderPreview,120));
+window.addEventListener('pageshow',renderPreview);
+if(window.visualViewport) window.visualViewport.addEventListener('resize',renderPreview);
 
 /* En teléfonos se usa la hoja de compartir nativa: permite "Guardar imagen/
    video" (queda en la fototeca) o enviarla directo a Instagram/WhatsApp.
@@ -1180,11 +1185,6 @@ cv.addEventListener('pointermove',e=>{
 
 /* ================= Inicio: fuentes ================= */
 async function iniciar(){
-  const defs=[['300',ASSETS.fontLight],['400',ASSETS.fontRegular],['700',ASSETS.fontBold],['900',ASSETS.fontHeavy]];
-  const cargadas=await Promise.all(defs.map(([peso,b64])=>
-    new FontFace('gobCL',`url(data:font/otf;base64,${b64})`,{weight:peso}).load()));
-  cargadas.forEach(f=>document.fonts.add(f));
-
   $('inEtiqueta').value=S.etiqueta;
   $('inTitulo').value=S.titulo;
   $('inBajada').value=S.bajada;
@@ -1195,9 +1195,22 @@ async function iniciar(){
   $('chkCta').checked=S.mostrarCta;
   $('selPosicionMedio').value=S.posicionMedio;
   actualizarControlesPlantilla();
+  // Dibuja de inmediato. En algunos iPhone la carga de tipografías locales
+  // puede fallar; la vista previa debe seguir funcionando con la fuente del sistema.
   renderPreview();
+  if(!('FontFace' in window)) return;
+  try{
+    const defs=[['300',ASSETS.fontLight],['400',ASSETS.fontRegular],['700',ASSETS.fontBold],['900',ASSETS.fontHeavy]];
+    const resultados=await Promise.allSettled(defs.map(([peso,b64])=>
+      new FontFace('gobCL',`url(data:font/otf;base64,${b64})`,{weight:peso}).load()));
+    resultados.forEach(r=>{if(r.status==='fulfilled') document.fonts.add(r.value);});
+    renderPreview();
+  }catch(error){
+    console.warn('Se usará la tipografía del sistema para la vista previa.',error);
+    renderPreview();
+  }
 }
-iniciar();
+iniciar().catch(error=>{console.warn(error);renderPreview();});
 </script>
 </body>
 </html>

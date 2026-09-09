@@ -32,7 +32,9 @@ IPHONE O ANDROID (CORREO, WHATSAPP O DRIVE)
    comprimirlo ni cambiarle la extensión.
 2. Descárgalo en Archivos (iPhone) o Descargas (Android).
 3. Pulsa el archivo y elige Safari o Chrome. Algunos teléfonos impiden ejecutar
-   HTML descargados; en ese caso se debe utilizar el enlace web del mantenedor.
+   HTML descargados. Si aparece un rectángulo blanco o una vista sin cambios,
+   el teléfono lo abrió en el visor de Archivos y no está ejecutando el programa:
+   en ese caso se debe utilizar el enlace web del mantenedor en Safari o Chrome.
 
 CREAR UNA GRÁFICA CON FOTOGRAFÍA
 1. Elige la institución. La herramienta mostrará automáticamente su paleta:
