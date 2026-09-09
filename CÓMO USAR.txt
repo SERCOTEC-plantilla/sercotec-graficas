@@ -14,15 +14,25 @@ Para mayor compatibilidad, utiliza un video vertical MP4 (H.264) o MOV y un
 navegador actualizado.
 
 INSTALACIÓN EN COMPUTADOR
-1. Guarda la carpeta completa del mantenedor, incluyendo la carpeta "assets".
-2. Haz doble clic en "index.html". Se abrirá en Chrome, Edge, Safari o Firefox.
-3. Conserva "index.html" y "assets" en la misma carpeta. No requiere
-   instalación, usuario ni conexión a internet.
+1. Guarda el archivo "Mantenedor SERCOTEC y CDN.html".
+2. Haz doble clic en él. Se abrirá en Chrome, Edge, Safari o Firefox.
+3. Es un archivo autónomo: no necesita carpeta "assets", instalación, usuario
+   ni conexión a internet.
 
 USO EN TELÉFONO
-1. Copia la carpeta a Archivos (iPhone) o Descargas/Archivos (Android).
-2. Abre "index.html" desde el administrador de archivos y elige un navegador.
-3. Si tu teléfono no permite abrir archivos HTML locales, usa un computador.
+IPHONE (AirDrop)
+1. En el Mac, haz clic derecho sobre "Mantenedor SERCOTEC y CDN.html".
+2. Elige Compartir > AirDrop y selecciona tu iPhone.
+3. En el iPhone, acepta el archivo y guárdalo en la aplicación Archivos.
+4. En Archivos, mantén presionado el HTML, elige Compartir y luego "Abrir en
+   Safari". Si Safari no aparece, usa el enlace web del mantenedor.
+
+IPHONE O ANDROID (CORREO, WHATSAPP O DRIVE)
+1. Envía únicamente "Mantenedor SERCOTEC y CDN.html" como documento, sin
+   comprimirlo ni cambiarle la extensión.
+2. Descárgalo en Archivos (iPhone) o Descargas (Android).
+3. Pulsa el archivo y elige Safari o Chrome. Algunos teléfonos impiden ejecutar
+   HTML descargados; en ese caso se debe utilizar el enlace web del mantenedor.
 
 CREAR UNA GRÁFICA CON FOTOGRAFÍA
 1. Elige la institución. La herramienta mostrará automáticamente su paleta:
@@ -65,5 +75,5 @@ RECOMENDACIONES
 - Revisa siempre la pieza con el Manual de Comunicación Visual 2026 antes de
   publicarla.
 
-Puedes compartir la carpeta completa con otros equipos. Para que funcione,
-deben recibir "index.html" y la carpeta "assets" juntas.
+Puedes compartir directamente el archivo "Mantenedor SERCOTEC y CDN.html".
+La máscara gráfica y las tipografías están incorporadas dentro del HTML.
