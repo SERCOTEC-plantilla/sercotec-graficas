@@ -1,37 +1,69 @@
-MANTENEDOR DE GRÁFICAS RRSS · SERCOTEC
-=======================================
+MANTENEDOR DE GRÁFICAS RRSS · SERCOTEC Y CDN
+=============================================
 
-CÓMO USAR
-1. Haz doble clic en "index.html" (se abre en tu navegador, no necesita internet).
-   Funciona en computador y también en teléfono.
-2. Elige el formato: Feed, Feed vertical, Historia, Portada de Reel o Portada Facebook.
-3. Elige el tipo de pieza (Programas, Sercotec en Terreno, Caso de Éxito, etc.)
-   — la etiqueta se completa sola, pero puedes editarla.
-4. Elige plantilla y color de fondo (paleta oficial del manual 2024).
-5. Escribe título, bajada y llamado a la acción.
-6. Sube una fotografía O un video: puedes arrastrar el archivo sobre la vista
-   previa para encuadrarlo y usar el control de zoom.
-7. Si subiste un video, puedes completar el GC (nombre y cargo): aparece
-   deslizándose desde el costado izquierdo y sale solo, como en TV.
-8. Presiona "Generar":
-   - Foto → PNG o JPG en tamaño real.
-   - Video → se graba la pieza completa con el GC animado y el audio original
-     (MP4 en Chrome/Edge; la grabación demora lo que dura el video).
+PROPÓSITO
+Esta herramienta aplica los elementos gráficos definidos en el Manual de
+Comunicación Visual 2026 a piezas estáticas para redes sociales. Funciona sin
+internet y procesa las imágenes en el propio dispositivo.
 
-DETALLES
-- Dimensiones según Manual de Identidad Sercotec 2024:
-  Feed 2000×2000 · Historia/Reel 1127×2008 (zona segura 1080×1920) ·
-  Portada Facebook 820×312 · Feed vertical 4:5 2000×2500.
-- Complemento gráfico de Gobierno según "Instructivo uso complemento 2026":
-  proporción de 13 cuadrados, ubicado arriba a la derecha con margen igual a
-  la medida de la línea azul; en Historias y Reels va vertical al costado
-  derecho con la estrella siempre derecha. En RRSS reemplaza al logo
-  institucional (por eso la pieza no lleva logo Sercotec).
-- La línea punteada roja es la "zona segura": solo se ve en pantalla,
-  nunca sale en el archivo descargado.
-- Las fotos y videos se procesan en tu propio computador; no se suben a
-  ningún sitio.
-- Tipografía gobCL incluida dentro del archivo (no hay que instalarla).
-- Para grabar video usa Chrome o Edge (Safari puede no permitirlo).
+IMPORTANTE SOBRE VIDEOS
+El mantenedor no es un editor audiovisual. Al cargar un video conserva su
+contenido y audio y crea una copia con únicamente el identificador gráfico
+oficial. No corta la duración, no agrega textos, no subtitula ni altera colores.
+Para mayor compatibilidad, utiliza un video vertical MP4 (H.264) o MOV y un
+navegador actualizado.
 
-Puedes copiar o enviar el archivo index.html a colegas: funciona solo.
+INSTALACIÓN EN COMPUTADOR
+1. Guarda la carpeta completa del mantenedor, incluyendo la carpeta "assets".
+2. Haz doble clic en "index.html". Se abrirá en Chrome, Edge, Safari o Firefox.
+3. Conserva "index.html" y "assets" en la misma carpeta. No requiere
+   instalación, usuario ni conexión a internet.
+
+USO EN TELÉFONO
+1. Copia la carpeta a Archivos (iPhone) o Descargas/Archivos (Android).
+2. Abre "index.html" desde el administrador de archivos y elige un navegador.
+3. Si tu teléfono no permite abrir archivos HTML locales, usa un computador.
+
+CREAR UNA GRÁFICA CON FOTOGRAFÍA
+1. Elige la institución. La herramienta mostrará automáticamente su paleta:
+   - Direcciones Regionales de SERCOTEC: #2e3191, #0078e6, #00ccff,
+     #edf0f5 y #ff1d3e.
+   - Centros de Desarrollo de Negocios (CDN): #14355b, #55adaf, #d4e023,
+     #e16f38 y #d34389.
+2. Elige el formato: Feed, Feed vertical, Historia, Portada de Reel o Facebook.
+3. Selecciona el tipo de pieza. La etiqueta se completa automáticamente y
+   puedes ajustarla si el contenido lo necesita.
+4. Selecciona la plantilla y uno de los cinco colores autorizados que aparecen
+   para la institución elegida.
+5. Escribe la etiqueta, título, bajada y llamado a la acción. Activa solo los
+   elementos necesarios para que la pieza sea clara y legible.
+6. Sube una fotografía. Arrástrala en la vista previa o usa el zoom para
+   encuadrarla sin deformarla.
+7. Revisa el complemento gráfico, el slogan inferior, contraste, legibilidad
+   y zona segura. La línea punteada solo sirve de guía y no se descarga.
+8. Presiona "Generar gráfica" y elige PNG o JPG. En computador el archivo se
+   descarga en el tamaño real. En teléfono, después presiona "Guardar o
+   compartir imagen" para abrir el menú nativo y elegir Fototeca, Instagram,
+   WhatsApp u otra aplicación.
+
+VIDEO CON MARCA
+1. Sube el video en el mismo selector de archivo.
+2. La herramienta cambia automáticamente a Historia vertical y muestra sólo
+   la marca oficial. No verás plantillas, colores, textos ni controles de edición.
+3. Presiona "Aplicar marca al video" y espera a que termine de generar la copia.
+4. En teléfono, presiona después "Guardar o compartir video" y elige Fototeca,
+   Instagram, WhatsApp u otra aplicación. En computador, el archivo se descarga.
+5. El video original nunca se modifica.
+
+RECOMENDACIONES
+- Verifica siempre que elegiste la institución correcta antes de generar.
+- La barra superior roja y azul con estrella corresponde a Gobierno de Chile
+  y no cambia al alternar entre SERCOTEC y CDN.
+- Usa solo fotografías autorizadas, claras, bien iluminadas y sin deformación.
+- Mantén textos breves, con contraste suficiente y tamaño legible en teléfono.
+- No uses logos adicionales salvo que sean imprescindibles y estén autorizados.
+- Revisa siempre la pieza con el Manual de Comunicación Visual 2026 antes de
+  publicarla.
+
+Puedes compartir la carpeta completa con otros equipos. Para que funcione,
+deben recibir "index.html" y la carpeta "assets" juntas.

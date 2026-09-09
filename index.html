@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mantenedor de Gráficas RRSS · Sercotec</title>
+<title>Mantenedor de Gráficas RRSS · Sercotec y CDN</title>
 <style>
   :root{
-    --azul-oscuro:#173277; --azul:#0f69b4; --celeste:#3cb9f7; --celeste-med:#53ccf4;
-    --celeste-claro:#ddeffb; --rosado:#e8385f; --rosado-claro:#ea7a85; --azul-elec:#215ace;
-    --gris:#77787b; --rojo-gob:#eb3c46; --amarillo:#f7d64c;
-    --borde:#dfe6ef; --fondo:#f0f4fa;
+    --azul-oscuro:#14355b; --azul:#55adaf; --celeste:#d4e023; --celeste-med:#55adaf;
+    --celeste-claro:#f4f8df; --rosado:#d34389; --rosado-claro:#f8e7f0; --azul-elec:#55adaf;
+    --gris:#5c6c7e; --rojo-gob:#e16f38; --acento:#d4e023;
+    --borde:#d7e2e3; --fondo:#f4f7f5;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  body{font-family:'gobCL', -apple-system, 'Segoe UI', sans-serif; background:var(--fondo); color:#1c2b4a; height:100vh; display:flex; flex-direction:column; overflow:hidden;}
+  body{font-family:'gobCL', -apple-system, 'Segoe UI', sans-serif; background:var(--fondo); color:#14355b; height:100vh; display:flex; flex-direction:column; overflow:hidden;}
 
   header{background:#fff; border-bottom:1px solid var(--borde); padding:10px 22px; display:flex; align-items:center; gap:14px; flex-shrink:0;}
   .gob-bar{width:96px; aspect-ratio:13; flex-shrink:0;}
@@ -27,7 +27,7 @@
   .campo label{display:block; font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--azul); margin-bottom:6px;}
   .campo select, .campo input[type=text], .campo textarea{
     width:100%; padding:9px 10px; border:1px solid var(--borde); border-radius:8px;
-    font-family:inherit; font-size:14px; color:#1c2b4a; background:#fff;
+    font-family:inherit; font-size:14px; color:#14355b; background:#fff;
   }
   .campo textarea{resize:vertical; min-height:54px;}
   .campo select:focus,.campo input:focus,.campo textarea:focus{outline:2px solid var(--celeste); border-color:transparent;}
@@ -37,7 +37,7 @@
   .seccion h2{font-size:12px; font-weight:900; color:var(--azul-oscuro); text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px;}
 
   .swatches{display:flex; flex-wrap:wrap; gap:8px;}
-  .sw{width:32px; height:32px; border-radius:8px; cursor:pointer; border:1px solid rgba(0,0,0,.12); position:relative;}
+  .sw{width:32px; height:32px; padding:0; appearance:none; -webkit-appearance:none; border-radius:8px; cursor:pointer; border:1px solid rgba(0,0,0,.12); position:relative;}
   .sw.sel{outline:3px solid var(--azul-oscuro); outline-offset:2px;}
 
   .fila{display:flex; gap:8px;}
@@ -47,7 +47,7 @@
     padding:12px 14px; border-radius:10px; border:none; cursor:pointer;
     font-family:inherit; font-size:15px; font-weight:700;}
   .btn-primario{background:var(--azul); color:#fff;}
-  .btn-primario:hover{background:#0c5a9c;}
+  .btn-primario:hover{background:#14355b;}
   .btn-sec{background:#fff; color:var(--azul); border:2px solid var(--azul);}
   .btn-sec:hover{background:var(--celeste-claro);}
   .btn-mini{padding:7px 10px; font-size:12.5px; font-weight:700; border-radius:8px; background:#eef2f8; color:var(--azul-oscuro); border:1px solid var(--borde); cursor:pointer; font-family:inherit;}
@@ -61,6 +61,8 @@
   input[type=range]{width:100%; accent-color:var(--azul);}
   .check{display:flex; align-items:center; gap:8px; font-size:13.5px; margin-bottom:8px; cursor:pointer;}
   .check input{accent-color:var(--azul); width:16px; height:16px;}
+  .checks-grid{display:grid; grid-template-columns:1fr 1fr; gap:2px 12px;}
+  .checks-grid .check{margin-bottom:7px;}
 
   .radios{display:flex; gap:6px;}
   .radios button{flex:1; padding:7px 4px; font-size:12px; font-weight:700; font-family:inherit; border:1px solid var(--borde); background:#fff; color:#5b6579; border-radius:8px; cursor:pointer;}
@@ -69,7 +71,7 @@
   /* ------- Zona de preview ------- */
   .visor{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; min-width:0; gap:12px;}
   .lienzo-wrap{flex:1; display:flex; align-items:center; justify-content:center; min-height:0; min-width:0; width:100%;}
-  #preview{box-shadow:0 10px 40px rgba(23,50,119,.18); border-radius:4px; max-width:100%; max-height:100%; min-width:0; min-height:0; background:#fff; touch-action:none;}
+  #preview{box-shadow:0 10px 40px rgba(20,53,91,.18); border-radius:4px; max-width:100%; max-height:100%; min-width:0; min-height:0; background:#fff; touch-action:none;}
   #preview.arrastrable{cursor:grab;}
   #preview.arrastrando{cursor:grabbing;}
   .info-formato{font-size:12.5px; color:#67718a; text-align:center;}
@@ -85,9 +87,10 @@
     main{flex-direction:column; overflow:visible; min-width:0; max-width:100vw;}
     /* La vista previa queda fija arriba mientras se editan los controles */
     .visor{order:1; position:sticky; top:0; z-index:20; background:var(--fondo);
-      padding:10px 12px 8px; gap:6px; box-shadow:0 8px 18px rgba(23,50,119,.10);}
-    .lienzo-wrap{flex:none; height:42vh; height:42dvh; max-width:100vw;}
-    #preview{max-width:calc(100vw - 24px); max-height:42vh; max-height:42dvh;}
+      width:100%; max-width:100vw; overflow:hidden; padding:10px 12px 8px; gap:6px;
+      box-shadow:0 8px 18px rgba(20,53,91,.10);}
+    .lienzo-wrap{flex:none; width:100%; height:42vh; height:42dvh; max-width:100%; overflow:hidden;}
+    #preview{display:block; max-width:calc(100vw - 24px); max-height:42vh; max-height:42dvh;}
     .info-formato{font-size:11px;}
     aside{order:2; width:100%; border-right:none; border-top:1px solid var(--borde);
       overflow:visible; padding:14px 16px 40px;}
@@ -100,31 +103,40 @@
 
 <header>
   <svg class="gob-bar" viewBox="0 0 1300 100" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="582" height="100" fill="#0f69b4"/>
-    <rect x="582" y="0" width="718" height="100" fill="#eb3c46"/>
-    <polygon fill="#ffffff" points="582,0 594.4,38.2 634.6,38.2 602.1,61.8 614.5,100 582,76.4 549.5,100 561.9,61.8 529.4,38.2 569.6,38.2"/>
+    <rect x="0" y="0" width="582" height="100" fill="#0B6AB2"/>
+    <rect x="582" y="0" width="718" height="100" fill="#EB3D47"/>
+    <polygon fill="#FFFFFF" points="582,0 594.4,38.2 634.6,38.2 602.1,61.8 614.5,100 582,76.4 549.5,100 561.9,61.8 529.4,38.2 569.6,38.2"/>
   </svg>
   <h1>Mantenedor de Gráficas RRSS</h1>
-  <div class="sub">Servicio de Cooperación Técnica<br>Manual de Identidad 2024</div>
+  <div class="sub">Sercotec y Centros de Desarrollo de Negocios<br>Manuales de Comunicación Visual 2026</div>
 </header>
 
 <main>
 <aside>
 
   <div class="campo">
-    <label for="selFormato">1 · Formato de publicación</label>
+    <label for="selMarca">1 · Institución</label>
+    <select id="selMarca">
+      <option value="sercotec">Dirección Regional de SERCOTEC</option>
+      <option value="cdn">Centro de Desarrollo de Negocios (CDN)</option>
+    </select>
+    <div class="hint">Cada institución utiliza su propia paleta oficial.</div>
+  </div>
+
+  <div class="campo">
+    <label for="selFormato">2 · Formato de publicación</label>
     <select id="selFormato">
       <option value="feed45">Feed vertical (4:5) — 2000 × 2500 px</option>
-      <option value="historia">Historia / video — 1127 × 2008 px</option>
+      <option value="historia">Historia — 1127 × 2008 px</option>
       <option value="reel">Portada de Reel — 1127 × 2008 px</option>
       <option value="feed">Feed (cuadrado) — 2000 × 2000 px</option>
       <option value="fb">Portada Facebook — 820 × 312 px</option>
     </select>
-    <div class="hint">Dimensiones oficiales del Manual de Identidad Sercotec 2024.</div>
+    <div class="hint">Dimensiones oficiales del Manual de Comunicación Visual 2026.</div>
   </div>
 
-  <div class="campo">
-    <label for="selTipo">2 · Tipo de pieza</label>
+  <div class="campo" id="campoTipo">
+    <label for="selTipo">3 · Tipo de pieza</label>
     <select id="selTipo">
       <option value="programas">Programas / Convocatorias</option>
       <option value="terreno">Sercotec en Terreno</option>
@@ -138,22 +150,41 @@
   </div>
 
   <div class="campo" id="campoPlantilla">
-    <label for="selPlantilla">3 · Plantilla</label>
+    <label for="selPlantilla">4 · Plantilla</label>
     <select id="selPlantilla">
       <option value="foto">Fotografía completa</option>
-      <option value="mixta">Color + foto inferior</option>
+      <option value="mixta">Color + fotografía</option>
       <option value="color">Solo color (sin foto)</option>
     </select>
   </div>
 
-  <div class="campo">
-    <label>Color de fondo (paleta oficial)</label>
+  <div class="campo" id="campoPosicionMedio" style="display:none;">
+    <label for="selPosicionMedio">Ubicación de la fotografía</label>
+    <select id="selPosicionMedio">
+      <option value="abajo">Abajo</option>
+      <option value="arriba">Arriba</option>
+    </select>
+    <div class="hint">El degradado del color suaviza automáticamente la unión.</div>
+  </div>
+
+  <div class="campo" id="campoFondo">
+    <label id="labelPaleta">Color de fondo · Paleta oficial SERCOTEC</label>
     <div class="swatches" id="swatches"></div>
   </div>
 
-  <div class="seccion">
+  <div class="seccion" id="seccionContenido">
     <h2>Contenido</h2>
     <div class="campo">
+      <label>Elementos visibles</label>
+      <div class="checks-grid">
+        <label class="check"><input type="checkbox" id="chkEtiqueta" checked> Destacado / etiqueta</label>
+        <label class="check"><input type="checkbox" id="chkTitulo" checked> Título</label>
+        <label class="check"><input type="checkbox" id="chkBajada" checked> Bajada / subtítulo</label>
+        <label class="check"><input type="checkbox" id="chkCta" checked> Llamado a la acción</label>
+      </div>
+      <div class="hint">Puedes ocultar un elemento sin borrar el texto ni mover la posición de los demás.</div>
+    </div>
+    <div class="campo" id="campoEtiqueta">
       <label for="inEtiqueta">Etiqueta</label>
       <input type="text" id="inEtiqueta" maxlength="40" placeholder="Ej: Convocatoria abierta">
     </div>
@@ -172,47 +203,46 @@
   </div>
 
   <div class="seccion">
-    <h2>Fotografía o video</h2>
-    <label class="drop" id="drop" for="inFoto">📷 Subir foto o video<br><span style="font-weight:400;font-size:11.5px">o arrástralo aquí — no sale de tu computador</span></label>
+    <h2>Fotografía o video de referencia</h2>
+    <label class="drop" id="drop" for="inFoto">📷 Subir fotografía o video<br><span style="font-weight:400;font-size:11.5px">se procesa en este dispositivo</span></label>
     <input type="file" id="inFoto" accept="image/*,video/*">
-    <div class="campo" style="margin-top:10px;">
+    <div class="campo" id="campoZoom" style="margin-top:10px;">
       <label for="inZoom">Zoom del encuadre</label>
       <input type="range" id="inZoom" min="100" max="300" value="100">
-      <div class="hint">Arrastra la imagen directamente sobre la vista previa para encuadrarla.</div>
+      <div class="hint">En fotografías, arrastra directamente sobre la vista previa para encuadrarla.</div>
     </div>
-    <div class="fila">
+    <div class="fila" id="filaFoto">
       <button class="btn-mini" id="btnCentrar">Centrar</button>
       <button class="btn-mini" id="btnQuitarFoto">Quitar</button>
     </div>
   </div>
 
-  <div class="seccion" id="secGC" style="display:none;">
-    <h2>GC del video</h2>
-    <div class="campo">
-      <label for="inGcNombre">Nombre y apellido</label>
-      <input type="text" id="inGcNombre" maxlength="50" placeholder="Ej: María González">
-    </div>
-    <div class="campo">
-      <label for="inGcCargo">Cargo</label>
-      <input type="text" id="inGcCargo" maxlength="70" placeholder="Ej: Directora Regional Sercotec">
-    </div>
-    <div class="hint">El GC entra y sale deslizándose desde el costado izquierdo durante el video. Déjalo vacío si no lo necesitas.</div>
-  </div>
-
   <div class="seccion">
     <h2>Marca</h2>
-    <div class="hint" style="margin-bottom:10px">El complemento gráfico de Gobierno va arriba a la derecha (vertical en Historias y Reels), según el Instructivo de uso 2026. En RRSS reemplaza al logo institucional.</div>
+    <div class="hint" style="margin-bottom:10px">Las fotografías usan el complemento superior. En videos, el mantenedor conserva el contenido y agrega solamente el identificador gráfico oficial.</div>
     <label class="check"><input type="checkbox" id="chkSafe" checked> Mostrar zona segura (solo vista previa)</label>
   </div>
 
   <div class="seccion">
-    <h2>4 · Generar archivo</h2>
-    <button class="btn btn-primario" id="btnVideo" style="display:none;">🎬 Generar Video</button>
-    <div id="sepVideo" style="height:8px; display:none;"></div>
-    <button class="btn btn-primario" id="btnPng">⬇ Generar PNG</button>
-    <div style="height:8px"></div>
-    <button class="btn btn-sec" id="btnJpg">⬇ Generar JPG</button>
-    <div class="hint" style="margin-top:8px" id="hintGenerar">En el teléfono se abre el menú para guardar en la fototeca o compartir directo a Instagram. En computador se descarga como archivo.</div>
+    <h2>5 · Generar gráfica</h2>
+    <div id="grupoExportarImagen">
+      <button class="btn btn-primario" id="btnPng">⬇ Generar PNG</button>
+      <div style="height:8px"></div>
+      <button class="btn btn-sec" id="btnJpg">⬇ Generar JPG</button>
+      <div id="accionMovilImagen" style="display:none; margin-top:12px">
+        <button class="btn btn-primario" id="btnCompartirImagen">📱 Guardar o compartir imagen</button>
+        <div class="hint" style="margin-top:8px">Presiona este botón para abrir el menú del teléfono.</div>
+      </div>
+      <div class="hint" style="margin-top:8px" id="hintGenerar">En computador la gráfica se descarga como archivo. En teléfono, genera la imagen y luego presiona “Guardar o compartir imagen”.</div>
+    </div>
+    <div id="grupoExportarVideo" style="display:none">
+      <button class="btn btn-primario" id="btnVideo">🎬 Aplicar marca al video</button>
+      <div id="accionMovilVideo" style="display:none; margin-top:12px">
+        <button class="btn btn-primario" id="btnCompartirVideo">📱 Guardar o compartir video</button>
+        <div class="hint" style="margin-top:8px">Presiona este botón para abrir el menú del teléfono.</div>
+      </div>
+      <div class="hint" id="mensajeVideo" style="margin-top:8px">Crea una copia del video con el identificador gráfico oficial. No corta, no cambia el audio, no agrega textos ni modifica el contenido.</div>
+    </div>
   </div>
 
 </aside>
@@ -232,18 +262,32 @@ fontHeavy:"T1RUTwAMAIAAAwBAQ0ZGIC3j928AAFTMAABaG0dQT1OwqZu7AAA1dAAAHw5HU1VC3KjqK
 };
 
 /* ================= Configuración de marca ================= */
-const PALETA = [
-  {hex:'#173277', nombre:'Azul oscuro'},
-  {hex:'#0f69b4', nombre:'Azul Sercotec'},
-  {hex:'#215ace', nombre:'Azul eléctrico'},
-  {hex:'#3cb9f7', nombre:'Celeste'},
-  {hex:'#53ccf4', nombre:'Celeste medio'},
-  {hex:'#ddeffb', nombre:'Celeste claro'},
-  {hex:'#e8385f', nombre:'Rosado'},
-  {hex:'#ea7a85', nombre:'Rosado claro'},
-  {hex:'#ffffff', nombre:'Blanco'},
-];
-const AZUL_GOB='#0f69b4', ROJO_GOB='#eb3c46', AZUL_OSCURO='#173277', AMARILLO='#f7d64c';
+const PALETAS = {
+  sercotec: {
+    nombre:'Direcciones Regionales de SERCOTEC',
+    oscuro:'#2e3191', acento:'#00ccff',
+    colores:[
+      {hex:'#2e3191', nombre:'Morado institucional · #2e3191'},
+      {hex:'#0078e6', nombre:'Azul · #0078e6'},
+      {hex:'#00ccff', nombre:'Celeste · #00ccff'},
+      {hex:'#edf0f5', nombre:'Gris claro · #edf0f5'},
+      {hex:'#ff1d3e', nombre:'Rojo · #ff1d3e'},
+    ],
+  },
+  cdn: {
+    nombre:'Centros de Desarrollo de Negocios (CDN)',
+    oscuro:'#14355b', acento:'#d4e023',
+    colores:[
+      {hex:'#14355b', nombre:'Azul oscuro · #14355b'},
+      {hex:'#55adaf', nombre:'Turquesa · #55adaf'},
+      {hex:'#d4e023', nombre:'Verde lima · #d4e023'},
+      {hex:'#e16f38', nombre:'Naranjo · #e16f38'},
+      {hex:'#d34389', nombre:'Magenta · #d34389'},
+    ],
+  },
+};
+const AZUL_GOB='#0B6AB2', ROJO_GOB='#EB3D47';
+let AZUL_OSCURO=PALETAS.sercotec.oscuro, ACENTO=PALETAS.sercotec.acento;
 
 const FORMATOS = {
   feed:    {w:2000, h:2000, kind:'v', safe:null, nombre:'Feed', archivo:'feed'},
@@ -266,18 +310,33 @@ const TIPOS = {
 
 /* ================= Estado ================= */
 const S = {
-  formato:'feed45', tipo:'programas', plantilla:'foto', bg:'#173277',
+  marca:'sercotec', formato:'feed45', tipo:'programas', plantilla:'foto', bg:'#2e3191',
+  posicionMedio:'abajo',
   etiqueta:TIPOS.programas.etiqueta,
   titulo:'Postula al Capital Semilla Emprende',
   bajada:'Fondo concursable para que tu negocio crezca y se consolide.',
   cta:'Más información en www.sercotec.cl',
   foto:null, video:null, zoom:1, panX:.5, panY:.5,
-  gcNombre:'', gcCargo:'',
   safe:true,
+  mostrarEtiqueta:true, mostrarTitulo:true, mostrarBajada:true, mostrarCta:true,
   etiquetaManual:false,
 };
+const MASCARA_VIDEO = new Image();
+MASCARA_VIDEO.onload=()=>renderPreview();
+MASCARA_VIDEO.src='assets/mascara-video-8.png';
 /* Medio visual activo: video si hay, si no la foto */
 function mediaSel(){ return S.video||S.foto; }
+function esVideoCargado(){
+  return !!(S.video && S.video.readyState>=1 && S.video.videoWidth && S.video.videoHeight);
+}
+function esHistoriaOReel(){ return S.formato==='historia'||S.formato==='reel'; }
+function debeMostrarComplementoImagen(){
+  if(esVideoCargado()) return false;
+  // Elegir Historia o Reel no basta para decidir la marca. Sin un medio
+  // cargado no se anticipa ni el complemento de imagen ni la máscara.
+  if(esHistoriaOReel() && !S.foto && S.plantilla!=='color') return false;
+  return true;
+}
 let metricaFoto=null; // overflow de la foto en el último render (para arrastre)
 
 /* ================= Utilidades de dibujo ================= */
@@ -340,7 +399,7 @@ function dibujarFotoCover(ctx,img,x,y,w,h,registrarMetrica){
 }
 function marcadorFoto(ctx,x,y,w,h,bgClaro){
   ctx.save(); ctx.beginPath(); ctx.rect(x,y,w,h); ctx.clip();
-  ctx.fillStyle= bgClaro ? '#c9dff0' : '#0d2456';
+  ctx.fillStyle=bgClaro ? '#f4f7f5' : AZUL_OSCURO;
   ctx.fillRect(x,y,w,h);
   dibujarOndas(ctx,x+w*.08,y+h*.24,3,w*.15,'rgba(255,255,255,.30)',w*.004);
   dibujarPuntos(ctx,x+w*.70,y+h*.62,3,4,w*.008,w*.028,'rgba(255,255,255,.28)');
@@ -350,6 +409,26 @@ function marcadorFoto(ctx,x,y,w,h,bgClaro){
   ctx.fillText('Sube una fotografía',x+w/2,y+h/2);
   ctx.textAlign='left';
   ctx.restore();
+}
+
+/* Degradado de continuidad para la plantilla mixta. El color invade una parte
+   del medio y desaparece gradualmente, evitando un corte horizontal duro. */
+function dibujarTransicionMedio(ctx,W,y,h,posicion,color){
+  const tramo=h*.30;
+  let g, y0;
+  if(posicion==='arriba'){
+    y0=y+h-tramo;
+    g=ctx.createLinearGradient(0,y0,0,y+h);
+    g.addColorStop(0,color+'00');
+    g.addColorStop(1,color);
+  }else{
+    y0=y;
+    g=ctx.createLinearGradient(0,y0,0,y+tramo);
+    g.addColorStop(0,color);
+    g.addColorStop(1,color+'00');
+  }
+  ctx.fillStyle=g;
+  ctx.fillRect(0,y0,W,tramo);
 }
 
 /* Complemento gráfico de Gobierno según "Instructivo uso complemento 2026":
@@ -375,10 +454,6 @@ function trazarEstrella(ctx,cx,cy,R){
 }
 function dibujarBarraGob(ctx,x,topY,ancho,bgHex){
   const alto=ancho/RATIO_BARRA, union=x+ancho*UNION_BARRA;
-  if(bgHex && Math.min(distColor(bgHex,AZUL_GOB),distColor(bgHex,ROJO_GOB))<110){
-    const b=Math.max(2,alto*.16);
-    ctx.fillStyle='#ffffff'; ctx.fillRect(x-b,topY-b,ancho+b*2,alto+b*2);
-  }
   ctx.fillStyle=AZUL_GOB; ctx.fillRect(x,topY,union-x,alto);
   ctx.fillStyle=ROJO_GOB; ctx.fillRect(union,topY,x+ancho-union,alto);
   const R=alto/1.809;
@@ -389,10 +464,6 @@ function dibujarBarraGob(ctx,x,topY,ancho,bgHex){
 /* Versión vertical (Historias/Reels): azul arriba, rojo abajo, estrella derecha */
 function dibujarBarraGobVertical(ctx,leftX,topY,largo,bgHex){
   const grosor=largo/RATIO_BARRA, union=topY+largo*UNION_BARRA;
-  if(bgHex && Math.min(distColor(bgHex,AZUL_GOB),distColor(bgHex,ROJO_GOB))<110){
-    const b=Math.max(2,grosor*.16);
-    ctx.fillStyle='#ffffff'; ctx.fillRect(leftX-b,topY-b,grosor+b*2,largo+b*2);
-  }
   ctx.fillStyle=AZUL_GOB; ctx.fillRect(leftX,topY,grosor,union-topY);
   ctx.fillStyle=ROJO_GOB; ctx.fillRect(leftX,union,grosor,topY+largo-union);
   const R=grosor/1.809;
@@ -400,33 +471,30 @@ function dibujarBarraGobVertical(ctx,leftX,topY,largo,bgHex){
   ctx.fillStyle='#ffffff'; ctx.fill();
   return topY+largo;
 }
-/* Posición según "Instructivo uso complemento 2026" (pág. 5-10): el margen
-   de separación hasta donde empieza la franja es SIEMPRE la misma medida
-   que el grosor de la propia franja (la "línea azul" de referencia del
-   manual) — no un porcentaje de su largo. Tamaño +25% a pedido de Sercotec.
-   Con foto: vertical al costado derecho, respetando la zona segura.
-   Con video: igual vertical (pág. 10, Reels/Stories) pero pegada al borde
-   físico derecho —fuera de la zona segura si hace falta—, un poco más
-   grande, con el margen superior = grosor tal como indica el manual.
+/* En imágenes, el complemento es horizontal y queda pegado al borde superior.
+   Tamaño aumentado un 20% a pedido de Sercotec. No
+   se usa borde blanco alrededor del complemento en ningún formato.
    Devuelve la coordenada Y donde termina. */
-const ESCALA_BARRA=1.25, ESCALA_BARRA_VIDEO=1.5;
+const ESCALA_BARRA=1.5;
 function dibujarComplemento(ctx,W,H,bgHex){
-  if(S.video){
-    const largo=H*LARGO_BARRA_V*ESCALA_BARRA_VIDEO, grosor=largo/RATIO_BARRA;
-    dibujarBarraGobVertical(ctx,W-grosor,grosor,largo,bgHex);
-    return grosor+largo;
-  }
+  // La foto usa el complemento horizontal superior. El video usa solamente
+  // la máscara y la elección del formato no activa ninguna marca por sí sola.
+  if(!debeMostrarComplementoImagen()) return 0;
   const F=FORMATOS[S.formato];
-  const inX=F.safe?(W-F.safe.w)/2:0, inY=F.safe?Math.max(0,(H-F.safe.h)/2):0;
-  if(F.safe && F.kind==='v'){ // Historias / Reels con foto: vertical al costado derecho
-    const largo=H*LARGO_BARRA_V*ESCALA_BARRA, grosor=largo/RATIO_BARRA;
-    const y=inY+grosor; // margen superior = grosor de la franja (manual pág. 10)
-    dibujarBarraGobVertical(ctx,W-inX-grosor,y,largo,bgHex);
-    return y+largo;
-  }
+  const inX=F.safe?(W-F.safe.w)/2:0;
   const ancho=W*ANCHO_BARRA_REF*ESCALA_BARRA, alto=ancho/RATIO_BARRA;
   const x=W-inX-ancho-ancho*UNION_BARRA;
-  return dibujarBarraGob(ctx,x,inY+alto,ancho,bgHex);
+  return dibujarBarraGob(ctx,x,0,ancho,bgHex);
+}
+
+function dibujarMascaraVideo(ctx,W,H){
+  if(!esVideoCargado() || !MASCARA_VIDEO.complete || !MASCARA_VIDEO.naturalWidth) return;
+  const F=FORMATOS[S.formato];
+  const zona=F.safe||{w:W,h:H};
+  // La máscara conserva su altura centrada, pero su borde derecho debe tocar
+  // el borde físico de la pieza, fuera de la zona segura.
+  const x=Math.max(0,W-zona.w), y=Math.max(0,(H-zona.h)/2);
+  ctx.drawImage(MASCARA_VIDEO,x,y,zona.w,zona.h);
 }
 
 /* Patrones decorativos del manual (ondas, puntos, montañas) */
@@ -463,19 +531,19 @@ function dibujarMontanas(ctx,x,y,n,tam,color){
   ctx.restore();
 }
 function decorar(ctx,W,H,claro){
-  const c = claro ? 'rgba(15,105,180,.14)' : 'rgba(255,255,255,.13)';
+  const c=claro ? 'rgba(85,173,175,.28)' : 'rgba(255,255,255,.13)';
   dibujarOndas(ctx,W*.66,H*.10,3,W*.24,c,W*.006);
   dibujarPuntos(ctx,W*.07,H*.84,3,4,W*.011,W*.038,c);
   dibujarMontanas(ctx,W*.72,H*.93,3,W*.055,c);
 }
 
-/* Etiqueta (badge) amarilla */
+/* Etiqueta destacada con el cian de la paleta oficial */
 function dibujarEtiqueta(ctx,texto,x,y,px){
   if(!texto) return y;
   ctx.font=fuente(700,px);
   const padX=px*.85, alto=px*1.9;
   const w=ctx.measureText(texto).width+padX*2;
-  ctx.fillStyle=AMARILLO; rr(ctx,x,y,w,alto,px*.35); ctx.fill();
+  ctx.fillStyle=ACENTO; rr(ctx,x,y,w,alto,px*.35); ctx.fill();
   ctx.fillStyle=AZUL_OSCURO; ctx.textBaseline='middle';
   ctx.fillText(texto,x+padX,y+alto/2+px*.06);
   ctx.textBaseline='alphabetic';
@@ -488,7 +556,7 @@ function dibujarCTA(ctx,texto,x,y,px,claroFondo,centrarEnX){
   const padX=px*1.1, alto=px*2.2;
   const w=ctx.measureText(texto).width+padX*2;
   const xx = centrarEnX!=null ? centrarEnX-w/2 : x;
-  ctx.fillStyle = claroFondo ? AZUL_OSCURO : AMARILLO;
+  ctx.fillStyle=claroFondo ? AZUL_OSCURO : ACENTO;
   rr(ctx,xx,y,w,alto,alto/2); ctx.fill();
   ctx.fillStyle = claroFondo ? '#ffffff' : AZUL_OSCURO;
   ctx.textBaseline='middle';
@@ -496,67 +564,13 @@ function dibujarCTA(ctx,texto,x,y,px,claroFondo,centrarEnX){
   ctx.textBaseline='alphabetic';
 }
 
-/* ================= GC del video (generador de caracteres) =================
-   Placa blanca con barra bandera arriba: nombre en gobCL Bold y cargo en
-   Regular. Entra deslizándose desde el costado izquierdo y sale igual. */
-const GC_ENTRADA=0.8, GC_ANIM=0.6, GC_VISIBLE=5.0; // segundos
-function progGC(t,dur){
-  if(t==null) return 1; // vista previa / imagen fija: siempre visible
-  const salida=Math.max(GC_ENTRADA+GC_ANIM+1, Math.min(GC_ENTRADA+GC_ANIM+GC_VISIBLE, (dur||60)-GC_ANIM-0.3));
-  if(t<GC_ENTRADA) return 0;
-  if(t<GC_ENTRADA+GC_ANIM){ const k=(t-GC_ENTRADA)/GC_ANIM; return 1-Math.pow(1-k,3); } // ease-out
-  if(t<salida) return 1;
-  if(t<salida+GC_ANIM){ const k=(t-salida)/GC_ANIM; return 1-Math.pow(k,3); }            // sale igual
-  return 0;
-}
-function dibujarGC(ctx,W,H,prog){
-  const nom=S.gcNombre.trim(), car=S.gcCargo.trim();
-  if((!nom&&!car) || prog<=0) return;
-  const F=FORMATOS[S.formato];
-  const inY=F.safe?Math.max(0,(H-F.safe.h)/2):0;
-  /* Proporciones del GC oficial de Gobierno (referencia 1920×1080):
-     banda azul degradada de 100px + cinta inferior de 16px rojo→azul,
-     bloque rojo cuadrado con estrella blanca al inicio, textos en blanco. */
-  const e=W/1920;
-  const barH=130*e, cintaH=20*e, rojoW=134*e;
-  const x0=96*e;
-  const pxN=58*e, pxC=32*e, pxSlogan=17*e;
-  ctx.save();
-  ctx.textAlign='left'; ctx.textBaseline='alphabetic';
-  ctx.font=fuente(700,pxN); const wN=nom?ctx.measureText(nom).width:0;
-  ctx.font=fuente(700,pxC); const wC=car?ctx.measureText(car).width:0;
-  const barW=Math.max(1332*e, rojoW+22*e+Math.max(wN,wC)+40*e);
-  const yTop=H*.52; // posición fija: desde la mitad hacia abajo; el texto va debajo
-  const dx=(1-prog)*(x0+barW+30*e); // desliza desde el costado izquierdo
-  const x=x0-dx;
-  // banda azul degradada
-  const gAzul=ctx.createLinearGradient(x,0,x+barW,0);
-  gAzul.addColorStop(0,'#0a67b2'); gAzul.addColorStop(1,'#0f9ceb');
-  ctx.fillStyle=gAzul; ctx.fillRect(x,yTop,barW,barH);
-  // cinta inferior degradada rojo → azul
-  const gCinta=ctx.createLinearGradient(x,0,x+barW,0);
-  gCinta.addColorStop(0,'#e8253d'); gCinta.addColorStop(1,'#2b9fe0');
-  ctx.fillStyle=gCinta; ctx.fillRect(x,yTop+barH,barW,cintaH);
-  // bloque rojo con estrella blanca
-  ctx.fillStyle='#e8253d'; ctx.fillRect(x,yTop,rojoW,barH);
-  trazarEstrella(ctx,x+rojoW/2,yTop+barH/2,rojoW*.46);
-  ctx.fillStyle='#ffffff'; ctx.fill();
-  // textos
-  const tx=x+rojoW+22*e;
-  ctx.fillStyle='#ffffff';
-  if(nom&&car){
-    ctx.font=fuente(700,pxN); ctx.fillText(nom,tx,yTop+barH*.52);
-    ctx.font=fuente(700,pxC); ctx.fillText(car,tx,yTop+barH*.85);
-  } else {
-    const solo=nom||car, px=nom?pxN:pxC;
-    ctx.font=fuente(700,px); ctx.fillText(solo,tx,yTop+barH*.5+px*.36);
-  }
-  ctx.font='italic 700 '+pxSlogan+'px gobCL, sans-serif';
-  ctx.fillText('TRABAJANDO PARA USTED',x+10*e,yTop+barH+cintaH*.78);
-  ctx.restore();
-}
-
 /* ================= Render principal ================= */
+/* Los videos no pasan por ninguna plantilla ni reciben texto. Se conserva el
+   encuadre de origen y se superpone exclusivamente la máscara institucional. */
+function renderVideoConMarca(ctx,W,H){
+  dibujarFotoCover(ctx,S.video,0,0,W,H,false);
+  dibujarMascaraVideo(ctx,W,H);
+}
 function render(ctx,W,H,conGuias,tVideo){
   const F=FORMATOS[S.formato];
   metricaFoto=null;
@@ -570,10 +584,9 @@ function render(ctx,W,H,conGuias,tVideo){
   const mTop = (F.kind==='w') ? H*.10 : W*.045 + inY;
   const mBot = (F.kind==='w') ? H*.10 : W*.06 + inY;
 
-  if(F.kind==='w') renderAncho(ctx,W,H,margen);
+  if(esVideoCargado()) renderVideoConMarca(ctx,W,H);
+  else if(F.kind==='w') renderAncho(ctx,W,H,margen);
   else renderVertical(ctx,W,H,margen,mTop,mBot);
-
-  if(S.video) dibujarGC(ctx,W,H,progGC(tVideo,S.video.duration));
 
   if(conGuias && F.safe && S.safe){
     const gx=(W-F.safe.w)/2, gy=Math.max(0,(H-F.safe.h)/2);
@@ -593,6 +606,11 @@ function renderVertical(ctx,W,H,margen,mTop,mBot){
   const claro=esClaro(S.bg);
   const maxW=W-margen*2;
   const pxTit=W*.068, pxBaj=W*.031, pxEti=W*.024, pxCta=W*.024;
+  const etiqueta=S.etiqueta, titulo=S.titulo, bajada=S.bajada, cta=S.cta;
+  const mostrarEtiqueta=S.mostrarEtiqueta&&!!etiqueta;
+  const mostrarTitulo=S.mostrarTitulo&&!!titulo;
+  const mostrarBajada=S.mostrarBajada&&!!bajada;
+  const mostrarCta=S.mostrarCta&&!!cta;
 
   if(S.plantilla==='foto'){
     /* ---- Fotografía completa ---- */
@@ -601,56 +619,89 @@ function renderVertical(ctx,W,H,margen,mTop,mBot){
     else marcadorFoto(ctx,0,0,W,H,false);
     // degradado inferior para legibilidad
     const g=ctx.createLinearGradient(0,H*.42,0,H);
-    g.addColorStop(0,'rgba(10,22,58,0)'); g.addColorStop(1,'rgba(10,22,58,.88)');
+    g.addColorStop(0,'rgba(20,53,91,0)'); g.addColorStop(1,'rgba(20,53,91,.88)');
     ctx.fillStyle=g; ctx.fillRect(0,H*.42,W,H*.58);
     dibujarComplemento(ctx,W,H,null);
 
     // bloque de texto anclado abajo
-    // con video, el bloque de texto se compacta para caber bajo el GC fijo
-    const maxHTit=S.video?H*.16:H*.24, maxHBaj=S.video?H*.09:H*.12;
+    // Foto y video comparten exactamente la misma grilla de textos.
+    // Ocultar un elemento reserva su espacio para que los demás no se muevan.
+    const maxHTit=H*.24, maxHBaj=H*.12;
     ctx.font=fuente(900,pxTit);
-    const tit=ajustarTexto(ctx,S.titulo,900,pxTit,pxTit*.55,maxW,maxHTit,1.12);
+    const tit=titulo?ajustarTexto(ctx,titulo,900,pxTit,pxTit*.55,maxW,maxHTit,1.12):null;
     ctx.font=fuente(400,pxBaj);
-    const baj=S.bajada?ajustarTexto(ctx,S.bajada,400,pxBaj,pxBaj*.7,maxW,maxHBaj,1.32):null;
+    const baj=bajada?ajustarTexto(ctx,bajada,400,pxBaj,pxBaj*.7,maxW,maxHBaj,1.32):null;
 
-    const altoCta=S.cta?pxCta*2.2+W*.025:0;
+    const altoCta=cta?pxCta*2.2+W*.025:0;
     const altoBaj=baj?baj.lineas.length*baj.px*1.32+W*.012:0;
-    const altoTit=tit.lineas.length*tit.px*1.12+W*.02;
-    const altoEti=S.etiqueta?pxEti*1.9+W*.022:0;
+    const altoTit=tit?tit.lineas.length*tit.px*1.12+W*.02:0;
+    const altoEti=etiqueta?pxEti*1.9+W*.022:0;
     let y=H-mBot-altoCta-altoBaj-altoTit-altoEti;
 
-    if(S.etiqueta){ dibujarEtiqueta(ctx,S.etiqueta,margen,y,pxEti); y+=altoEti; }
-    ctx.font=fuente(900,tit.px);
-    y=pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.12,'#ffffff')+W*.012;
-    if(baj){ ctx.font=fuente(400,baj.px); y=pintarLineas(ctx,baj.lineas,margen,y+baj.px*.2,baj.px,1.32,'rgba(255,255,255,.92)'); }
-    if(S.cta) dibujarCTA(ctx,S.cta,margen,H-mBot-pxCta*2.2,pxCta,false,null);
+    if(mostrarEtiqueta) dibujarEtiqueta(ctx,etiqueta,margen,y,pxEti);
+    y+=altoEti;
+    if(tit && mostrarTitulo){
+      ctx.font=fuente(900,tit.px);
+      y=pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.12,'#ffffff')+W*.012;
+    } else if(tit){
+      y=y+tit.px*.9+tit.lineas.length*tit.px*1.12+W*.012;
+    }
+    if(baj && mostrarBajada){ ctx.font=fuente(400,baj.px); pintarLineas(ctx,baj.lineas,margen,y+baj.px*.2,baj.px,1.32,'rgba(255,255,255,.92)'); }
+    if(mostrarCta) dibujarCTA(ctx,cta,margen,H-mBot-pxCta*2.2,pxCta,false,null);
   }
 
   else if(S.plantilla==='mixta'){
-    /* ---- Color arriba + foto abajo ---- */
-    const hFoto=H*.42, yFoto=H-hFoto;
-    ctx.fillStyle=S.bg; ctx.fillRect(0,0,W,H-hFoto);
-    decorar(ctx,W,H-hFoto,claro);
+    /* ---- Color + foto/video arriba o abajo, con transición suave ---- */
+    // En Historias, Portadas de Reel y videos verticales, la fotografía/video
+    // tiene prioridad: el bloque de color se reduce un 30% respecto del diseño
+    // estándar para que el medio gane presencia.
+    const medioConPrioridad = esVideoCargado() || S.formato==='historia' || S.formato==='reel';
+    const hColor=H*(medioConPrioridad ? .58*.70 : .58);
+    const hFoto=H-hColor;
+    const medioArriba=S.posicionMedio==='arriba';
+    const yFoto=medioArriba?0:H-hFoto;
+    const yColor=medioArriba?hFoto:0;
+
+    ctx.fillStyle=S.bg; ctx.fillRect(0,0,W,H);
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0,yColor,W,hColor); ctx.clip();
+    decorar(ctx,W,H,claro);
+    ctx.restore();
+
     const medMix=mediaSel();
     if(medMix) dibujarFotoCover(ctx,medMix,0,yFoto,W,hFoto,true);
     else marcadorFoto(ctx,0,yFoto,W,hFoto,claro);
+    dibujarTransicionMedio(ctx,W,yFoto,hFoto,S.posicionMedio,S.bg);
     const finComp=dibujarComplemento(ctx,W,H,S.bg);
 
     const colTxt = claro ? AZUL_OSCURO : '#ffffff';
-    const colBaj = claro ? 'rgba(23,50,119,.85)' : 'rgba(255,255,255,.92)';
-    let y=finComp+W*.05;
-    if(S.etiqueta){ y=dibujarEtiqueta(ctx,S.etiqueta,margen,y,pxEti)+W*.03; }
-    ctx.font=fuente(900,pxTit);
-    const tit=ajustarTexto(ctx,S.titulo,900,pxTit,pxTit*.55,maxW,H*.22,1.12);
-    ctx.font=fuente(900,tit.px);
-    y=pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.12,colTxt)+W*.015;
-    if(S.bajada){
+    const colBaj=claro ? 'rgba(20,53,91,.85)' : 'rgba(255,255,255,.92)';
+    const yCta=medioArriba?H-mBot-pxCta*2.2:yFoto-pxCta*1.1;
+    let y=medioArriba?hFoto+W*.075:finComp+W*.05;
+    if(etiqueta){
+      if(mostrarEtiqueta) dibujarEtiqueta(ctx,etiqueta,margen,y,pxEti);
+      y+=pxEti*1.9+W*.03;
+    }
+    if(titulo){
+      ctx.font=fuente(900,pxTit);
+      const tit=ajustarTexto(ctx,titulo,900,pxTit,pxTit*.55,maxW,medioArriba?H*.18:H*.22,1.12);
+      if(mostrarTitulo){
+        ctx.font=fuente(900,tit.px);
+        pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.12,colTxt);
+      }
+      y=y+tit.px*.9+tit.lineas.length*tit.px*1.12+W*.015;
+    }
+    if(bajada && mostrarBajada){
       ctx.font=fuente(400,pxBaj);
-      const baj=ajustarTexto(ctx,S.bajada,400,pxBaj,pxBaj*.7,maxW,yFoto-y-W*.05,1.32);
+      const limite=medioArriba?(cta?yCta:H-mBot):yFoto;
+      const baj=ajustarTexto(ctx,bajada,400,pxBaj,pxBaj*.7,maxW,limite-y-W*.05,1.32);
       ctx.font=fuente(400,baj.px);
       pintarLineas(ctx,baj.lineas,margen,y+baj.px*.4,baj.px,1.32,colBaj);
     }
-    if(S.cta) dibujarCTA(ctx,S.cta,null,yFoto-pxCta*1.1,pxCta,claro,W/2);
+    if(mostrarCta){
+      if(medioArriba) dibujarCTA(ctx,cta,margen,yCta,pxCta,claro,null);
+      else dibujarCTA(ctx,cta,null,yCta,pxCta,claro,W/2);
+    }
   }
 
   else {
@@ -659,24 +710,30 @@ function renderVertical(ctx,W,H,margen,mTop,mBot){
     decorar(ctx,W,H,claro);
     dibujarComplemento(ctx,W,H,S.bg);
     const colTxt = claro ? AZUL_OSCURO : '#ffffff';
-    const colBaj = claro ? 'rgba(23,50,119,.85)' : 'rgba(255,255,255,.92)';
+    const colBaj=claro ? 'rgba(20,53,91,.85)' : 'rgba(255,255,255,.92)';
 
     const pxTit2=W*.078;
     ctx.font=fuente(900,pxTit2);
-    const tit=ajustarTexto(ctx,S.titulo,900,pxTit2,pxTit2*.5,maxW,H*.34,1.12);
+    const tit=titulo?ajustarTexto(ctx,titulo,900,pxTit2,pxTit2*.5,maxW,H*.34,1.12):null;
     ctx.font=fuente(400,pxBaj);
-    const baj=S.bajada?ajustarTexto(ctx,S.bajada,400,pxBaj,pxBaj*.7,maxW,H*.18,1.35):null;
+    const baj=bajada?ajustarTexto(ctx,bajada,400,pxBaj,pxBaj*.7,maxW,H*.18,1.35):null;
 
-    const altoEti=S.etiqueta?pxEti*1.9+W*.035:0;
-    const altoTit=tit.lineas.length*tit.px*1.12;
+    const altoEti=etiqueta?pxEti*1.9+W*.035:0;
+    const altoTit=tit?tit.lineas.length*tit.px*1.12:0;
     const altoBaj=baj?W*.02+baj.lineas.length*baj.px*1.35:0;
     let y=(H-(altoEti+altoTit+altoBaj))/2 + H*.02;
 
-    if(S.etiqueta){ dibujarEtiqueta(ctx,S.etiqueta,margen,y,pxEti); y+=altoEti; }
-    ctx.font=fuente(900,tit.px);
-    y=pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.12,colTxt);
-    if(baj){ ctx.font=fuente(400,baj.px); pintarLineas(ctx,baj.lineas,margen,y+W*.02+baj.px*.4,baj.px,1.35,colBaj); }
-    if(S.cta) dibujarCTA(ctx,S.cta,margen,H-mBot*1.1-pxCta*2.2,pxCta,claro,null);
+    if(mostrarEtiqueta) dibujarEtiqueta(ctx,etiqueta,margen,y,pxEti);
+    y+=altoEti;
+    if(tit){
+      if(mostrarTitulo){
+        ctx.font=fuente(900,tit.px);
+        pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.12,colTxt);
+      }
+      y=y+tit.px*.9+tit.lineas.length*tit.px*1.12;
+    }
+    if(baj && mostrarBajada){ ctx.font=fuente(400,baj.px); pintarLineas(ctx,baj.lineas,margen,y+W*.02+baj.px*.4,baj.px,1.35,colBaj); }
+    if(mostrarCta) dibujarCTA(ctx,cta,margen,H-mBot*1.1-pxCta*2.2,pxCta,claro,null);
   }
 }
 
@@ -698,27 +755,40 @@ function renderAncho(ctx,W,H,margen){
   const finComp=dibujarComplemento(ctx,W,H,S.bg);
 
   const colTxt=claro?AZUL_OSCURO:'#ffffff';
-  const colBaj=claro?'rgba(23,50,119,.85)':'rgba(255,255,255,.92)';
+  const colBaj=claro?'rgba(20,53,91,.85)':'rgba(255,255,255,.92)';
   const maxW=(conFoto?W-wFoto-W*.02:W)-margen*2;
   const pxTit=W*.055, pxBaj=W*.026, pxEti=W*.020, pxCta=W*.020;
+  const etiqueta=S.etiqueta, titulo=S.titulo, bajada=S.bajada, cta=S.cta;
+  const mostrarEtiqueta=S.mostrarEtiqueta&&!!etiqueta;
+  const mostrarTitulo=S.mostrarTitulo&&!!titulo;
+  const mostrarBajada=S.mostrarBajada&&!!bajada;
+  const mostrarCta=S.mostrarCta&&!!cta;
 
   const yCta=H-H*.10-pxCta*2.2;
   let y=finComp+H*.14;
-  if(S.etiqueta){ y=dibujarEtiqueta(ctx,S.etiqueta,margen,y,pxEti)+H*.05; }
-  ctx.font=fuente(900,pxTit);
-  const tit=ajustarTexto(ctx,S.titulo,900,pxTit,pxTit*.5,maxW,H*.42,1.1);
-  ctx.font=fuente(900,tit.px);
-  y=pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.1,colTxt)+H*.02;
-  if(S.bajada){
-    const maxHBaj=(S.cta?yCta:H-H*.10)-y-H*.04;
+  if(etiqueta){
+    if(mostrarEtiqueta) dibujarEtiqueta(ctx,etiqueta,margen,y,pxEti);
+    y+=pxEti*1.9+H*.05;
+  }
+  if(titulo){
+    ctx.font=fuente(900,pxTit);
+    const tit=ajustarTexto(ctx,titulo,900,pxTit,pxTit*.5,maxW,H*.42,1.1);
+    if(mostrarTitulo){
+      ctx.font=fuente(900,tit.px);
+      pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.1,colTxt);
+    }
+    y=y+tit.px*.9+tit.lineas.length*tit.px*1.1+H*.02;
+  }
+  if(bajada && mostrarBajada){
+    const maxHBaj=(cta?yCta:H-H*.10)-y-H*.04;
     if(maxHBaj>pxBaj*.8){
       ctx.font=fuente(400,pxBaj);
-      const baj=ajustarTexto(ctx,S.bajada,400,pxBaj,pxBaj*.6,maxW,maxHBaj,1.3);
+      const baj=ajustarTexto(ctx,bajada,400,pxBaj,pxBaj*.6,maxW,maxHBaj,1.3);
       ctx.font=fuente(400,baj.px);
       pintarLineas(ctx,baj.lineas,margen,y+baj.px*.4,baj.px,1.3,colBaj);
     }
   }
-  if(S.cta) dibujarCTA(ctx,S.cta,margen,yCta,pxCta,claro,null);
+  if(mostrarCta) dibujarCTA(ctx,cta,margen,yCta,pxCta,claro,null);
 }
 
 /* ================= Preview + exportación ================= */
@@ -727,12 +797,23 @@ const cv=document.getElementById('preview'), ctx=cv.getContext('2d');
 function renderPreview(){
   const F=FORMATOS[S.formato];
   if(cv.width!==F.w||cv.height!==F.h){cv.width=F.w;cv.height=F.h;}
-  render(ctx,F.w,F.h,true);
-  const usaFoto = mediaSel() && (S.plantilla!=='color' || F.kind==='w');
+  if(window.matchMedia('(max-width: 860px)').matches){
+    const altoMax=Math.floor(window.innerHeight*.42);
+    const anchoMax=Math.max(1,window.innerWidth-24);
+    const escala=Math.min(anchoMax/F.w,altoMax/F.h);
+    cv.style.width=`${Math.floor(F.w*escala)}px`;
+    cv.style.height=`${Math.floor(F.h*escala)}px`;
+  } else {
+    cv.style.width=''; cv.style.height='';
+  }
+  // Si hay video, la vista previa muestra únicamente el identificador gráfico.
+  render(ctx,F.w,F.h,true,esVideoCargado()?S.video.currentTime:null);
+  const usaFoto = !!S.foto && (S.plantilla!=='color' || F.kind==='w');
   cv.classList.toggle('arrastrable',!!usaFoto);
   document.getElementById('infoFormato').innerHTML=
     `<b>${F.nombre}</b> · ${F.w} × ${F.h} px` + (F.safe?` · zona segura ${F.safe.w} × ${Math.min(F.safe.h,F.h)} px`:'');
 }
+window.addEventListener('resize',renderPreview);
 
 /* En teléfonos se usa la hoja de compartir nativa: permite "Guardar imagen/
    video" (queda en la fototeca) o enviarla directo a Instagram/WhatsApp.
@@ -748,10 +829,20 @@ async function entregarArchivo(blob,nombre){
     catch(err){ if(err && err.name==='AbortError') return; /* canceló */ }
   }
   const a=document.createElement('a');
-  a.download=nombre; a.href=URL.createObjectURL(file); a.click();
+  a.download=nombre; a.href=URL.createObjectURL(file); a.style.display='none';
+  document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),10000);
 }
-function exportar(tipoMime){
+function blobDesdeCanvas(canvas,tipoMime){
+  return new Promise(resolve=>{
+    const recibir=blob=>resolve(blob);
+    if(canvas.toBlob){ canvas.toBlob(recibir,tipoMime,.92); return; }
+    fetch(canvas.toDataURL(tipoMime,.92)).then(r=>r.blob()).then(recibir).catch(()=>resolve(null));
+  });
+}
+let imagenPendiente=null;
+let videoPendiente=null;
+async function exportar(tipoMime){
   const F=FORMATOS[S.formato];
   const off=document.createElement('canvas'); off.width=F.w; off.height=F.h;
   const octx=off.getContext('2d');
@@ -759,58 +850,263 @@ function exportar(tipoMime){
   render(octx,F.w,F.h,false);
   const ext=tipoMime==='image/jpeg'?'jpg':'png';
   const fecha=new Date().toISOString().slice(0,16).replace(/[T:]/g,'-');
-  const nombre=`sercotec_${F.archivo}_${S.tipo}_${fecha}.${ext}`;
-  off.toBlob(b=>{ if(b) entregarArchivo(b,nombre); },tipoMime,0.92);
+  const prefijo=S.marca==='cdn'?'cdn':'sercotec';
+  const nombre=`${prefijo}_${F.archivo}_${S.tipo}_${fecha}.${ext}`;
+  const blob=await blobDesdeCanvas(off,tipoMime);
+  if(!blob){ alert('No se pudo generar la imagen. Intenta nuevamente.'); return; }
+  if(esMovil()){
+    imagenPendiente={blob,nombre};
+    $('accionMovilImagen').style.display='';
+    $('btnCompartirImagen').focus();
+    return;
+  }
+  await entregarArchivo(blob,nombre);
 }
 
 /* ================= Controles ================= */
 const $=id=>document.getElementById(id);
-
+function actualizarControlesPlantilla(){
+  $('campoPosicionMedio').style.display=S.plantilla==='mixta'?'':'none';
+  $('selPosicionMedio').value=S.posicionMedio;
+}
 $('selFormato').onchange=e=>{S.formato=e.target.value; renderPreview();};
 $('selTipo').onchange=e=>{
   S.tipo=e.target.value;
   if(!S.etiquetaManual){S.etiqueta=TIPOS[S.tipo].etiqueta; $('inEtiqueta').value=S.etiqueta;}
   renderPreview();
 };
-$('selPlantilla').onchange=e=>{S.plantilla=e.target.value; renderPreview();};
+$('selPlantilla').onchange=e=>{S.plantilla=e.target.value; actualizarControlesPlantilla(); renderPreview();};
+$('selPosicionMedio').onchange=e=>{S.posicionMedio=e.target.value; renderPreview();};
 $('inEtiqueta').oninput=e=>{S.etiqueta=e.target.value; S.etiquetaManual=true; renderPreview();};
 $('inTitulo').oninput=e=>{S.titulo=e.target.value; renderPreview();};
 $('inBajada').oninput=e=>{S.bajada=e.target.value; renderPreview();};
 $('inCta').oninput=e=>{S.cta=e.target.value; renderPreview();};
+$('chkEtiqueta').onchange=e=>{S.mostrarEtiqueta=e.target.checked; renderPreview();};
+$('chkTitulo').onchange=e=>{S.mostrarTitulo=e.target.checked; renderPreview();};
+$('chkBajada').onchange=e=>{S.mostrarBajada=e.target.checked; renderPreview();};
+$('chkCta').onchange=e=>{S.mostrarCta=e.target.checked; renderPreview();};
 $('inZoom').oninput=e=>{S.zoom=e.target.value/100; renderPreview();};
 $('chkSafe').onchange=e=>{S.safe=e.target.checked; renderPreview();};
 $('btnPng').onclick=()=>exportar('image/png');
 $('btnJpg').onclick=()=>exportar('image/jpeg');
+$('btnCompartirImagen').onclick=async()=>{
+  if(!imagenPendiente) return;
+  const imagen=imagenPendiente;
+  await entregarArchivo(imagen.blob,imagen.nombre);
+};
+
+/* ================= Video: sólo superposición de marca =================
+   El archivo de salida conserva sus imágenes y audio; el lienzo sólo agrega
+   la máscara institucional que se ve en la vista previa. */
+function tipoVideoDisponible(){
+  const opciones=[
+    'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+    'video/mp4;codecs=avc1',
+    'video/mp4',
+    'video/webm;codecs=vp9,opus',
+    'video/webm'
+  ];
+  return opciones.find(tipo=>window.MediaRecorder && MediaRecorder.isTypeSupported(tipo)) || '';
+}
+function irAlInicio(video){
+  return new Promise(resolve=>{
+    if(Math.abs(video.currentTime)<0.01){ resolve(); return; }
+    const terminar=()=>{ clearTimeout(respaldo); resolve(); };
+    const respaldo=setTimeout(terminar,800);
+    video.addEventListener('seeked',terminar,{once:true});
+    video.currentTime=0;
+  });
+}
+function pistasAudioVideo(video){
+  try{
+    if(!video._audioDest){
+      const AudioCtx=window.AudioContext||window.webkitAudioContext;
+      if(!AudioCtx) return [];
+      const audioCtx=new AudioCtx();
+      const fuente=audioCtx.createMediaElementSource(video);
+      const destino=audioCtx.createMediaStreamDestination();
+      fuente.connect(destino);
+      video._audioCtx=audioCtx;
+      video._audioDest=destino;
+    }
+    return video._audioDest.stream.getAudioTracks();
+  }catch(error){
+    console.warn('No fue posible preparar el audio del video.',error);
+    return [];
+  }
+}
+async function exportarVideo(){
+  if(!S.video || exportandoVideo) return;
+  if(!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream){
+    alert('Este navegador no permite generar videos con marca. Ábrelo en Chrome o Safari actualizado e inténtalo nuevamente.');
+    return;
+  }
+  const tipo=tipoVideoDisponible();
+  if(!tipo){
+    alert('Este navegador no tiene un formato de video compatible para generar la copia con marca.');
+    return;
+  }
+  const boton=$('btnVideo'), video=S.video, F=FORMATOS[S.formato];
+  const canvas=document.createElement('canvas');
+  canvas.width=F.w; canvas.height=F.h;
+  const contexto=canvas.getContext('2d');
+  const pistas=canvas.captureStream(30);
+  const pistasAudio=pistasAudioVideo(video);
+  pistasAudio.forEach(pista=>pistas.addTrack(pista));
+  const partes=[];
+  const recorder=new MediaRecorder(pistas,{mimeType:tipo,videoBitsPerSecond:9000000});
+  const prefijo=S.marca==='cdn'?'cdn':'sercotec';
+  const nombreBase=`${prefijo}_video_marcado_${new Date().toISOString().slice(0,16).replace(/[T:]/g,'-')}`;
+  const extension=tipo.startsWith('video/mp4')?'mp4':'webm';
+  const estadoPrevio={tiempo:video.currentTime, loop:video.loop};
+  let animacion=null;
+  let errorRecorder=null;
+  exportandoVideo=true;
+  boton.disabled=true; boton.textContent='Preparando video…';
+
+  const finalizar=()=>{
+    if(animacion) cancelAnimationFrame(animacion);
+    video.pause(); video.loop=estadoPrevio.loop;
+    video.currentTime=estadoPrevio.tiempo;
+    exportandoVideo=false;
+    boton.disabled=false; boton.textContent='🎬 Aplicar marca al video';
+    if(!rafPreview) cicloVideo();
+  };
+  try{
+    recorder.ondataavailable=e=>{ if(e.data && e.data.size) partes.push(e.data); };
+    recorder.onerror=e=>{ errorRecorder=e.error||new Error('El navegador interrumpió la creación del video.'); };
+    recorder.onstop=async()=>{
+      const copia=new Blob(partes,{type:tipo});
+      finalizar();
+      if(errorRecorder || !copia.size){ alert('No se pudo crear la copia del video. Intenta nuevamente.'); return; }
+      const nombre=`${nombreBase}.${extension}`;
+      if(esMovil()){
+        videoPendiente={blob:copia,nombre};
+        $('accionMovilVideo').style.display='';
+        $('btnCompartirVideo').focus();
+      } else await entregarArchivo(copia,nombre);
+    };
+    if(video._audioCtx) await video._audioCtx.resume().catch(()=>{});
+    video.pause(); video.loop=false;
+    await irAlInicio(video);
+    recorder.start(250);
+    boton.textContent='Aplicando marca…';
+    const dibujar=()=>{
+      renderVideoConMarca(contexto,F.w,F.h);
+      if(video.ended){ recorder.stop(); return; }
+      animacion=requestAnimationFrame(dibujar);
+    };
+    await video.play();
+    dibujar();
+  }catch(error){
+    console.error(error);
+    try{ if(recorder.state!=='inactive') recorder.stop(); }catch(_){}
+    finalizar();
+    alert('No se pudo crear la copia del video. Prueba con un MP4 corto y vuelve a intentarlo.');
+  }
+}
+let exportandoVideo=false;
 $('btnVideo').onclick=exportarVideo;
-$('inGcNombre').oninput=e=>{S.gcNombre=e.target.value; if(!S.video) renderPreview();};
-$('inGcCargo').oninput=e=>{S.gcCargo=e.target.value; if(!S.video) renderPreview();};
+$('btnCompartirVideo').onclick=async()=>{
+  if(!videoPendiente) return;
+  await entregarArchivo(videoPendiente.blob,videoPendiente.nombre);
+};
 $('btnCentrar').onclick=()=>{S.panX=.5;S.panY=.5;S.zoom=1;$('inZoom').value=100;renderPreview();};
 $('btnQuitarFoto').onclick=()=>{S.foto=null;quitarVideo();$('inFoto').value='';$('drop').classList.remove('tiene');
-  $('drop').innerHTML='📷 Subir foto o video<br><span style="font-weight:400;font-size:11.5px">o arrástralo aquí — no sale de tu computador</span>';renderPreview();};
+  $('drop').innerHTML='📷 Subir fotografía o video<br><span style="font-weight:400;font-size:11.5px">se procesa en este dispositivo</span>';renderPreview();};
 
-/* Paleta */
+/* Institución y paleta */
 const swc=$('swatches');
-PALETA.forEach(p=>{
-  const d=document.createElement('div');
-  d.className='sw'+(p.hex===S.bg?' sel':''); d.style.background=p.hex; d.title=p.nombre;
-  d.onclick=()=>{S.bg=p.hex; document.querySelectorAll('.sw').forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); renderPreview();};
-  swc.appendChild(d);
-});
+function renderPaleta(){
+  const paleta=PALETAS[S.marca];
+  AZUL_OSCURO=paleta.oscuro;
+  ACENTO=paleta.acento;
+  $('labelPaleta').textContent=`Color de fondo · Paleta oficial ${paleta.nombre}`;
+  swc.replaceChildren();
+  paleta.colores.forEach(p=>{
+    const d=document.createElement('button');
+    d.type='button';
+    d.className='sw'+(p.hex===S.bg?' sel':'');
+    d.style.background=p.hex;
+    d.title=p.nombre;
+    d.setAttribute('aria-label',p.nombre);
+    d.onclick=()=>{
+      S.bg=p.hex;
+      swc.querySelectorAll('.sw').forEach(x=>x.classList.remove('sel'));
+      d.classList.add('sel');
+      renderPreview();
+    };
+    swc.appendChild(d);
+  });
+}
+$('selMarca').onchange=e=>{
+  S.marca=e.target.value;
+  const paleta=PALETAS[S.marca];
+  S.bg=paleta.oscuro;
+  renderPaleta();
+  renderPreview();
+};
+renderPaleta();
 
 /* ================= Carga de foto o video ================= */
 let rafPreview=null;
+let ajustesAntesVideo=null;
 function cicloVideo(){
   if(!S.video){ rafPreview=null; return; }
   renderPreview();
   rafPreview=requestAnimationFrame(cicloVideo);
 }
 function modoVideoUI(on){
-  $('secGC').style.display=on?'':'none';
-  $('btnVideo').style.display=on?'':'none';
-  $('sepVideo').style.display=on?'':'none';
-  $('hintGenerar').textContent=on
-    ? 'El video se graba en tamaño real con el GC animado (espera a que termine). En el teléfono, al finalizar toca "Guardar video" para llevarlo a tu fototeca o directo a Instagram.'
-    : 'En el teléfono se abre el menú para guardar en la fototeca o compartir directo a Instagram. En computador se descarga como archivo.';
+  const campoTipo=$('campoTipo'), campoPlantilla=$('campoPlantilla');
+  const campoFondo=$('campoFondo'), campoEtiqueta=$('campoEtiqueta');
+  const contenido=$('seccionContenido'), campoZoom=$('campoZoom'), filaFoto=$('filaFoto');
+  const opcionSoloColor=$('selPlantilla').querySelector('option[value="color"]');
+  if(on){
+    if(!ajustesAntesVideo){
+      ajustesAntesVideo={
+        formato:S.formato, tipo:S.tipo, plantilla:S.plantilla, posicionMedio:S.posicionMedio,
+        etiqueta:S.etiqueta, etiquetaManual:S.etiquetaManual,
+      };
+    }
+    // La máscara oficial sólo corresponde a Historia/Reel y reemplaza por
+    // completo las opciones de plantilla, color y texto.
+    S.formato='historia'; $('selFormato').value='historia'; $('selFormato').disabled=true;
+    S.tipo='generica'; $('selTipo').value='generica';
+    S.etiqueta=TIPOS.generica.etiqueta; S.etiquetaManual=false; $('inEtiqueta').value='';
+    opcionSoloColor.disabled=true;
+    S.plantilla='foto';
+    $('selPlantilla').value=S.plantilla;
+    campoTipo.style.display='none';
+    campoPlantilla.style.display='none';
+    campoFondo.style.display='none';
+    campoEtiqueta.style.display='none';
+    contenido.style.display='none';
+    campoZoom.style.display='none';
+    filaFoto.style.display='none';
+    actualizarControlesPlantilla();
+  } else {
+    $('selFormato').disabled=false;
+    opcionSoloColor.disabled=false;
+    campoTipo.style.display='';
+    campoPlantilla.style.display='';
+    campoFondo.style.display='';
+    campoEtiqueta.style.display='';
+    contenido.style.display='';
+    campoZoom.style.display='';
+    filaFoto.style.display='';
+    if(ajustesAntesVideo){
+      Object.assign(S,ajustesAntesVideo);
+      $('selFormato').value=S.formato;
+      $('selTipo').value=S.tipo;
+      $('selPlantilla').value=S.plantilla;
+      $('inEtiqueta').value=S.etiqueta;
+      ajustesAntesVideo=null;
+    }
+    actualizarControlesPlantilla();
+  }
+  $('grupoExportarImagen').style.display=on?'none':'';
+  $('grupoExportarVideo').style.display=on?'':'none';
+  $('accionMovilVideo').style.display='none';
 }
 function quitarVideo(){
   if(S.video){
@@ -819,8 +1115,6 @@ function quitarVideo(){
     URL.revokeObjectURL(S.video.src);
     S.video=null;
   }
-  videoListo=null;
-  const btn=$('btnVideo'); if(btn) btn.textContent='🎬 Generar Video';
   modoVideoUI(false);
 }
 function etiquetaDrop(nombre,icono){
@@ -867,81 +1161,6 @@ $('inFoto').onchange=e=>cargarMedia(e.target.files[0]);
 ['dragover','dragenter'].forEach(ev=>document.body.addEventListener(ev,e=>e.preventDefault()));
 document.body.addEventListener('drop',e=>{e.preventDefault(); if(e.dataTransfer.files.length) cargarMedia(e.dataTransfer.files[0]);});
 
-/* ================= Exportación de video ================= */
-function audioDeVideo(v){
-  try{
-    if(!v._audioDest){
-      const ac=new (window.AudioContext||window.webkitAudioContext)();
-      const src=ac.createMediaElementSource(v);
-      const dest=ac.createMediaStreamDestination();
-      src.connect(dest);
-      v._audioCtx=ac; v._audioDest=dest;
-    }
-    return v._audioDest.stream.getAudioTracks();
-  }catch(e){ return []; }
-}
-let exportandoVideo=false, videoListo=null; // {blob,nombre} esperando el toque "Guardar"
-async function exportarVideo(){
-  const btn=$('btnVideo');
-  if(videoListo){ // segundo toque: abrir hoja de compartir (requiere gesto del usuario)
-    const p=videoListo; videoListo=null;
-    btn.textContent='🎬 Generar Video';
-    await entregarArchivo(p.blob,p.nombre);
-    return;
-  }
-  if(!S.video||exportandoVideo) return;
-  const F=FORMATOS[S.formato], v=S.video;
-  exportandoVideo=true; btn.disabled=true;
-  try{
-    // audio primero: en iOS el AudioContext solo se activa durante el toque
-    const pistasAudio=audioDeVideo(v);
-    if(v._audioCtx) v._audioCtx.resume().catch(()=>{});
-    const off=document.createElement('canvas'); off.width=F.w; off.height=F.h;
-    const octx=off.getContext('2d');
-    const stream=off.captureStream(30);
-    pistasAudio.forEach(t=>stream.addTrack(t));
-    const mime=['video/mp4;codecs=avc1','video/mp4','video/webm;codecs=vp9','video/webm']
-      .find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported(m));
-    if(!mime) throw new Error('Este navegador no permite grabar video. Usa Chrome, Edge o Safari actualizado.');
-    const rec=new MediaRecorder(stream,{mimeType:mime, videoBitsPerSecond:10_000_000});
-    const trozos=[];
-    rec.ondataavailable=e=>{ if(e.data.size) trozos.push(e.data); };
-    const fin=new Promise(res=>rec.onstop=res);
-    const loopPrevio=v.loop; v.loop=false; v.pause(); v.currentTime=0;
-    await new Promise(res=>{ const h=()=>{v.removeEventListener('seeked',h); res();}; v.addEventListener('seeked',h); });
-    await v.play();
-    rec.start(200);
-    const t0=performance.now();
-    const paso=()=>{
-      const t=(performance.now()-t0)/1000;
-      render(octx,F.w,F.h,false,t);
-      const pct=v.duration?Math.min(100,Math.round(t/v.duration*100)):0;
-      btn.textContent=`⏺ Grabando… ${pct}%`;
-      if(!v.ended && t<120) requestAnimationFrame(paso);
-      else rec.stop();
-    };
-    paso();
-    await fin;
-    v.loop=loopPrevio; v.play().catch(()=>{});
-    const blob=new Blob(trozos,{type:mime.split(';')[0]});
-    const ext=mime.startsWith('video/mp4')?'mp4':'webm';
-    const fecha=new Date().toISOString().slice(0,16).replace(/[T:]/g,'-');
-    const nombre=`sercotec_${F.archivo}_${S.tipo}_${fecha}.${ext}`;
-    const file=new File([blob],nombre,{type:blob.type});
-    if(esMovil() && navigator.canShare && navigator.canShare({files:[file]})){
-      videoListo={blob,nombre};
-      btn.textContent='💾 Guardar video en el teléfono';
-    } else {
-      await entregarArchivo(blob,nombre);
-      btn.textContent='🎬 Generar Video';
-    }
-  }catch(err){
-    alert('No se pudo generar el video: '+err.message);
-    btn.textContent='🎬 Generar Video';
-  }
-  btn.disabled=false; exportandoVideo=false;
-}
-
 /* Arrastre de la foto sobre el preview */
 let arrastre=null;
 cv.addEventListener('pointerdown',e=>{
@@ -969,6 +1188,13 @@ async function iniciar(){
   $('inEtiqueta').value=S.etiqueta;
   $('inTitulo').value=S.titulo;
   $('inBajada').value=S.bajada;
+  $('inCta').value=S.cta;
+  $('chkEtiqueta').checked=S.mostrarEtiqueta;
+  $('chkTitulo').checked=S.mostrarTitulo;
+  $('chkBajada').checked=S.mostrarBajada;
+  $('chkCta').checked=S.mostrarCta;
+  $('selPosicionMedio').value=S.posicionMedio;
+  actualizarControlesPlantilla();
   renderPreview();
 }
 iniciar();
