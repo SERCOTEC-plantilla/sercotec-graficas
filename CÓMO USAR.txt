@@ -79,6 +79,19 @@ CDN: #14355b, #55adaf, #d4e023, #e16f38, #d34389.
 La barra azul y roja con estrella mantiene los colores de Gobierno; no cambia
 al seleccionar otra institución.
 
+COLORES DE LAS CAJAS Y DEL TÍTULO
+El color de fondo no cambia las fotos ni las cajas de texto.
+En "Escribe tus textos" encontrarás tres controles independientes:
+- Frase destacada: elige el color de su caja (por ejemplo, Convocatoria abierta).
+- Título: elige el color de sus letras. Blanco aparece primero y es el inicial.
+- Invitación final: elige el color de su caja.
+Cada selector incluye blanco y los cinco colores de la institución elegida.
+Las letras de las cajas se ajustan a blanco u oscuro para facilitar la lectura.
+Los colores se ven también sobre una fotografía completa y en el archivo
+PNG/JPG que guardas. Cada institución conserva sus elecciones mientras no
+cierres la página. Los videos siguen recibiendo solo la marca oficial:
+no se agregan cajas ni textos a un video.
+
 VIDEOS
 El mantenedor sólo aplica el identificador oficial. No corta escenas, edita
 audio ni crea subtítulos. La reproducción y exportación dependen de los formatos

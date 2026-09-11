@@ -61,6 +61,9 @@
   .swatches{display:flex; flex-wrap:wrap; gap:8px;}
   .sw{width:32px; height:32px; padding:0; appearance:none; -webkit-appearance:none; border-radius:8px; cursor:pointer; border:1px solid rgba(0,0,0,.12); position:relative;}
   .sw.sel{outline:3px solid var(--azul-oscuro); outline-offset:2px;}
+  .color-texto{margin-top:12px;}
+  .color-texto .swatches{padding:4px 3px;}
+  .sw:focus-visible{outline:3px solid var(--azul-oscuro);outline-offset:3px;}
 
   .fila{display:flex; gap:8px;}
   .fila > *{flex:1;}
@@ -261,7 +264,7 @@
   <div class="campo" id="campoFondo">
     <label id="labelPaleta">Color de fondo · Paleta oficial SERCOTEC</label>
     <div class="swatches" id="swatches"></div>
-    <div class="hint">Toca un color para probarlo. La barra de Gobierno mantiene sus colores oficiales.</div>
+    <div class="hint">Este control cambia solo el fondo, no la foto. Los colores de las cajas y del título se eligen más abajo, junto a cada texto. La barra de Gobierno no cambia.</div>
   </div>
 
   <div class="seccion" id="seccionContenido">
@@ -279,10 +282,20 @@
     <div class="campo" id="campoEtiqueta">
       <label for="inEtiqueta">Frase destacada</label>
       <input type="text" id="inEtiqueta" maxlength="40" placeholder="Ej: Convocatoria abierta">
+      <div class="color-texto">
+        <label id="labelColorEtiqueta">Color de la caja destacada</label>
+        <div class="swatches" id="coloresEtiqueta" role="group" aria-labelledby="labelColorEtiqueta"></div>
+        <div class="hint">Cambia la caja de la frase elegida en “Tema de la publicación”. El texto se ajusta a claro u oscuro para que se lea.</div>
+      </div>
     </div>
     <div class="campo">
       <label for="inTitulo">Título</label>
       <textarea id="inTitulo" rows="2" maxlength="60" placeholder="Ej: Postula al Capital Semilla Emprende"></textarea>
+      <div class="color-texto">
+        <label id="labelColorTitulo">Color de las letras del título</label>
+        <div class="swatches" id="coloresTitulo" role="group" aria-labelledby="labelColorTitulo"></div>
+        <div class="hint">Blanco al comenzar. Si el título no se distingue sobre la foto o el fondo, prueba un color que contraste.</div>
+      </div>
     </div>
     <div class="campo">
       <label for="inBajada">Texto de apoyo</label>
@@ -291,6 +304,11 @@
     <div class="campo">
       <label for="inCta">Invitación final</label>
       <input type="text" id="inCta" maxlength="60" value="Más información en www.sercotec.cl">
+      <div class="color-texto">
+        <label id="labelColorCta">Color de la caja de invitación</label>
+        <div class="swatches" id="coloresCta" role="group" aria-labelledby="labelColorCta"></div>
+        <div class="hint">Cambia esta caja sin cambiar la frase destacada ni el fondo. Sus letras se ajustan a claro u oscuro.</div>
+      </div>
       <div class="hint">Indica qué hacer: por ejemplo, “Postula en www.sercotec.cl”. Es texto en la imagen, no un botón que se pueda tocar.</div>
     </div>
   </div>
@@ -400,6 +418,10 @@ const S = {
   safe:true,
   mostrarEtiqueta:true, mostrarTitulo:true, mostrarBajada:true, mostrarCta:true,
   etiquetaManual:false,
+  coloresTexto:{
+    sercotec:{etiqueta:PALETAS.sercotec.acento, titulo:'#ffffff', cta:PALETAS.sercotec.acento},
+    cdn:{etiqueta:PALETAS.cdn.acento, titulo:'#ffffff', cta:PALETAS.cdn.acento},
+  },
 };
 const MASCARA_VIDEO = new Image();
 MASCARA_VIDEO.onload=()=>renderPreview();
@@ -617,14 +639,29 @@ function decorar(ctx,W,H,claro){
   dibujarMontanas(ctx,W*.72,H*.93,3,W*.055,c);
 }
 
-/* Etiqueta destacada con el cian de la paleta oficial */
+/* Colores independientes para textos y cajas. Los videos no usan estos controles. */
+function coloresTexto(){ return S.coloresTexto[S.marca]; }
+function luminanciaColor(hex){
+  const canales=hex.slice(1).match(/.{2}/g).map(c=>{
+    const v=parseInt(c,16)/255;
+    return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4);
+  });
+  return canales[0]*.2126+canales[1]*.7152+canales[2]*.0722;
+}
+function textoSobreCaja(fondo){
+  const l=luminanciaColor(fondo), oscuro=luminanciaColor(AZUL_OSCURO);
+  const contrasteOscuro=(Math.max(l,oscuro)+.05)/(Math.min(l,oscuro)+.05);
+  const contrasteBlanco=1.05/(l+.05);
+  return contrasteBlanco>contrasteOscuro?'#ffffff':AZUL_OSCURO;
+}
+/* Etiqueta destacada con color elegible */
 function dibujarEtiqueta(ctx,texto,x,y,px){
   if(!texto) return y;
   ctx.font=fuente(700,px);
   const padX=px*.85, alto=px*1.9;
   const w=ctx.measureText(texto).width+padX*2;
-  ctx.fillStyle=ACENTO; rr(ctx,x,y,w,alto,px*.35); ctx.fill();
-  ctx.fillStyle=AZUL_OSCURO; ctx.textBaseline='middle';
+  ctx.fillStyle=coloresTexto().etiqueta; rr(ctx,x,y,w,alto,px*.35); ctx.fill();
+  ctx.fillStyle=textoSobreCaja(coloresTexto().etiqueta); ctx.textBaseline='middle';
   ctx.fillText(texto,x+padX,y+alto/2+px*.06);
   ctx.textBaseline='alphabetic';
   return y+alto;
@@ -636,9 +673,9 @@ function dibujarCTA(ctx,texto,x,y,px,claroFondo,centrarEnX){
   const padX=px*1.1, alto=px*2.2;
   const w=ctx.measureText(texto).width+padX*2;
   const xx = centrarEnX!=null ? centrarEnX-w/2 : x;
-  ctx.fillStyle=claroFondo ? AZUL_OSCURO : ACENTO;
+  ctx.fillStyle=coloresTexto().cta;
   rr(ctx,xx,y,w,alto,alto/2); ctx.fill();
-  ctx.fillStyle = claroFondo ? '#ffffff' : AZUL_OSCURO;
+  ctx.fillStyle=textoSobreCaja(coloresTexto().cta);
   ctx.textBaseline='middle';
   ctx.fillText(texto,xx+padX,y+alto/2+px*.06);
   ctx.textBaseline='alphabetic';
@@ -722,7 +759,7 @@ function renderVertical(ctx,W,H,margen,mTop,mBot){
     y+=altoEti;
     if(tit && mostrarTitulo){
       ctx.font=fuente(900,tit.px);
-      y=pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.12,'#ffffff')+W*.012;
+      y=pintarLineas(ctx,tit.lineas,margen,y+tit.px*.9,tit.px,1.12,coloresTexto().titulo)+W*.012;
     } else if(tit){
       y=y+tit.px*.9+tit.lineas.length*tit.px*1.12+W*.012;
     }
@@ -754,7 +791,7 @@ function renderVertical(ctx,W,H,margen,mTop,mBot){
     dibujarTransicionMedio(ctx,W,yFoto,hFoto,S.posicionMedio,S.bg);
     const finComp=dibujarComplemento(ctx,W,H,S.bg);
 
-    const colTxt = claro ? AZUL_OSCURO : '#ffffff';
+    const colTxt=coloresTexto().titulo;
     const colBaj=claro ? 'rgba(20,53,91,.85)' : 'rgba(255,255,255,.92)';
     const yCta=medioArriba?H-mBot-pxCta*2.2:yFoto-pxCta*1.1;
     let y=medioArriba?hFoto+W*.075:finComp+W*.05;
@@ -789,7 +826,7 @@ function renderVertical(ctx,W,H,margen,mTop,mBot){
     ctx.fillStyle=S.bg; ctx.fillRect(0,0,W,H);
     decorar(ctx,W,H,claro);
     dibujarComplemento(ctx,W,H,S.bg);
-    const colTxt = claro ? AZUL_OSCURO : '#ffffff';
+    const colTxt=coloresTexto().titulo;
     const colBaj=claro ? 'rgba(20,53,91,.85)' : 'rgba(255,255,255,.92)';
 
     const pxTit2=W*.078;
@@ -834,7 +871,7 @@ function renderAncho(ctx,W,H,margen){
 
   const finComp=dibujarComplemento(ctx,W,H,S.bg);
 
-  const colTxt=claro?AZUL_OSCURO:'#ffffff';
+  const colTxt=coloresTexto().titulo;
   const colBaj=claro?'rgba(20,53,91,.85)':'rgba(255,255,255,.92)';
   const maxW=(conFoto?W-wFoto-W*.02:W)-margen*2;
   const pxTit=W*.055, pxBaj=W*.026, pxEti=W*.020, pxCta=W*.020;
@@ -1102,6 +1139,27 @@ $('btnQuitarFoto').onclick=()=>{S.foto=null;quitarVideo();$('inFoto').value='';$
 
 /* Institución y paleta */
 const swc=$('swatches');
+function renderColoresTexto(){
+  const opciones=[{hex:'#ffffff',nombre:'Blanco · #ffffff'},...PALETAS[S.marca].colores];
+  for(const [id,clave] of [['coloresEtiqueta','etiqueta'],['coloresTitulo','titulo'],['coloresCta','cta']]){
+    const grupo=$(id);grupo.replaceChildren();
+    for(const color of opciones){
+      const boton=document.createElement('button');
+      boton.type='button';boton.className='sw';boton.style.background=color.hex;
+      boton.title=color.nombre;boton.dataset.color=color.hex;
+      boton.setAttribute('aria-label',color.nombre);
+      const marcar=()=>{
+        for(const opcion of grupo.children){
+          const seleccionado=opcion.dataset.color===coloresTexto()[clave];
+          opcion.classList.toggle('sel',seleccionado);
+          opcion.setAttribute('aria-pressed',String(seleccionado));
+        }
+      };
+      boton.onclick=()=>{coloresTexto()[clave]=color.hex;marcar();renderPreview();};
+      grupo.append(boton);marcar();
+    }
+  }
+}
 function renderPaleta(){
   const paleta=PALETAS[S.marca];
   AZUL_OSCURO=paleta.oscuro;
@@ -1123,6 +1181,7 @@ function renderPaleta(){
     };
     swc.appendChild(d);
   });
+  renderColoresTexto();
 }
 $('selMarca').onchange=e=>{
   S.marca=e.target.value;
