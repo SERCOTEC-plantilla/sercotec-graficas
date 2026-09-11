@@ -89,12 +89,22 @@ Cada selector incluye blanco y los cinco colores de la institución elegida.
 Las letras de las cajas se ajustan a blanco u oscuro para facilitar la lectura.
 Los colores se ven también sobre una fotografía completa y en el archivo
 PNG/JPG que guardas. Cada institución conserva sus elecciones mientras no
-cierres la página. Los videos siguen recibiendo solo la marca oficial:
-no se agregan cajas ni textos a un video.
+cierres la página. Estos selectores son para imágenes. En videos se mantiene
+la marca oficial y puedes agregar el GC con su diseño original de Gobierno.
 
 VIDEOS
-El mantenedor sólo aplica el identificador oficial. No corta escenas, edita
-audio ni crea subtítulos. La reproducción y exportación dependen de los formatos
+Al elegir un video aparece "GC del video · Nombre y cargo" debajo de la carga.
+Siempre empieza desactivado al cargar un video. Sólo si lo necesitas, marca
+"Agregar GC a este video (opcional)" para abrir los campos.
+Completa el nombre y el cargo para armar el GC original: franja azul, estrella
+y textos blancos. Se ve fijo mientras escribes. "Probar animación" reproduce
+el video desde el inicio: entra de izquierda a derecha y sale hacia la izquierda.
+El GC siempre conserva los colores originales, independientemente de la paleta.
+"Ver GC fijo" vuelve a dejarlo visible para editar. Desmarca "Agregar GC a
+este video" o deja los dos campos vacíos si no lo necesitas.
+Al guardar, la copia incluye la marca oficial y el GC animado opcional.
+El mantenedor no corta escenas, edita audio ni crea subtítulos.
+La reproducción y exportación dependen de los formatos
 y capacidades del navegador. Comprueba el audio y la imagen de la copia antes
 de publicarla. Si no funciona en tu teléfono, usa el computador.
 

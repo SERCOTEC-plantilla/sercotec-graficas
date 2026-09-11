@@ -176,10 +176,11 @@
     </ol><p>Para publicarla, abre Instagram y selecciona la imagen guardada. El mantenedor no publica por ti.</p></details>
     <details><summary>Agregar la marca a un video</summary><ol>
       <li>En <strong>Elegir foto o video</strong>, selecciona tu video, idealmente vertical.</li>
-      <li>La herramienta pasa al formato Historia/Reel y muestra la marca sobre el video. Las opciones de texto y color se ocultan porque no se usan en videos.</li>
+      <li>La herramienta pasa al formato Historia/Reel. Debajo del video aparece <strong>GC: nombre y cargo</strong>. Viene desactivado. Marca <strong>Agregar GC a este video</strong> solo si lo necesitas y completa el nombre y cargo.</li>
+      <li>Mientras escribes, el GC queda fijo para que puedas verlo. Toca <strong>Probar animación</strong>: entra desde la izquierda hacia la derecha y luego sale hacia la izquierda. Conserva siempre los colores del diseño original, sin importar la paleta seleccionada.</li>
       <li>Toca <strong>Aplicar marca al video</strong>. Déjalo abierto y espera: puede tardar lo mismo que dura el video.</li>
       <li>En el teléfono, toca <strong>Guardar o compartir video</strong>. En computador, se descarga una copia.</li>
-    </ol><p>Esto <strong>no es un editor de videos</strong>: no corta escenas ni agrega música, textos o subtítulos. Revisa la imagen y el sonido de la copia antes de publicarla. Si tu teléfono no permite crearla, prueba en un computador.</p></details>
+    </ol><p>Esto <strong>no es un editor de videos</strong>: agrega la marca y, si lo completas, el GC con nombre y cargo. No corta escenas ni agrega música o subtítulos. Revisa la imagen y el sonido de la copia antes de publicarla. Si tu teléfono no permite crearla, prueba en un computador.</p></details>
     <details><summary>No veo la foto o la imagen de muestra</summary><p>Si abriste un archivo HTML dentro de WhatsApp, ciérralo. Abre <strong>el enlace web</strong> en Safari o Chrome. En el teléfono, la imagen de muestra está arriba de los controles.</p><p>Si una foto no abre, comprueba que esté descargada en el teléfono y prueba otra foto en JPG o PNG.</p></details>
     <details><summary>Actualizar la app o ver el icono nuevo</summary><p>Primero guarda la imagen o el video que estés preparando. Con internet, abre el mantenedor y toca <strong>Actualizar versión</strong> si aparece.</p><p>Si el icono anterior sigue en tu teléfono, guarda tu trabajo antes de quitar el acceso antiguo y agregarlo de nuevo desde Safari o Chrome. Luego abre el nuevo icono con internet y espera el aviso de uso sin conexión.</p></details>
     <p><strong>Importante:</strong> guarda la imagen o el video antes de cerrar o actualizar. El trabajo en curso no se guarda automáticamente. Tus fotos y videos se trabajan en tu dispositivo; no se suben al sitio.</p>
@@ -226,6 +227,27 @@
     <div class="fila" id="filaFoto">
       <button class="btn-mini" id="btnCentrar">Volver a centrar</button>
       <button class="btn-mini" id="btnQuitarFoto">Quitar foto</button>
+    </div>
+  </div>
+
+  <div class="seccion" id="secGC" style="display:none;margin-bottom:16px;">
+    <h2>GC del video · Nombre y cargo</h2>
+    <label class="check"><input type="checkbox" id="chkGc"> Agregar GC a este video (opcional)</label>
+    <p class="hint">Normalmente va sin GC. Actívalo solo si necesitas mostrar un nombre y cargo. Sus colores son siempre los del diseño original; no cambian con la paleta.</p>
+    <div id="camposGc" style="display:none;margin-top:12px;">
+    <div class="campo">
+      <label for="inGcNombre">Nombre y apellido</label>
+      <input type="text" id="inGcNombre" maxlength="50" placeholder="Ej: María González">
+    </div>
+    <div class="campo">
+      <label for="inGcCargo">Cargo</label>
+      <input type="text" id="inGcCargo" maxlength="70" placeholder="Ej: Directora Regional Sercotec">
+    </div>
+    <div class="fila">
+      <button class="btn-mini" id="btnProbarGc" type="button">Probar animación</button>
+      <button class="btn-mini" id="btnEditarGc" type="button">Ver GC fijo</button>
+    </div>
+    <p class="hint">Es la franja azul con estrella, nombre y cargo. Mientras lo armas se ve fijo; en la copia del video entra y sale por la izquierda al comienzo. “Probar animación” reproduce el video desde el inicio. Si dejas ambos campos vacíos, no aparece.</p>
     </div>
   </div>
 
@@ -315,7 +337,7 @@
 
   <div class="seccion">
     <h2>Marca</h2>
-    <div class="hint" style="margin-bottom:10px">La marca se agrega automáticamente. En fotos aparece la barra superior. En videos se agrega la marca oficial, sin editar las escenas.</div>
+    <div class="hint" style="margin-bottom:10px">La marca se agrega automáticamente. En fotos aparece la barra superior. En videos se agrega la marca oficial y el GC opcional, sin editar las escenas.</div>
     <label class="check"><input type="checkbox" id="chkSafe" checked> Ver guías de espacio seguro</label>
     <div class="hint">Cuando corresponde al formato, las guías ayudan a evitar que Instagram tape información. No aparecen en el archivo que guardas.</div>
   </div>
@@ -338,7 +360,7 @@
         <button class="btn btn-primario" id="btnCompartirVideo">📱 Guardar o compartir video</button>
         <div class="hint" style="margin-top:8px">La copia está lista. Toca el botón para guardarla o compartirla desde el menú del teléfono.</div>
       </div>
-      <div class="hint" id="mensajeVideo" style="margin-top:8px">Agrega la marca a una copia de tu video. No corta escenas ni agrega textos, música o subtítulos. Deja la app abierta hasta que termine y revisa imagen y sonido antes de publicar. Si tu teléfono no lo permite, prueba en computador.</div>
+      <div class="hint" id="mensajeVideo" style="margin-top:8px">Guarda una copia con la marca y el GC animado que hayas completado. No corta escenas ni agrega música o subtítulos. Deja la app abierta hasta que termine y revisa imagen y sonido antes de publicar. Si tu teléfono no lo permite, prueba en computador.</div>
     </div>
     <p class="hint">Guarda antes de cerrar o actualizar. Tu trabajo en curso no se guarda automáticamente.</p>
   </div>
@@ -418,6 +440,7 @@ const S = {
   safe:true,
   mostrarEtiqueta:true, mostrarTitulo:true, mostrarBajada:true, mostrarCta:true,
   etiquetaManual:false,
+  gcNombre:'', gcCargo:'', gcActivo:false, gcVistaFija:true,
   coloresTexto:{
     sercotec:{etiqueta:PALETAS.sercotec.acento, titulo:'#ffffff', cta:PALETAS.sercotec.acento},
     cdn:{etiqueta:PALETAS.cdn.acento, titulo:'#ffffff', cta:PALETAS.cdn.acento},
@@ -681,12 +704,59 @@ function dibujarCTA(ctx,texto,x,y,px,claroFondo,centrarEnX){
   ctx.textBaseline='alphabetic';
 }
 
+/* GC recuperado del diseño anterior (4b2ac44): franja azul, estrella y cinta. */
+function datosGC(){return {nombre:S.gcNombre.trim(),cargo:S.gcCargo.trim(),activo:S.gcActivo};}
+function progGC(t,dur){
+  if(t==null)return 1;
+  const d=Number.isFinite(dur)&&dur>0?dur:60;
+  const entrada=Math.min(.8,d*.1),anim=Math.min(.6,d*.15);
+  const salida=Math.min(entrada+anim+5,d-anim-Math.min(.3,d*.05));
+  if(t<entrada)return 0;
+  if(t<entrada+anim)return 1-Math.pow(1-(t-entrada)/anim,3);
+  if(t<salida)return 1;
+  if(t<salida+anim)return 1-Math.pow((t-salida)/anim,3);
+  return 0;
+}
+function dibujarGC(ctx,W,H,prog,datos=datosGC()){
+  const nom=datos.nombre,car=datos.cargo;
+  if(!datos.activo||(!nom&&!car)||prog<=0)return;
+  const e=W/1920,barH=130*e,cintaH=20*e,rojoW=134*e,x0=96*e;
+  let pxN=58*e,pxC=32*e;
+  ctx.save();ctx.textAlign='left';ctx.textBaseline='alphabetic';
+  // Mantener la placa original; encoger sólo textos largos para evitar recortes.
+  const maxBarW=W-x0-40*e,maxTexto=maxBarW-rojoW-62*e;
+  ctx.font=fuente(700,pxN);const nomW=nom?ctx.measureText(nom).width:0;
+  ctx.font=fuente(700,pxC);const carW=car?ctx.measureText(car).width:0;
+  if(nomW>maxTexto)pxN*=maxTexto/nomW;
+  if(carW>maxTexto)pxC*=maxTexto/carW;
+  const barW=Math.min(maxBarW,Math.max(1332*e,rojoW+62*e+Math.max(Math.min(nomW,maxTexto),Math.min(carW,maxTexto))));
+  const yTop=H*.52,dx=(1-prog)*(x0+barW+30*e),x=x0-dx;
+  const azul=ctx.createLinearGradient(x,0,x+barW,0);
+  azul.addColorStop(0,'#0a67b2');azul.addColorStop(1,'#0f9ceb');
+  ctx.fillStyle=azul;ctx.fillRect(x,yTop,barW,barH);
+  const cinta=ctx.createLinearGradient(x,0,x+barW,0);
+  cinta.addColorStop(0,'#e8253d');cinta.addColorStop(1,'#2b9fe0');
+  ctx.fillStyle=cinta;ctx.fillRect(x,yTop+barH,barW,cintaH);
+  ctx.fillStyle='#e8253d';ctx.fillRect(x,yTop,rojoW,barH);
+  trazarEstrella(ctx,x+rojoW/2,yTop+barH/2,rojoW*.46);ctx.fillStyle='#ffffff';ctx.fill();
+  const tx=x+rojoW+22*e;
+  if(nom&&car){
+    ctx.font=fuente(700,pxN);ctx.fillText(nom,tx,yTop+barH*.52);
+    ctx.font=fuente(700,pxC);ctx.fillText(car,tx,yTop+barH*.85);
+  }else{
+    const solo=nom||car,px=nom?pxN:pxC;ctx.font=fuente(700,px);ctx.fillText(solo,tx,yTop+barH*.5+px*.36);
+  }
+  ctx.font='italic 700 '+17*e+'px gobCL, sans-serif';
+  ctx.fillText('TRABAJANDO PARA USTED',x+10*e,yTop+barH+cintaH*.78);
+  ctx.restore();
+}
+
 /* ================= Render principal ================= */
-/* Los videos no pasan por ninguna plantilla ni reciben texto. Se conserva el
-   encuadre de origen y se superpone exclusivamente la máscara institucional. */
-function renderVideoConMarca(ctx,W,H){
+/* Video: máscara institucional + GC opcional; no usa las plantillas de fotos. */
+function renderVideoConMarca(ctx,W,H,tVideo=null,gc=datosGC()){
   dibujarFotoCover(ctx,S.video,0,0,W,H,false);
   dibujarMascaraVideo(ctx,W,H);
+  dibujarGC(ctx,W,H,progGC(tVideo,S.video.duration),gc);
 }
 function render(ctx,W,H,conGuias,tVideo){
   const F=FORMATOS[S.formato];
@@ -701,7 +771,7 @@ function render(ctx,W,H,conGuias,tVideo){
   const mTop = (F.kind==='w') ? H*.10 : W*.045 + inY;
   const mBot = (F.kind==='w') ? H*.10 : W*.06 + inY;
 
-  if(esVideoCargado()) renderVideoConMarca(ctx,W,H);
+  if(esVideoCargado()) renderVideoConMarca(ctx,W,H,conGuias&&S.gcVistaFija?null:tVideo);
   else if(F.kind==='w') renderAncho(ctx,W,H,margen);
   else renderVertical(ctx,W,H,margen,mTop,mBot);
 
@@ -925,7 +995,7 @@ function renderPreview(){
   } else {
     cv.style.width=''; cv.style.height='';
   }
-  // Si hay video, la vista previa muestra únicamente el identificador gráfico.
+  // Al armar el GC se mantiene fijo; la prueba de animación sigue el tiempo del video.
   render(ctx,F.w,F.h,true,esVideoCargado()?S.video.currentTime:null);
   const usaFoto = !!S.foto && (S.plantilla!=='color' || F.kind==='w');
   cv.classList.toggle('arrastrable',!!usaFoto);
@@ -1069,6 +1139,7 @@ async function exportarVideo(){
     return;
   }
   const boton=$('btnVideo'), video=S.video, F=FORMATOS[S.formato];
+  const gcExportacion=datosGC();
   const canvas=document.createElement('canvas');
   canvas.width=F.w; canvas.height=F.h;
   const contexto=canvas.getContext('2d');
@@ -1114,7 +1185,7 @@ async function exportarVideo(){
     recorder.start(250);
     boton.textContent='Aplicando marca…';
     const dibujar=()=>{
-      renderVideoConMarca(contexto,F.w,F.h);
+      renderVideoConMarca(contexto,F.w,F.h,video.currentTime,gcExportacion);
       if(video.ended){ recorder.stop(); return; }
       animacion=requestAnimationFrame(dibujar);
     };
@@ -1129,6 +1200,16 @@ async function exportarVideo(){
 }
 let exportandoVideo=false;
 $('btnVideo').onclick=exportarVideo;
+function editarGC(){S.gcVistaFija=true;renderPreview();}
+$('inGcNombre').oninput=e=>{S.gcNombre=e.target.value;editarGC();};
+$('inGcCargo').oninput=e=>{S.gcCargo=e.target.value;editarGC();};
+$('chkGc').onchange=e=>{S.gcActivo=e.target.checked;$('camposGc').style.display=S.gcActivo?'':'none';editarGC();};
+$('btnEditarGc').onclick=editarGC;
+$('btnProbarGc').onclick=async()=>{
+  if(!S.video||exportandoVideo)return;
+  if(!S.gcActivo||(!S.gcNombre.trim()&&!S.gcCargo.trim())){alert('Activa “Agregar GC a este video” y escribe un nombre o cargo para probarlo.');return;}
+  S.gcVistaFija=false;await irAlInicio(S.video);S.video.play().catch(()=>{});renderPreview();
+};
 $('btnCompartirVideo').onclick=async()=>{
   if(!videoPendiente) return;
   await entregarArchivo(videoPendiente.blob,videoPendiente.nombre);
@@ -1201,6 +1282,8 @@ function cicloVideo(){
   rafPreview=requestAnimationFrame(cicloVideo);
 }
 function modoVideoUI(on){
+  $('secGC').style.display=on?'':'none';
+  if(on){S.gcVistaFija=true;S.gcActivo=false;$('chkGc').checked=false;$('camposGc').style.display='none';}
   const campoTipo=$('campoTipo'), campoPlantilla=$('campoPlantilla');
   const campoFondo=$('campoFondo'), campoEtiqueta=$('campoEtiqueta');
   const contenido=$('seccionContenido'), campoZoom=$('campoZoom'), filaFoto=$('filaFoto');
