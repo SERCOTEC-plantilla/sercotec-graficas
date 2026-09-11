@@ -5,16 +5,24 @@
   const helpButton=document.getElementById('btnAyudaInstalar');
   const installButton=document.getElementById('btnInstalarApp');
   const updateButton=document.getElementById('btnActualizarApp');
+  const iphone=/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  document.getElementById('ayudaIphone').open=iphone;
+  document.getElementById('ayudaAndroid').open=/Android/i.test(navigator.userAgent);
   let readyOffline=false, registration=null, promptInstall=null, updating=false;
   const statusText=(text,ready=false,error=false)=>{
     status.textContent=text;status.dataset.ready=String(ready);status.dataset.error=String(error);
   };
   function refreshStatus(){
-    if(!window.mantenedorIniciado){statusText('La vista previa no ha iniciado. Prueba el enlace en Safari o Chrome.');return;}
+    if(!window.mantenedorIniciado){statusText('Preparando la imagen de muestra… Si no aparece, abre el enlace en Safari o Chrome.');return;}
     if(readyOffline)statusText(navigator.onLine?'Lista para usar sin conexión':'Sin conexión · herramienta disponible',true);
-    else statusText(navigator.onLine?'Preparando el uso sin conexión…':'Aún no está guardada para usar sin conexión.');
+    else statusText(navigator.onLine?'Espera un momento: guardando la app para usarla sin internet…':'Conéctate a internet una vez para dejar la app lista.');
   }
-  helpButton.onclick=()=>{help.hidden=!help.hidden;helpButton.setAttribute('aria-expanded',String(!help.hidden));};
+  const mostrarAyuda=mostrar=>{
+    help.hidden=!mostrar;helpButton.setAttribute('aria-expanded',String(mostrar));
+    helpButton.textContent=mostrar?'Cerrar instrucciones':'Agregar icono al teléfono';
+  };
+  helpButton.onclick=()=>mostrarAyuda(help.hidden);
+  document.getElementById('btnCerrarAyuda').onclick=()=>{mostrarAyuda(false);helpButton.focus();};
   window.addEventListener('beforeinstallprompt',event=>{
     event.preventDefault();promptInstall=event;installButton.hidden=false;
   });

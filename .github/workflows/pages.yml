@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir -p public/icons
           cp index.html pwa.js sw.js manifest.webmanifest public/
-          cp icons/icon-192.png icons/icon-512.png icons/apple-touch-icon.png public/icons/
+          cp icons/icon-192-v2.png icons/icon-512-v2.png icons/apple-touch-v2.png icons/icon-maskable-v2.png public/icons/
           touch public/.nojekyll
       - name: Subir sitio (archivo estático, sin Jekyll)
         uses: actions/upload-pages-artifact@v3

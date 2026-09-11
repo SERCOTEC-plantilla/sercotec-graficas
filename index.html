@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Gráficas">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-v2.png">
+<link rel="icon" type="image/png" href="./icons/icon-192-v2.png">
 <style>
   :root{
     --azul-oscuro:#14355b; --azul:#55adaf; --celeste:#d4e023; --celeste-med:#55adaf;
@@ -29,8 +29,15 @@
   .app-tools{flex-shrink:0;background:#fff;border-bottom:1px solid var(--borde);padding:7px 16px;font-size:12px;line-height:1.5;}
   .app-tools-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
   .app-tools button{padding:6px 12px;background:#fff;color:#14355b;border:1px solid #55adaf;border-radius:8px;font:inherit;cursor:pointer;min-height:36px;}
-  #ayudaInstalar{max-height:30vh;overflow:auto;padding:10px 0;max-width:900px;}
+  #ayudaInstalar{max-height:55vh;max-height:55dvh;overflow:auto;padding:10px 0;max-width:900px;font-size:14px;line-height:1.5;}
   #ayudaInstalar p{margin:6px 0;}
+  #ayudaInstalar details{border-top:1px solid var(--borde);padding:8px 0;}
+  #ayudaInstalar summary{cursor:pointer;font-weight:700;padding:10px 0;min-height:44px;}
+  #ayudaInstalar ol{padding-left:22px;margin:8px 0;}
+  #ayudaInstalar li{margin:6px 0;}
+  .guia-breve{font-size:12px;line-height:1.45;color:var(--gris);margin-bottom:16px;}
+  .icono-ayuda{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .icono-ayuda img{width:56px;height:56px;border:1px solid var(--borde);border-radius:12px;}
   #estadoApp[data-ready="true"]{color:#22604b;}
   #estadoApp[data-error="true"]{color:#973723;}
   .aviso-js{padding:14px;background:#fff2df;color:#14355b;}
@@ -93,6 +100,7 @@
 
   /* ------- Responsivo: teléfonos y pantallas angostas ------- */
   @media (max-width: 860px){
+    #ayudaInstalar{max-height:none;overflow:visible;}
     body{height:auto; min-height:100vh; min-height:100dvh; overflow-y:auto; overflow-x:hidden;}
     header{padding:8px 14px; gap:10px;}
     header h1{font-size:14px;}
@@ -127,25 +135,58 @@
 
 <div class="app-tools">
   <div class="app-tools-bar">
-    <span id="estadoApp" role="status" aria-live="polite">Iniciando… Si la vista queda vacía, abre el enlace en Safari o Chrome.</span>
+    <span id="estadoApp" role="status" aria-live="polite">Abriendo el mantenedor…</span>
     <div><button id="btnActualizarApp" type="button" hidden>Actualizar versión</button>
-    <button id="btnAyudaInstalar" type="button" aria-expanded="false" aria-controls="ayudaInstalar">Instalar / ayuda</button></div>
+    <button id="btnAyudaInstalar" type="button" aria-expanded="false" aria-controls="ayudaInstalar">Agregar icono al teléfono</button></div>
   </div>
   <section id="ayudaInstalar" hidden aria-label="Instalar y usar sin conexión">
-    <p><strong>iPhone / iPad:</strong> abre el enlace en Safari, toca Compartir y luego Agregar a pantalla de inicio. Activa Abrir como app web si aparece.</p>
-    <p><strong>Android:</strong> abre el enlace en Chrome y elige Instalar aplicación o Agregar a pantalla de inicio en el menú.</p>
-    <p><strong>Computador:</strong> Chrome o Edge permiten instalar desde la barra de direcciones. También puedes usarlo en una pestaña del navegador.</p>
-    <button id="btnInstalarApp" type="button" hidden>Instalar Gráficas</button>
-    <p><strong>Antes de desconectarte:</strong> abre el icono una vez con internet y espera “Lista para usar sin conexión”. Después puedes abrir, cargar fotos y generar imágenes sin internet.</p>
-    <p>Si el teléfono borra los datos del sitio o usas navegación privada, vuelve a abrir con conexión. Guarda la gráfica antes de cerrar o actualizar: no se conservan borradores. Las fotos que sólo están en iCloud pueden necesitar descargarse antes.</p>
-    <p>Las fotos y videos se procesan en este dispositivo: no se envían al servidor. No recortamos ni subtitulamos videos; aplicar su marca depende de la compatibilidad del navegador.</p>
-    <p>Por WhatsApp comparte este enlace, no el archivo adjunto: <a href="https://sercotec-plantilla.github.io/sercotec-graficas/">Abrir el mantenedor SERCOTEC y CDN</a>.</p>
+    <div class="icono-ayuda"><img src="./icons/icon-192-v2.png" alt="Nuevo icono de Gráficas SERCOTEC y CDN"><div><strong>Ten Gráficas junto a tus otras apps</strong><br>Así no tendrás que buscar el enlace cada vez.</div></div>
+    <p>No necesitas contraseña ni buscarla en una tienda de aplicaciones. Haz esto una sola vez, con internet. <strong>Elige tu tipo de teléfono:</strong></p>
+    <details id="ayudaIphone"><summary>Tengo un iPhone o iPad</summary><ol>
+      <li>Abre el enlace del mantenedor en <strong>Safari</strong>, la aplicación con el dibujo de una brújula.</li>
+      <li>Busca <strong>Compartir</strong>: el cuadrado con una flecha hacia arriba. Puede estar dentro del menú de Safari.</li>
+      <li>Elige <strong>Agregar a pantalla de inicio</strong>. Si aparece <strong>Abrir como app web</strong>, actívalo. Toca <strong>Agregar</strong>.</li>
+      <li>Vuelve a la pantalla donde están tus apps. Busca <strong>Gráficas</strong>, con el icono que ves arriba, y tócalo.</li>
+    </ol><p><a href="https://support.apple.com/es-cl/guide/iphone/iphea86e5236/ios" target="_blank" rel="noopener noreferrer">Ver la ayuda de Apple</a> (necesita internet).</p></details>
+    <details id="ayudaAndroid"><summary>Tengo un teléfono Android</summary><ol>
+      <li>Abre el enlace del mantenedor en <strong>Chrome</strong>.</li>
+      <li>Toca los <strong>tres puntos ⋮</strong> del menú.</li>
+      <li>Elige <strong>Instalar aplicación</strong> o <strong>Agregar a pantalla de inicio</strong> y confirma. El nombre puede variar según tu teléfono.</li>
+      <li>Busca <strong>Gráficas</strong> en tu pantalla de inicio o en la lista de aplicaciones. Si solo aparece en la lista, mantén presionado el icono y arrástralo a la pantalla de inicio.</li>
+    </ol></details>
+    <details><summary>Usarlo en un computador</summary><p>Abre el enlace en tu navegador. No necesitas instalar nada para trabajar. Si Chrome o Edge muestran la opción <strong>Instalar</strong>, puedes usarla para tener un acceso como aplicación.</p></details>
+    <button id="btnInstalarApp" type="button" hidden>Agregar el icono ahora</button>
+    <details><summary>Lo abrí desde WhatsApp y no veo esas opciones</summary><p>Copia el enlace del mensaje de WhatsApp. Abre <strong>Safari en iPhone</strong> o <strong>Chrome en Android</strong>. Pega el enlace en la barra donde escribes las direcciones de internet y ábrelo. Luego sigue los pasos de tu teléfono.</p><p>No abras el archivo HTML adjunto: utiliza el enlace de esta página.</p></details>
+    <details><summary>Usarlo sin internet</summary><ol>
+      <li>Con internet, abre el mantenedor desde el icono que agregaste.</li>
+      <li>Espera el mensaje <strong>Lista para usar sin conexión</strong>.</li>
+      <li>Después puedes abrirlo, agregar fotos y guardar imágenes sin internet.</li>
+    </ol><p>Las fotos deben estar descargadas en tu teléfono. Si están solo en iCloud o Google Fotos, descárgalas antes. Para enviar por WhatsApp o publicar en Instagram sí necesitas internet.</p><p>Si borras los datos del navegador o el teléfono libera ese espacio, abre otra vez con internet. No uses una ventana privada o de incógnito.</p></details>
+    <details><summary>Crear y guardar una imagen</summary><ol>
+      <li>Elige <strong>SERCOTEC o CDN</strong> y el formato de tu publicación. La herramienta ajusta el tamaño por ti.</li>
+      <li>Toca <strong>Elegir foto o video</strong> y selecciona una foto de tu teléfono o computador.</li>
+      <li>Elige el diseño y el color. Escribe el título y los otros textos. Mira cómo queda en la imagen de muestra.</li>
+      <li>Toca <strong>Preparar imagen (PNG)</strong>. Es la opción recomendada para que los textos se vean nítidos.</li>
+      <li>En el teléfono, toca después <strong>Guardar o compartir imagen</strong> y elige dónde guardarla. Si no aparece guardar en Fotos, usa Archivos o Descargas. En computador, la imagen se descarga directamente.</li>
+    </ol><p>Para publicarla, abre Instagram y selecciona la imagen guardada. El mantenedor no publica por ti.</p></details>
+    <details><summary>Agregar la marca a un video</summary><ol>
+      <li>En <strong>Elegir foto o video</strong>, selecciona tu video, idealmente vertical.</li>
+      <li>La herramienta pasa al formato Historia/Reel y muestra la marca sobre el video. Las opciones de texto y color se ocultan porque no se usan en videos.</li>
+      <li>Toca <strong>Aplicar marca al video</strong>. Déjalo abierto y espera: puede tardar lo mismo que dura el video.</li>
+      <li>En el teléfono, toca <strong>Guardar o compartir video</strong>. En computador, se descarga una copia.</li>
+    </ol><p>Esto <strong>no es un editor de videos</strong>: no corta escenas ni agrega música, textos o subtítulos. Revisa la imagen y el sonido de la copia antes de publicarla. Si tu teléfono no permite crearla, prueba en un computador.</p></details>
+    <details><summary>No veo la foto o la imagen de muestra</summary><p>Si abriste un archivo HTML dentro de WhatsApp, ciérralo. Abre <strong>el enlace web</strong> en Safari o Chrome. En el teléfono, la imagen de muestra está arriba de los controles.</p><p>Si una foto no abre, comprueba que esté descargada en el teléfono y prueba otra foto en JPG o PNG.</p></details>
+    <details><summary>Actualizar la app o ver el icono nuevo</summary><p>Primero guarda la imagen o el video que estés preparando. Con internet, abre el mantenedor y toca <strong>Actualizar versión</strong> si aparece.</p><p>Si el icono anterior sigue en tu teléfono, guarda tu trabajo antes de quitar el acceso antiguo y agregarlo de nuevo desde Safari o Chrome. Luego abre el nuevo icono con internet y espera el aviso de uso sin conexión.</p></details>
+    <p><strong>Importante:</strong> guarda la imagen o el video antes de cerrar o actualizar. El trabajo en curso no se guarda automáticamente. Tus fotos y videos se trabajan en tu dispositivo; no se suben al sitio.</p>
+    <p><strong>Para compartir la herramienta:</strong> copia y envía <a href="https://sercotec-plantilla.github.io/sercotec-graficas/">este enlace por WhatsApp</a>. No envíes el archivo HTML.</p>
+    <button id="btnCerrarAyuda" type="button">Listo, volver al mantenedor</button>
   </section>
 </div>
-<noscript><div class="aviso-js">Este visor no está ejecutando el mantenedor. Abre <a href="https://sercotec-plantilla.github.io/sercotec-graficas/">el enlace web</a> en Safari o Chrome; no uses la vista previa del archivo adjunto de WhatsApp.</div></noscript>
+<noscript><div class="aviso-js">Aquí no se puede mostrar la herramienta. Abre <a href="https://sercotec-plantilla.github.io/sercotec-graficas/">este enlace</a> en Safari o Chrome, no el archivo adjunto dentro de WhatsApp. Si sigue igual, pide ayuda para activar JavaScript en el navegador.</div></noscript>
 
 <main>
 <aside>
+  <p class="guia-breve">Sigue estos pasos y mira cómo queda tu imagen. En el teléfono, la muestra está arriba; en computador, a la derecha.</p>
 
   <div class="campo">
     <label for="selMarca">1 · Institución</label>
@@ -153,38 +194,38 @@
       <option value="sercotec">Dirección Regional de SERCOTEC</option>
       <option value="cdn">Centro de Desarrollo de Negocios (CDN)</option>
     </select>
-    <div class="hint">Cada institución utiliza su propia paleta oficial.</div>
+    <div class="hint">Elige para quién estás creando la imagen. Se mostrarán los colores de esa institución.</div>
   </div>
 
   <div class="campo">
     <label for="selFormato">2 · Formato de publicación</label>
     <select id="selFormato">
-      <option value="feed45">Feed vertical (4:5) — 2000 × 2500 px</option>
-      <option value="historia">Historia — 1127 × 2008 px</option>
-      <option value="reel">Portada de Reel — 1127 × 2008 px</option>
-      <option value="feed">Feed (cuadrado) — 2000 × 2000 px</option>
-      <option value="fb">Portada Facebook — 820 × 312 px</option>
+      <option value="feed45">Publicación vertical de Instagram (4:5)</option>
+      <option value="historia">Historia de Instagram (pantalla vertical)</option>
+      <option value="reel">Portada de Reel (imagen de presentación)</option>
+      <option value="feed">Publicación cuadrada de Instagram</option>
+      <option value="fb">Portada de Facebook (horizontal)</option>
     </select>
-    <div class="hint">Dimensiones oficiales del Manual de Comunicación Visual 2026.</div>
+    <div class="hint">Elige dónde la publicarás. El tamaño se ajusta solo, según el manual de marca.</div>
   </div>
 
   <div class="seccion" id="seccionMedio" style="margin-bottom:16px;">
-    <h2>Fotografía o video de referencia</h2>
-    <label class="drop" id="drop" for="inFoto">📷 Subir fotografía o video<br><span style="font-weight:400;font-size:11.5px">se procesa en este dispositivo</span></label>
+    <h2>3 · Agrega tu foto o video</h2>
+    <label class="drop" id="drop" for="inFoto">📷 Elegir foto o video<br><span style="font-weight:400;font-size:11.5px">Toca aquí y elige un archivo de tu dispositivo</span></label>
     <input type="file" id="inFoto" accept="image/*,video/*">
     <div class="campo" id="campoZoom" style="margin-top:10px;">
-      <label for="inZoom">Zoom del encuadre</label>
+      <label for="inZoom">Acercar la foto</label>
       <input type="range" id="inZoom" min="100" max="300" value="100">
-      <div class="hint">En fotografías, arrastra directamente sobre la vista previa para encuadrarla.</div>
+      <div class="hint">Mueve la barra para acercar. Para cambiar la posición, arrastra la foto sobre la imagen de muestra.</div>
     </div>
     <div class="fila" id="filaFoto">
-      <button class="btn-mini" id="btnCentrar">Centrar</button>
-      <button class="btn-mini" id="btnQuitarFoto">Quitar</button>
+      <button class="btn-mini" id="btnCentrar">Volver a centrar</button>
+      <button class="btn-mini" id="btnQuitarFoto">Quitar foto</button>
     </div>
   </div>
 
   <div class="campo" id="campoTipo">
-    <label for="selTipo">3 · Tipo de pieza</label>
+    <label for="selTipo">4 · Tema de la publicación</label>
     <select id="selTipo">
       <option value="programas">Programas / Convocatorias</option>
       <option value="terreno">Sercotec en Terreno</option>
@@ -198,7 +239,7 @@
   </div>
 
   <div class="campo" id="campoPlantilla">
-    <label for="selPlantilla">4 · Plantilla</label>
+    <label for="selPlantilla">5 · Diseño de la imagen</label>
     <select id="selPlantilla">
       <option value="foto">Fotografía completa</option>
       <option value="mixta">Color + fotografía</option>
@@ -212,28 +253,29 @@
       <option value="abajo">Abajo</option>
       <option value="arriba">Arriba</option>
     </select>
-    <div class="hint">El degradado del color suaviza automáticamente la unión.</div>
+    <div class="hint">Elige si quieres la foto arriba o abajo. La unión con el color se ajusta sola.</div>
   </div>
 
   <div class="campo" id="campoFondo">
     <label id="labelPaleta">Color de fondo · Paleta oficial SERCOTEC</label>
     <div class="swatches" id="swatches"></div>
+    <div class="hint">Toca un color para probarlo. La barra de Gobierno mantiene sus colores oficiales.</div>
   </div>
 
   <div class="seccion" id="seccionContenido">
-    <h2>Contenido</h2>
+    <h2>6 · Escribe tus textos</h2>
     <div class="campo">
-      <label>Elementos visibles</label>
+      <label>Qué textos quieres mostrar</label>
       <div class="checks-grid">
-        <label class="check"><input type="checkbox" id="chkEtiqueta" checked> Destacado / etiqueta</label>
+        <label class="check"><input type="checkbox" id="chkEtiqueta" checked> Frase destacada</label>
         <label class="check"><input type="checkbox" id="chkTitulo" checked> Título</label>
-        <label class="check"><input type="checkbox" id="chkBajada" checked> Bajada / subtítulo</label>
-        <label class="check"><input type="checkbox" id="chkCta" checked> Llamado a la acción</label>
+        <label class="check"><input type="checkbox" id="chkBajada" checked> Texto de apoyo</label>
+        <label class="check"><input type="checkbox" id="chkCta" checked> Invitación final</label>
       </div>
-      <div class="hint">Puedes ocultar un elemento sin borrar el texto ni mover la posición de los demás.</div>
+      <div class="hint">Quita la marca ✓ para ocultar un texto. Puedes volver a marcarlo sin tener que escribirlo otra vez.</div>
     </div>
     <div class="campo" id="campoEtiqueta">
-      <label for="inEtiqueta">Etiqueta</label>
+      <label for="inEtiqueta">Frase destacada</label>
       <input type="text" id="inEtiqueta" maxlength="40" placeholder="Ej: Convocatoria abierta">
     </div>
     <div class="campo">
@@ -241,41 +283,44 @@
       <textarea id="inTitulo" rows="2" maxlength="60" placeholder="Ej: Postula al Capital Semilla Emprende"></textarea>
     </div>
     <div class="campo">
-      <label for="inBajada">Bajada</label>
+      <label for="inBajada">Texto de apoyo</label>
       <textarea id="inBajada" rows="3" maxlength="180" placeholder="Texto de apoyo bajo el título"></textarea>
     </div>
     <div class="campo">
-      <label for="inCta">Llamado a la acción</label>
+      <label for="inCta">Invitación final</label>
       <input type="text" id="inCta" maxlength="60" value="Más información en www.sercotec.cl">
+      <div class="hint">Indica qué hacer: por ejemplo, “Postula en www.sercotec.cl”. Es texto en la imagen, no un botón que se pueda tocar.</div>
     </div>
   </div>
 
   <div class="seccion">
     <h2>Marca</h2>
-    <div class="hint" style="margin-bottom:10px">Las fotografías usan el complemento superior. En videos, el mantenedor conserva el contenido y agrega solamente el identificador gráfico oficial.</div>
-    <label class="check"><input type="checkbox" id="chkSafe" checked> Mostrar zona segura (solo vista previa)</label>
+    <div class="hint" style="margin-bottom:10px">La marca se agrega automáticamente. En fotos aparece la barra superior. En videos se agrega la marca oficial, sin editar las escenas.</div>
+    <label class="check"><input type="checkbox" id="chkSafe" checked> Ver guías de espacio seguro</label>
+    <div class="hint">Cuando corresponde al formato, las guías ayudan a evitar que Instagram tape información. No aparecen en el archivo que guardas.</div>
   </div>
 
   <div class="seccion">
-    <h2>5 · Generar gráfica</h2>
+    <h2>7 · Guarda tu trabajo</h2>
     <div id="grupoExportarImagen">
-      <button class="btn btn-primario" id="btnPng">⬇ Generar PNG</button>
+      <button class="btn btn-primario" id="btnPng">⬇ Preparar imagen (PNG)</button>
       <div style="height:8px"></div>
-      <button class="btn btn-sec" id="btnJpg">⬇ Generar JPG</button>
+      <button class="btn btn-sec" id="btnJpg">⬇ Preparar imagen (JPG)</button>
       <div id="accionMovilImagen" style="display:none; margin-top:12px">
         <button class="btn btn-primario" id="btnCompartirImagen">📱 Guardar o compartir imagen</button>
-        <div class="hint" style="margin-top:8px">Presiona este botón para abrir el menú del teléfono.</div>
+        <div class="hint" style="margin-top:8px">Tu imagen está lista. Toca el botón y elige Guardar imagen, Guardar en Archivos o la app con la que quieras compartir. Las opciones dependen de tu teléfono.</div>
       </div>
-      <div class="hint" style="margin-top:8px" id="hintGenerar">En computador la gráfica se descarga como archivo. En teléfono, genera la imagen y luego presiona “Guardar o compartir imagen”.</div>
+      <div class="hint" style="margin-top:8px" id="hintGenerar">Elige PNG para textos nítidos o JPG si prefieres una imagen comprimida. En teléfono, toca después “Guardar o compartir imagen”. En computador, busca el archivo en Descargas.</div>
     </div>
     <div id="grupoExportarVideo" style="display:none">
       <button class="btn btn-primario" id="btnVideo">🎬 Aplicar marca al video</button>
       <div id="accionMovilVideo" style="display:none; margin-top:12px">
         <button class="btn btn-primario" id="btnCompartirVideo">📱 Guardar o compartir video</button>
-        <div class="hint" style="margin-top:8px">Presiona este botón para abrir el menú del teléfono.</div>
+        <div class="hint" style="margin-top:8px">La copia está lista. Toca el botón para guardarla o compartirla desde el menú del teléfono.</div>
       </div>
-      <div class="hint" id="mensajeVideo" style="margin-top:8px">Crea una copia del video con el identificador gráfico oficial. No corta, no cambia el audio, no agrega textos ni modifica el contenido.</div>
+      <div class="hint" id="mensajeVideo" style="margin-top:8px">Agrega la marca a una copia de tu video. No corta escenas ni agrega textos, música o subtítulos. Deja la app abierta hasta que termine y revisa imagen y sonido antes de publicar. Si tu teléfono no lo permite, prueba en computador.</div>
     </div>
+    <p class="hint">Guarda antes de cerrar o actualizar. Tu trabajo en curso no se guarda automáticamente.</p>
   </div>
 
 </aside>
@@ -1051,7 +1096,7 @@ $('btnCompartirVideo').onclick=async()=>{
 };
 $('btnCentrar').onclick=()=>{S.panX=.5;S.panY=.5;S.zoom=1;$('inZoom').value=100;renderPreview();};
 $('btnQuitarFoto').onclick=()=>{S.foto=null;quitarVideo();$('inFoto').value='';$('drop').classList.remove('tiene');
-  $('drop').innerHTML='📷 Subir fotografía o video<br><span style="font-weight:400;font-size:11.5px">se procesa en este dispositivo</span>';renderPreview();};
+  $('drop').innerHTML='📷 Elegir foto o video<br><span style="font-weight:400;font-size:11.5px">Toca aquí y elige un archivo de tu dispositivo</span>';renderPreview();};
 
 /* Institución y paleta */
 const swc=$('swatches');
@@ -1059,7 +1104,7 @@ function renderPaleta(){
   const paleta=PALETAS[S.marca];
   AZUL_OSCURO=paleta.oscuro;
   ACENTO=paleta.acento;
-  $('labelPaleta').textContent=`Color de fondo · Paleta oficial ${paleta.nombre}`;
+  $('labelPaleta').textContent=`Color de fondo · ${paleta.nombre}`;
   swc.replaceChildren();
   paleta.colores.forEach(p=>{
     const d=document.createElement('button');
@@ -1157,7 +1202,11 @@ function quitarVideo(){
 }
 function etiquetaDrop(nombre,icono){
   $('drop').classList.add('tiene');
-  $('drop').innerHTML=`${icono} ${nombre}<br><span style="font-weight:400;font-size:11.5px">Haz clic para cambiar</span>`;
+  $('drop').replaceChildren(document.createTextNode(`${icono} ${nombre}`),document.createElement('br'));
+  const indicacion=document.createElement('span');
+  indicacion.style.cssText='font-weight:400;font-size:11.5px';
+  indicacion.textContent='Toca aquí para elegir otra foto o video';
+  $('drop').append(indicacion);
 }
 function reencuadrar(){ S.panX=.5; S.panY=.5; S.zoom=1; $('inZoom').value=100; }
 function cargarMedia(archivo){

@@ -1,10 +1,10 @@
 'use strict';
 // Bump the version whenever a published application file changes.
-const VERSION='2026-09-11-1';
+const VERSION='2026-09-11-2';
 const ROOT=self.registration.scope;
 const PREFIX='mantenedor-graficas:'+new URL(ROOT).pathname+':';
 const CACHE=PREFIX+VERSION;
-const FILES=['index.html','pwa.js','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/apple-touch-icon.png'];
+const FILES=['index.html','pwa.js','manifest.webmanifest','icons/icon-192-v2.png','icons/icon-512-v2.png','icons/apple-touch-v2.png','icons/icon-maskable-v2.png'];
 const URLS=FILES.map(file=>new URL(file,ROOT).href);
 const INDEX=URLS[0];
 self.addEventListener('install',event=>{

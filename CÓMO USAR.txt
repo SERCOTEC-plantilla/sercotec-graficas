@@ -1,5 +1,5 @@
 MANTENEDOR DE GRÁFICAS · SERCOTEC Y CDN
-Versión instalable: 11 de septiembre de 2026
+Versión instalable con nuevo icono y ayuda de instalación: 11 de septiembre de 2026
 
 ENLACE PARA COMPARTIR POR WHATSAPP
 https://sercotec-plantilla.github.io/sercotec-graficas/
@@ -8,18 +8,34 @@ Envía ese enlace, no el archivo HTML adjunto. El visor de un adjunto puede
 mostrar controles sin ejecutar la herramienta. Si el enlace se abre dentro
 de WhatsApp, utiliza el menú para abrirlo en Safari o Chrome.
 
+PONER EL ICONO EN LA PANTALLA DEL TELÉFONO
+En la parte superior del mantenedor toca "Agregar icono al teléfono".
+Verás tu icono y los pasos para iPhone o Android. No necesitas una contraseña
+ni buscar esta herramienta en una tienda de aplicaciones.
+
 IPHONE / IPAD
 1. Abre el enlace en Safari con conexión a internet.
-2. Toca Compartir > Agregar a pantalla de inicio.
+2. Busca Compartir: el cuadrado con una flecha hacia arriba. Puede estar
+   dentro del menú de Safari. Elige Agregar a pantalla de inicio.
 3. Si aparece, activa "Abrir como app web". Confirma con Agregar.
 4. Abre el icono "Gráficas" una vez mientras aún tienes conexión.
 5. Espera el aviso "Lista para usar sin conexión".
 
 ANDROID
 1. Abre el enlace en Chrome con internet.
-2. En el menú elige Instalar aplicación o Agregar a pantalla de inicio.
-   También puede aparecer el botón Instalar Gráficas dentro de la ayuda.
-3. Abre el icono una vez con conexión y espera el aviso de disponibilidad.
+2. Toca los tres puntos del menú y elige Instalar aplicación o Agregar a
+   pantalla de inicio. Confirma. Los nombres pueden variar según tu teléfono.
+   También puede aparecer "Agregar el icono ahora" dentro de la ayuda.
+3. Busca Gráficas en tu pantalla de inicio o en la lista de aplicaciones.
+   Si está en la lista, mantén presionado el icono y arrástralo a la pantalla
+   de inicio.
+4. Abre el icono con internet y espera "Lista para usar sin conexión".
+
+SI SIGUE APARECIENDO EL ICONO ANTIGUO
+Guarda primero tu trabajo. Abre el mantenedor con internet y toca
+"Actualizar versión" si aparece. Si el icono no cambia, quita el acceso
+antiguo y agrégalo otra vez siguiendo los pasos de tu teléfono. Abre el nuevo
+icono con internet y espera "Lista para usar sin conexión".
 
 COMPUTADOR
 Puedes usar el enlace en el navegador. Chrome y Edge permiten instalar la
@@ -46,9 +62,10 @@ CREAR UNA GRÁFICA
 1. Elige Institución: Dirección Regional de SERCOTEC o CDN.
 2. Elige Formato de publicación.
 3. Carga la fotografía en el campo que está inmediatamente debajo del formato.
-4. Selecciona tipo de pieza, plantilla y color; completa los textos.
+4. Selecciona tema, diseño y color; completa los textos.
 5. Ajusta el encuadre y revisa la vista previa.
-6. Genera PNG o JPG. En teléfono pulsa después Guardar o compartir imagen.
+6. Toca Preparar imagen (PNG) o Preparar imagen (JPG).
+   En teléfono pulsa después Guardar o compartir imagen.
 7. Revisa el archivo descargado antes de publicarlo.
 
 PALETAS
@@ -73,5 +90,5 @@ Cuando aparezca "Actualizar versión", descarga tu trabajo y luego confirma.
 No actualizamos automáticamente una sesión con trabajo en curso.
 
 REFERENCIAS
-Apple: https://support.apple.com/en-ie/guide/iphone/iphea86e5236/ios
+Apple: https://support.apple.com/es-cl/guide/iphone/iphea86e5236/ios
 MDN: https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Caching
