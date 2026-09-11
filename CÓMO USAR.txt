@@ -1,81 +1,77 @@
-MANTENEDOR DE GRÁFICAS RRSS · SERCOTEC Y CDN
-=============================================
+MANTENEDOR DE GRÁFICAS · SERCOTEC Y CDN
+Versión instalable: 11 de septiembre de 2026
 
-PROPÓSITO
-Esta herramienta aplica los elementos gráficos definidos en el Manual de
-Comunicación Visual 2026 a piezas estáticas para redes sociales. Funciona sin
-internet y procesa las imágenes en el propio dispositivo.
+ENLACE PARA COMPARTIR POR WHATSAPP
+https://sercotec-plantilla.github.io/sercotec-graficas/
 
-IMPORTANTE SOBRE VIDEOS
-El mantenedor no es un editor audiovisual. Al cargar un video conserva su
-contenido y audio y crea una copia con únicamente el identificador gráfico
-oficial. No corta la duración, no agrega textos, no subtitula ni altera colores.
-Para mayor compatibilidad, utiliza un video vertical MP4 (H.264) o MOV y un
-navegador actualizado.
+Envía ese enlace, no el archivo HTML adjunto. El visor de un adjunto puede
+mostrar controles sin ejecutar la herramienta. Si el enlace se abre dentro
+de WhatsApp, utiliza el menú para abrirlo en Safari o Chrome.
 
-INSTALACIÓN EN COMPUTADOR
-1. Guarda el archivo "Mantenedor SERCOTEC y CDN.html".
-2. Haz doble clic en él. Se abrirá en Chrome, Edge, Safari o Firefox.
-3. Es un archivo autónomo: no necesita carpeta "assets", instalación, usuario
-   ni conexión a internet.
+IPHONE / IPAD
+1. Abre el enlace en Safari con conexión a internet.
+2. Toca Compartir > Agregar a pantalla de inicio.
+3. Si aparece, activa "Abrir como app web". Confirma con Agregar.
+4. Abre el icono "Gráficas" una vez mientras aún tienes conexión.
+5. Espera el aviso "Lista para usar sin conexión".
 
-USO EN TELÉFONO
-IPHONE (AirDrop)
-1. En el Mac, haz clic derecho sobre "Mantenedor SERCOTEC y CDN.html".
-2. Elige Compartir > AirDrop y selecciona tu iPhone.
-3. En el iPhone, acepta el archivo y guárdalo en la aplicación Archivos.
-4. En Archivos, mantén presionado el HTML, elige Compartir y luego "Abrir en
-   Safari". Si Safari no aparece, usa el enlace web del mantenedor.
+ANDROID
+1. Abre el enlace en Chrome con internet.
+2. En el menú elige Instalar aplicación o Agregar a pantalla de inicio.
+   También puede aparecer el botón Instalar Gráficas dentro de la ayuda.
+3. Abre el icono una vez con conexión y espera el aviso de disponibilidad.
 
-IPHONE O ANDROID (CORREO, WHATSAPP O DRIVE)
-1. Envía únicamente "Mantenedor SERCOTEC y CDN.html" como documento, sin
-   comprimirlo ni cambiarle la extensión.
-2. Descárgalo en Archivos (iPhone) o Descargas (Android).
-3. Pulsa el archivo y elige Safari o Chrome. Algunos teléfonos impiden ejecutar
-   HTML descargados. Si aparece un rectángulo blanco o una vista sin cambios,
-   el teléfono lo abrió en el visor de Archivos y no está ejecutando el programa:
-   en ese caso se debe utilizar el enlace web del mantenedor en Safari o Chrome.
+COMPUTADOR
+Puedes usar el enlace en el navegador. Chrome y Edge permiten instalar la
+herramienta desde la barra de direcciones si muestran la opción correspondiente.
+Los HTML autónomos previamente entregados siguen sirviendo en computador,
+pero no son el método de instalación del teléfono.
 
-CREAR UNA GRÁFICA CON FOTOGRAFÍA
-1. Elige la institución. La herramienta mostrará automáticamente su paleta:
-   - Direcciones Regionales de SERCOTEC: #2e3191, #0078e6, #00ccff,
-     #edf0f5 y #ff1d3e.
-   - Centros de Desarrollo de Negocios (CDN): #14355b, #55adaf, #d4e023,
-     #e16f38 y #d34389.
-2. Elige el formato: Feed, Feed vertical, Historia, Portada de Reel o Facebook.
-3. Selecciona el tipo de pieza. La etiqueta se completa automáticamente y
-   puedes ajustarla si el contenido lo necesita.
-4. Selecciona la plantilla y uno de los cinco colores autorizados que aparecen
-   para la institución elegida.
-5. Escribe la etiqueta, título, bajada y llamado a la acción. Activa solo los
-   elementos necesarios para que la pieza sea clara y legible.
-6. Sube una fotografía. Arrástrala en la vista previa o usa el zoom para
-   encuadrarla sin deformarla.
-7. Revisa el complemento gráfico, el slogan inferior, contraste, legibilidad
-   y zona segura. La línea punteada solo sirve de guía y no se descarga.
-8. Presiona "Generar gráfica" y elige PNG o JPG. En computador el archivo se
-   descarga en el tamaño real. En teléfono, después presiona "Guardar o
-   compartir imagen" para abrir el menú nativo y elegir Fototeca, Instagram,
-   WhatsApp u otra aplicación.
+SIN INTERNET
+Después de la primera carga completa se guardan los archivos de la herramienta:
+interfaz, tipografías, identificadores e iconos. Puedes reabrirla, elegir una foto
+local, escribir textos y generar PNG/JPG sin conexión.
+Las fotos que sólo están en iCloud u otra nube deben descargarse antes.
+Para publicar en Instagram, compartir por WhatsApp o actualizar necesitas red.
+Si borras los datos del sitio, el sistema libera ese almacenamiento o usas modo
+privado, puede ser necesario abrir el enlace nuevamente con internet.
+El icono por sí solo no confirma la descarga: espera el aviso de disponibilidad.
 
-VIDEO CON MARCA
-1. Sube el video en el mismo selector de archivo.
-2. La herramienta cambia automáticamente a Historia vertical y muestra sólo
-   la marca oficial. No verás plantillas, colores, textos ni controles de edición.
-3. Presiona "Aplicar marca al video" y espera a que termine de generar la copia.
-4. En teléfono, presiona después "Guardar o compartir video" y elige Fototeca,
-   Instagram, WhatsApp u otra aplicación. En computador, el archivo se descarga.
-5. El video original nunca se modifica.
+IMPORTANTE: EL TRABAJO EN CURSO NO SE GUARDA COMO BORRADOR
+Descarga la gráfica antes de cerrar, recargar o actualizar. La copia descargada
+queda en tu dispositivo. El almacenamiento sin conexión guarda la herramienta,
+no las fotografías, videos ni textos con los que estás trabajando.
 
-RECOMENDACIONES
-- Verifica siempre que elegiste la institución correcta antes de generar.
-- La barra superior roja y azul con estrella corresponde a Gobierno de Chile
-  y no cambia al alternar entre SERCOTEC y CDN.
-- Usa solo fotografías autorizadas, claras, bien iluminadas y sin deformación.
-- Mantén textos breves, con contraste suficiente y tamaño legible en teléfono.
-- No uses logos adicionales salvo que sean imprescindibles y estén autorizados.
-- Revisa siempre la pieza con el Manual de Comunicación Visual 2026 antes de
-  publicarla.
+CREAR UNA GRÁFICA
+1. Elige Institución: Dirección Regional de SERCOTEC o CDN.
+2. Elige Formato de publicación.
+3. Carga la fotografía en el campo que está inmediatamente debajo del formato.
+4. Selecciona tipo de pieza, plantilla y color; completa los textos.
+5. Ajusta el encuadre y revisa la vista previa.
+6. Genera PNG o JPG. En teléfono pulsa después Guardar o compartir imagen.
+7. Revisa el archivo descargado antes de publicarlo.
 
-Puedes compartir directamente el archivo "Mantenedor SERCOTEC y CDN.html".
-La máscara gráfica y las tipografías están incorporadas dentro del HTML.
+PALETAS
+Direcciones Regionales: #2e3191, #0078e6, #00ccff, #edf0f5, #ff1d3e.
+CDN: #14355b, #55adaf, #d4e023, #e16f38, #d34389.
+La barra azul y roja con estrella mantiene los colores de Gobierno; no cambia
+al seleccionar otra institución.
+
+VIDEOS
+El mantenedor sólo aplica el identificador oficial. No corta escenas, edita
+audio ni crea subtítulos. La reproducción y exportación dependen de los formatos
+y capacidades del navegador. Comprueba el audio y la imagen de la copia antes
+de publicarla. Si no funciona en tu teléfono, usa el computador.
+
+PRIVACIDAD
+Las fotos y videos se procesan localmente; la aplicación no los envía al servidor.
+El alojamiento recibe solicitudes de los archivos públicos del sitio, no tus
+archivos multimedia. No se incluyen cuentas, claves ni servicios de IA.
+
+ACTUALIZACIONES
+Cuando aparezca "Actualizar versión", descarga tu trabajo y luego confirma.
+No actualizamos automáticamente una sesión con trabajo en curso.
+
+REFERENCIAS
+Apple: https://support.apple.com/en-ie/guide/iphone/iphea86e5236/ios
+MDN: https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Caching

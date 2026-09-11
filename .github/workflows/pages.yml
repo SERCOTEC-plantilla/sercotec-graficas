@@ -25,10 +25,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Preparar Pages
         uses: actions/configure-pages@v5
+      - name: Preparar sólo archivos públicos de la aplicación
+        run: |
+          mkdir -p public/icons
+          cp index.html pwa.js sw.js manifest.webmanifest public/
+          cp icons/icon-192.png icons/icon-512.png icons/apple-touch-icon.png public/icons/
+          touch public/.nojekyll
       - name: Subir sitio (archivo estático, sin Jekyll)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: "public"
       - name: Publicar
         id: deployment
         uses: actions/deploy-pages@v4

@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mantenedor de Gráficas RRSS · Sercotec y CDN</title>
+<meta name="theme-color" content="#14355b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Gráficas">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
 <style>
   :root{
     --azul-oscuro:#14355b; --azul:#55adaf; --celeste:#d4e023; --celeste-med:#55adaf;
@@ -20,6 +26,14 @@
   header .sub{font-size:12px; color:var(--gris); margin-left:auto; text-align:right;}
 
   main{display:flex; flex:1; min-height:0;}
+  .app-tools{flex-shrink:0;background:#fff;border-bottom:1px solid var(--borde);padding:7px 16px;font-size:12px;line-height:1.5;}
+  .app-tools-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .app-tools button{padding:6px 12px;background:#fff;color:#14355b;border:1px solid #55adaf;border-radius:8px;font:inherit;cursor:pointer;min-height:36px;}
+  #ayudaInstalar{max-height:30vh;overflow:auto;padding:10px 0;max-width:900px;}
+  #ayudaInstalar p{margin:6px 0;}
+  #estadoApp[data-ready="true"]{color:#22604b;}
+  #estadoApp[data-error="true"]{color:#973723;}
+  .aviso-js{padding:14px;background:#fff2df;color:#14355b;}
 
   /* ------- Panel de controles ------- */
   aside{width:340px; flex-shrink:0; background:#fff; border-right:1px solid var(--borde); overflow-y:auto; padding:18px 20px 30px;}
@@ -111,6 +125,25 @@
   <div class="sub">Sercotec y Centros de Desarrollo de Negocios<br>Manuales de Comunicación Visual 2026</div>
 </header>
 
+<div class="app-tools">
+  <div class="app-tools-bar">
+    <span id="estadoApp" role="status" aria-live="polite">Iniciando… Si la vista queda vacía, abre el enlace en Safari o Chrome.</span>
+    <div><button id="btnActualizarApp" type="button" hidden>Actualizar versión</button>
+    <button id="btnAyudaInstalar" type="button" aria-expanded="false" aria-controls="ayudaInstalar">Instalar / ayuda</button></div>
+  </div>
+  <section id="ayudaInstalar" hidden aria-label="Instalar y usar sin conexión">
+    <p><strong>iPhone / iPad:</strong> abre el enlace en Safari, toca Compartir y luego Agregar a pantalla de inicio. Activa Abrir como app web si aparece.</p>
+    <p><strong>Android:</strong> abre el enlace en Chrome y elige Instalar aplicación o Agregar a pantalla de inicio en el menú.</p>
+    <p><strong>Computador:</strong> Chrome o Edge permiten instalar desde la barra de direcciones. También puedes usarlo en una pestaña del navegador.</p>
+    <button id="btnInstalarApp" type="button" hidden>Instalar Gráficas</button>
+    <p><strong>Antes de desconectarte:</strong> abre el icono una vez con internet y espera “Lista para usar sin conexión”. Después puedes abrir, cargar fotos y generar imágenes sin internet.</p>
+    <p>Si el teléfono borra los datos del sitio o usas navegación privada, vuelve a abrir con conexión. Guarda la gráfica antes de cerrar o actualizar: no se conservan borradores. Las fotos que sólo están en iCloud pueden necesitar descargarse antes.</p>
+    <p>Las fotos y videos se procesan en este dispositivo: no se envían al servidor. No recortamos ni subtitulamos videos; aplicar su marca depende de la compatibilidad del navegador.</p>
+    <p>Por WhatsApp comparte este enlace, no el archivo adjunto: <a href="https://sercotec-plantilla.github.io/sercotec-graficas/">Abrir el mantenedor SERCOTEC y CDN</a>.</p>
+  </section>
+</div>
+<noscript><div class="aviso-js">Este visor no está ejecutando el mantenedor. Abre <a href="https://sercotec-plantilla.github.io/sercotec-graficas/">el enlace web</a> en Safari o Chrome; no uses la vista previa del archivo adjunto de WhatsApp.</div></noscript>
+
 <main>
 <aside>
 
@@ -133,6 +166,21 @@
       <option value="fb">Portada Facebook — 820 × 312 px</option>
     </select>
     <div class="hint">Dimensiones oficiales del Manual de Comunicación Visual 2026.</div>
+  </div>
+
+  <div class="seccion" id="seccionMedio" style="margin-bottom:16px;">
+    <h2>Fotografía o video de referencia</h2>
+    <label class="drop" id="drop" for="inFoto">📷 Subir fotografía o video<br><span style="font-weight:400;font-size:11.5px">se procesa en este dispositivo</span></label>
+    <input type="file" id="inFoto" accept="image/*,video/*">
+    <div class="campo" id="campoZoom" style="margin-top:10px;">
+      <label for="inZoom">Zoom del encuadre</label>
+      <input type="range" id="inZoom" min="100" max="300" value="100">
+      <div class="hint">En fotografías, arrastra directamente sobre la vista previa para encuadrarla.</div>
+    </div>
+    <div class="fila" id="filaFoto">
+      <button class="btn-mini" id="btnCentrar">Centrar</button>
+      <button class="btn-mini" id="btnQuitarFoto">Quitar</button>
+    </div>
   </div>
 
   <div class="campo" id="campoTipo">
@@ -199,21 +247,6 @@
     <div class="campo">
       <label for="inCta">Llamado a la acción</label>
       <input type="text" id="inCta" maxlength="60" value="Más información en www.sercotec.cl">
-    </div>
-  </div>
-
-  <div class="seccion">
-    <h2>Fotografía o video de referencia</h2>
-    <label class="drop" id="drop" for="inFoto">📷 Subir fotografía o video<br><span style="font-weight:400;font-size:11.5px">se procesa en este dispositivo</span></label>
-    <input type="file" id="inFoto" accept="image/*,video/*">
-    <div class="campo" id="campoZoom" style="margin-top:10px;">
-      <label for="inZoom">Zoom del encuadre</label>
-      <input type="range" id="inZoom" min="100" max="300" value="100">
-      <div class="hint">En fotografías, arrastra directamente sobre la vista previa para encuadrarla.</div>
-    </div>
-    <div class="fila" id="filaFoto">
-      <button class="btn-mini" id="btnCentrar">Centrar</button>
-      <button class="btn-mini" id="btnQuitarFoto">Quitar</button>
     </div>
   </div>
 
@@ -1210,7 +1243,8 @@ async function iniciar(){
     renderPreview();
   }
 }
-iniciar().catch(error=>{console.warn(error);renderPreview();});
+iniciar().then(()=>{window.mantenedorIniciado=true;window.dispatchEvent(new Event('mantenedor-listo'));}).catch(error=>{console.warn(error);renderPreview();});
 </script>
+<script src="./pwa.js" defer></script>
 </body>
 </html>
