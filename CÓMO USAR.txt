@@ -16,7 +16,12 @@ ni buscar esta herramienta en una tienda de aplicaciones.
 IPHONE / IPAD
 1. Abre el enlace en Safari con conexión a internet.
 2. Busca Compartir: el cuadrado con una flecha hacia arriba. Puede estar
-   dentro del menú de Safari. Elige Agregar a pantalla de inicio.
+   dentro del menú de Safari.
+   IMPORTANTE: desliza el dedo hacia arriba sobre la lista de opciones,
+   debajo de los iconos de las aplicaciones. La opción está más abajo:
+   busca "Agregar a Inicio" o "Agregar a pantalla de inicio" y tócala.
+   Si no aparece, ve al final de la lista, toca Editar acciones y agrega
+   "Agregar a Inicio". No se busca dentro de Ajustes del teléfono.
 3. Si aparece, activa "Abrir como app web". Confirma con Agregar.
 4. Abre el icono "Gráficas" una vez mientras aún tienes conexión.
 5. Espera el aviso "Lista para usar sin conexión".
