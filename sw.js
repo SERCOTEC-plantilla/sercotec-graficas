@@ -1,6 +1,6 @@
 'use strict';
 // Bump the version whenever a published application file changes.
-const VERSION='2026-09-11-5';
+const VERSION='2026-09-14-3';
 const ROOT=self.registration.scope;
 const PREFIX='mantenedor-graficas:'+new URL(ROOT).pathname+':';
 const CACHE=PREFIX+VERSION;

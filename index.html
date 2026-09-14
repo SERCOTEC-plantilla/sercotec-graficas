@@ -271,6 +271,8 @@
       <option value="foto">Fotografía completa</option>
       <option value="mixta">Color + fotografía</option>
       <option value="color">Solo color (sin foto)</option>
+      <option value="carrusel">Carrusel · varias láminas (4:5)</option>
+      <option value="talleres" hidden disabled>Talleres CDN · hasta 4 (4:5)</option>
     </select>
   </div>
 
@@ -288,6 +290,45 @@
     <div class="swatches" id="swatches"></div>
     <div class="hint">Este control cambia solo el fondo, no la foto. Los colores de las cajas y del título se eligen más abajo, junto a cada texto. La barra de Gobierno no cambia.</div>
   </div>
+
+<div class="seccion" id="seccionCarrusel" style="display:none">
+<h2>Carrusel · 4:5</h2>
+<p class="hint">De 2 a 10 láminas. Comparten colores y una franja que continúa hacia la siguiente. La primera muestra “Desliza →”.</p>
+<div class="campo"><label for="carruselLamina">Lámina que estás editando</label><select id="carruselLamina"></select></div>
+<div class="fila"><button type="button" class="btn-mini" id="carruselAgregar">Agregar lámina</button><button type="button" class="btn-mini" id="carruselQuitar">Eliminar esta lámina</button></div>
+<button class="btn-mini" type="button" id="carruselDeshacer" hidden>Recuperar lámina eliminada</button>
+<div class="fila" style="margin:8px 0 14px"><button type="button" class="btn-mini" id="carruselAnterior">← Anterior</button><button type="button" class="btn-mini" id="carruselSiguiente">Siguiente →</button></div>
+<div class="campo"><label for="carruselEtiqueta">Frase común a todas las láminas</label><input id="carruselEtiqueta" type="text" maxlength="40" value=""></div>
+<div class="campo"><label for="carruselTitulo">Título de esta lámina</label><textarea id="carruselTitulo" maxlength="100" rows="2"></textarea></div>
+<div class="campo"><label for="carruselTexto">Texto de esta lámina</label><textarea id="carruselTexto" maxlength="350" rows="4"></textarea></div>
+<label class="drop" for="carruselFoto">Elegir foto para esta lámina</label><input type="file" accept="image/*" id="carruselFoto">
+<p class="hint" id="carruselFotoEstado" role="status"></p>
+<div id="carruselEncuadre">
+<div class="campo"><label for="carruselZoom">Acercar foto</label><input type="range" id="carruselZoom" min="100" max="300" value="100"></div>
+<div class="campo"><label for="carruselX">Encuadre horizontal</label><input type="range" id="carruselX" min="0" max="100" value="50"></div>
+<div class="campo"><label for="carruselY">Encuadre vertical</label><input type="range" id="carruselY" min="0" max="100" value="50"></div>
+<button class="btn-mini" type="button" id="carruselQuitarFoto">Quitar foto de esta lámina</button>
+</div>
+<div class="campo" style="margin-top:14px"><label for="carruselCta">Invitación final (solo última lámina)</label><input id="carruselCta" type="text" maxlength="90" value="Más información en www.sercotec.cl"></div>
+<div class="campo"><label id="carruselColorLabel">Color de la franja que conecta las láminas</label><div class="swatches" id="carruselColores" role="group" aria-labelledby="carruselColorLabel"></div></div>
+<p class="hint">El color de fondo y el de la franja se aplican a todo el carrusel. Los textos usan claro u oscuro según el fondo.</p>
+<div class="campo"><label for="carruselExportTipo">Formato para descargar todas</label><select id="carruselExportTipo"><option value="image/png">PNG · mejor nitidez</option><option value="image/jpeg">JPG · archivos más livianos</option></select></div>
+<button class="btn btn-primario" type="button" id="carruselExportar">Descargar todas las láminas (ZIP)</button>
+<button class="btn btn-sec" type="button" id="carruselCompartir" hidden style="margin-top:8px">Guardar o compartir carrusel</button>
+<p class="hint" id="carruselEstado" role="status" aria-live="polite">El ZIP contiene las imágenes numeradas. Descomprímelo y súbelas en ese orden.</p>
+</div>
+
+<div class="seccion" id="seccionTalleres" style="display:none">
+<h2>Talleres CDN · 4:5</h2>
+<div class="campo"><label for="cantidadTalleres">Cantidad de talleres</label><select id="cantidadTalleres"><option>1</option><option>2</option><option>3</option><option selected>4</option></select></div>
+<label class="check" id="opcionFotoTalleres"><input type="checkbox" id="fotoTalleres"> Foto en la mitad superior</label>
+<p class="hint" id="ayudaTalleres">Hasta cuatro talleres en franjas. Con uno o dos puedes agregar una foto arriba.</p>
+<div class="campo"><label for="tituloTalleres">Encabezado</label><input type="text" id="tituloTalleres" maxlength="45" value="Talleres gratuitos"></div>
+<fieldset id="tallerCampo0" style="border:1px solid var(--borde);border-radius:10px;padding:12px;margin:12px 0"><legend>Taller 1</legend><div class="campo"><label for="taller0_titulo">Nombre del taller</label><input type="text" id="taller0_titulo" maxlength="90"></div><div class="campo"><label for="taller0_centro">Centro de Desarrollo de Negocios</label><input type="text" id="taller0_centro" maxlength="65"></div><div class="campo"><label for="taller0_fecha">Fecha y hora</label><input type="text" id="taller0_fecha" maxlength="75"></div><div class="campo"><label for="taller0_modalidad">Modalidad o lugar</label><input type="text" id="taller0_modalidad" maxlength="80"></div></fieldset><fieldset id="tallerCampo1" style="border:1px solid var(--borde);border-radius:10px;padding:12px;margin:12px 0"><legend>Taller 2</legend><div class="campo"><label for="taller1_titulo">Nombre del taller</label><input type="text" id="taller1_titulo" maxlength="90"></div><div class="campo"><label for="taller1_centro">Centro de Desarrollo de Negocios</label><input type="text" id="taller1_centro" maxlength="65"></div><div class="campo"><label for="taller1_fecha">Fecha y hora</label><input type="text" id="taller1_fecha" maxlength="75"></div><div class="campo"><label for="taller1_modalidad">Modalidad o lugar</label><input type="text" id="taller1_modalidad" maxlength="80"></div></fieldset><fieldset id="tallerCampo2" style="border:1px solid var(--borde);border-radius:10px;padding:12px;margin:12px 0"><legend>Taller 3</legend><div class="campo"><label for="taller2_titulo">Nombre del taller</label><input type="text" id="taller2_titulo" maxlength="90"></div><div class="campo"><label for="taller2_centro">Centro de Desarrollo de Negocios</label><input type="text" id="taller2_centro" maxlength="65"></div><div class="campo"><label for="taller2_fecha">Fecha y hora</label><input type="text" id="taller2_fecha" maxlength="75"></div><div class="campo"><label for="taller2_modalidad">Modalidad o lugar</label><input type="text" id="taller2_modalidad" maxlength="80"></div></fieldset><fieldset id="tallerCampo3" style="border:1px solid var(--borde);border-radius:10px;padding:12px;margin:12px 0"><legend>Taller 4</legend><div class="campo"><label for="taller3_titulo">Nombre del taller</label><input type="text" id="taller3_titulo" maxlength="90"></div><div class="campo"><label for="taller3_centro">Centro de Desarrollo de Negocios</label><input type="text" id="taller3_centro" maxlength="65"></div><div class="campo"><label for="taller3_fecha">Fecha y hora</label><input type="text" id="taller3_fecha" maxlength="75"></div><div class="campo"><label for="taller3_modalidad">Modalidad o lugar</label><input type="text" id="taller3_modalidad" maxlength="80"></div></fieldset>
+<div class="campo"><label for="ctaTalleres">Inscripción</label><input type="text" id="ctaTalleres" maxlength="90" value="Inscríbete en tu Centro de Desarrollo de Negocios"></div>
+<div class="campo"><label for="pieTalleres">Pie de la gráfica</label><input type="text" id="pieTalleres" maxlength="70" value="Centros de Desarrollo de Negocios · Sercotec"></div>
+<h2>Colores de talleres · CDN</h2><p class="hint">Personaliza cada parte con la paleta CDN. El blanco está disponible como tono neutro.</p><div id="coloresTalleres"></div>
+</div>
 
   <div class="seccion" id="seccionContenido">
     <h2>6 · Escribe tus textos</h2>
@@ -432,6 +473,15 @@ const TIPOS = {
 const S = {
   marca:'sercotec', formato:'feed45', tipo:'programas', plantilla:'foto', bg:'#2e3191',
   posicionMedio:'abajo',
+  carrusel:{actual:0,etiqueta:'',cta:'Más información en www.sercotec.cl',colores:{sercotec:'#00ccff',cdn:'#d4e023'},laminas:[
+    {titulo:'Una idea para empezar',texto:'Presenta aquí el tema de tu publicación.',foto:null,zoom:1,panX:.5,panY:.5},
+    {titulo:'Sigamos con el siguiente paso',texto:'Desarrolla la información y cierra con una invitación.',foto:null,zoom:1,panX:.5,panY:.5}
+  ]},
+  cantidadTalleres:4, fotoTalleres:false, tituloTalleres:'Talleres gratuitos',
+  ctaTalleres:'Inscríbete en tu Centro de Desarrollo de Negocios',
+  pieTalleres:'Centros de Desarrollo de Negocios · Sercotec',
+  talleres:Array.from({length:4},()=>({titulo:'Nombre del taller',centro:'Nombre del centro',fecha:'Fecha y hora',modalidad:'Actividad en línea'})),
+  coloresTalleres:{encabezado:'#d34389',finEncabezado:'#55adaf',textoEncabezado:'#ffffff',franja:'#14355b',textoFranja:'#ffffff',detalle:'#ffffff',textoDetalle:'#14355b',inscripcion:'#55adaf',textoInscripcion:'#14355b',pie:'#14355b',textoPie:'#ffffff'},
   etiqueta:TIPOS.programas.etiqueta,
   titulo:'Postula al Capital Semilla Emprende',
   bajada:'Fondo concursable para que tu negocio crezca y se consolide.',
@@ -602,9 +652,13 @@ function dibujarBarraGobVertical(ctx,leftX,topY,largo,bgHex){
    Devuelve la coordenada Y donde termina. */
 const ESCALA_BARRA=1.5;
 function dibujarComplemento(ctx,W,H,bgHex){
-  // La foto usa el complemento horizontal superior. El video usa solamente
-  // la máscara y la elección del formato no activa ninguna marca por sí sola.
+  // Historias y reels comparten el identificador lateral del video.
   if(!debeMostrarComplementoImagen()) return 0;
+  if(esHistoriaOReel()){
+    // Toma solo la franja lateral de la máscara; la firma del video no tapa los textos de la foto.
+    ctx.save();ctx.beginPath();ctx.rect(W*.95,0,W*.05,H);ctx.clip();
+    dibujarMascaraVideo(ctx,W,H);ctx.restore();return 0;
+  }
   const F=FORMATOS[S.formato];
   const inX=F.safe?(W-F.safe.w)/2:0;
   const ancho=W*ANCHO_BARRA_REF*ESCALA_BARRA, alto=ancho/RATIO_BARRA;
@@ -613,7 +667,7 @@ function dibujarComplemento(ctx,W,H,bgHex){
 }
 
 function dibujarMascaraVideo(ctx,W,H){
-  if(!esVideoCargado() || !MASCARA_VIDEO.complete || !MASCARA_VIDEO.naturalWidth) return;
+  if(!MASCARA_VIDEO.complete || !MASCARA_VIDEO.naturalWidth) return;
   const F=FORMATOS[S.formato];
   const zona=F.safe||{w:W,h:H};
   // La máscara conserva su altura centrada, pero su borde derecho debe tocar
@@ -772,6 +826,8 @@ function render(ctx,W,H,conGuias,tVideo){
   const mBot = (F.kind==='w') ? H*.10 : W*.06 + inY;
 
   if(esVideoCargado()) renderVideoConMarca(ctx,W,H,conGuias&&S.gcVistaFija?null:tVideo);
+  else if(esCarrusel()) renderCarrusel(ctx,W,H,S.carrusel.actual);
+  else if(esTalleres()) renderTalleres(ctx,W,H);
   else if(F.kind==='w') renderAncho(ctx,W,H,margen);
   else renderVertical(ctx,W,H,margen,mTop,mBot);
 
@@ -787,6 +843,93 @@ function render(ctx,W,H,conGuias,tVideo){
     ctx.fillText('zona segura',gx+12,gy+Math.max(20,W*.022));
     ctx.restore();
   }
+}
+
+
+function esCarrusel(){return S.plantilla==='carrusel' && S.formato==='feed45' && !S.video;}
+function renderCarrusel(ctx,W,H,index){
+  const c=S.carrusel, slide=c.laminas[index], color=c.colores[S.marca];
+  const ink=textoSobreCaja(S.bg), onAccent=textoSobreCaja(color), m=W*.075;
+  ctx.fillStyle=S.bg;ctx.fillRect(0,0,W,H);
+  dibujarComplemento(ctx,W,H,S.bg);
+  if(c.etiqueta){
+    ctx.fillStyle=color;rr(ctx,m,H*.065,W*.85,H*.043,H*.01);ctx.fill();
+    textoTaller(ctx,c.etiqueta,m+W*.022,H*.075,W*.806,H*.028,700,W*.025,onAccent);
+  }
+  const top=c.etiqueta?H*.14:H*.10;
+  textoTaller(ctx,slide.titulo,m,top,W-2*m,H*.20,900,W*.071,ink);
+  textoTaller(ctx,slide.texto,m,top+H*.23,W-2*m,slide.foto?H*.17:H*.42,400,W*.033,ink);
+  if(slide.foto){
+    const prev={zoom:S.zoom,panX:S.panX,panY:S.panY};
+    try{Object.assign(S,{zoom:slide.zoom,panX:slide.panX,panY:slide.panY});
+      ctx.save();rr(ctx,m,H*.57,W-2*m,H*.25,W*.025);ctx.clip();
+      dibujarFotoCover(ctx,slide.foto,m,H*.57,W-2*m,H*.25,false);ctx.restore();
+    }finally{Object.assign(S,prev);}
+  }
+  // La curva se calcula sobre el ancho de todo el carrusel: sus extremos coinciden.
+  const y=x=>H*(.875+.014*Math.sin((x/W+index)*Math.PI));
+  ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(0,y(0));
+  for(let x=0;x<=W;x+=W/100)ctx.lineTo(x,y(x));
+  ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();ctx.fill();
+  if(index===c.laminas.length-1 && c.cta) textoTaller(ctx,c.cta,m,H*.905,W*.85,H*.034,700,W*.027,onAccent);
+  textoTaller(ctx,String(index+1).padStart(2,'0')+' / '+String(c.laminas.length).padStart(2,'0'),m,H*.961,W*.20,H*.023,700,W*.021,onAccent);
+  if(index===0){
+    textoTaller(ctx,'Desliza',W*.735,H*.952,W*.13,H*.032,700,W*.025,onAccent);
+    ctx.strokeStyle=onAccent;ctx.lineWidth=W*.003;ctx.lineCap='round';
+    const x=W*.91,y=H*.966;ctx.beginPath();ctx.moveTo(x-W*.035,y);ctx.lineTo(x,y);ctx.lineTo(x-W*.014,y-W*.014);ctx.moveTo(x,y);ctx.lineTo(x-W*.014,y+W*.014);ctx.stroke();
+  }
+}
+
+function esTalleres(){return S.marca==='cdn' && S.formato==='feed45' && S.plantilla==='talleres' && !S.video;}
+function textoTaller(ctx,texto,x,y,w,h,peso,px,color){
+  if(!texto || w<=0 || h<=0) return;
+  ctx.save(); ctx.beginPath(); ctx.rect(x,y,w,h); ctx.clip();
+  let size=px, lines=[];
+  for(;size>=12;size-=1){
+    ctx.font=fuente(peso,size); lines=partirLineas(ctx,texto,w);
+    if(lines.length*size*1.16<=h && lines.every(l=>ctx.measureText(l).width<=w)) break;
+  }
+  ctx.fillStyle=color;ctx.textBaseline='top';ctx.textAlign='left';
+  lines.forEach((line,i)=>ctx.fillText(line,x,y+i*size*1.16));ctx.restore();
+}
+function renderTalleres(ctx,W,H){
+  const C=S.coloresTalleres, n=S.cantidadTalleres;
+  const conFoto=n<=2 && S.fotoTalleres;
+  ctx.fillStyle=S.bg;ctx.fillRect(0,0,W,H);
+  // Patrón geométrico discreto, siguiendo la estructura del modelo entregado.
+  ctx.save();ctx.globalAlpha=.13;ctx.fillStyle=C.franja;
+  if(!conFoto){ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(W*.6,0);ctx.lineTo(0,H*.52);ctx.fill();}
+  ctx.beginPath();ctx.moveTo(W,H);ctx.lineTo(W*.45,H);ctx.lineTo(W,H*.60);ctx.fill();ctx.restore();
+  if(conFoto){
+    if(S.foto) dibujarFotoCover(ctx,S.foto,0,0,W,H*.5,true);
+    else marcadorFoto(ctx,0,0,W,H*.5,false);
+    // El color de fondo invade suavemente el último tramo de la foto.
+    dibujarTransicionMedio(ctx,W,0,H*.5,'arriba',S.bg);
+  }
+  dibujarComplemento(ctx,W,H,S.bg);
+  const hy=conFoto?H*.415:H*.07, hh=H*.065;
+  const g=ctx.createLinearGradient(W*.17,0,W*.86,0);g.addColorStop(0,C.encabezado);g.addColorStop(1,C.finEncabezado);
+  ctx.fillStyle=g;rr(ctx,W*.17,hy,W*.69,hh,hh/2);ctx.fill();
+  textoTaller(ctx,S.tituloTalleres.toUpperCase(),W*.205,hy+hh*.23,W*.62,hh*.64,900,W*.039,C.textoEncabezado);
+  const rh=conFoto?H*.155:H*.145, gap=H*.018;
+  // Los talleres ocupan los espacios inferiores cuando hay fotografía arriba.
+  const start=conFoto?H*.535:(n<=2?H*.50:H*.18);
+  for(let i=0;i<n;i++){
+    const t=S.talleres[i], y=start+i*(rh+gap), x=W*.035, width=W*.93, head=rh*.55;
+    ctx.fillStyle=C.detalle;ctx.fillRect(W*.085,y+head*.6,W*.88,rh-head*.6);
+    ctx.fillStyle=C.franja;rr(ctx,x,y,width,head,head/2);ctx.fill();
+    const cx=W*.087,cy=y+head/2,r=W*.033;
+    ctx.strokeStyle=C.textoFranja;ctx.lineWidth=W*.0025;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx-r*.48,cy);ctx.lineTo(cx+r*.48,cy);ctx.moveTo(cx,cy-r*.45);ctx.lineTo(cx+r*.48,cy);ctx.lineTo(cx,cy+r*.45);ctx.stroke();
+    textoTaller(ctx,t.titulo.toUpperCase(),W*.145,y+head*.10,W*.77,head*.49,900,W*.032,C.textoFranja);
+    textoTaller(ctx,t.centro.toUpperCase(),W*.145,y+head*.60,W*.76,head*.31,400,W*.027,C.textoFranja);
+    textoTaller(ctx,t.fecha.toUpperCase(),W*.145,y+head+rh*.07,W*.77,rh*.17,900,W*.023,C.textoDetalle);
+    textoTaller(ctx,t.modalidad,W*.145,y+head+rh*.26,W*.77,rh*.16,400,W*.022,C.textoDetalle);
+  }
+  ctx.fillStyle=C.inscripcion;ctx.fillRect(0,H*.91,W,H*.037);
+  textoTaller(ctx,S.ctaTalleres,W*.09,H*.918,W*.83,H*.026,700,W*.023,C.textoInscripcion);
+  ctx.fillStyle=C.pie;ctx.fillRect(0,H*.947,W,H*.053);
+  textoTaller(ctx,S.pieTalleres,W*.05,H*.963,W*.90,H*.029,700,W*.025,C.textoPie);
 }
 
 function renderVertical(ctx,W,H,margen,mTop,mBot){
@@ -997,7 +1140,7 @@ function renderPreview(){
   }
   // Al armar el GC se mantiene fijo; la prueba de animación sigue el tiempo del video.
   render(ctx,F.w,F.h,true,esVideoCargado()?S.video.currentTime:null);
-  const usaFoto = !!S.foto && (S.plantilla!=='color' || F.kind==='w');
+  const usaFoto = !esCarrusel() && !!S.foto && (S.plantilla!=='color' || F.kind==='w');
   cv.classList.toggle('arrastrable',!!usaFoto);
   document.getElementById('infoFormato').innerHTML=
     `<b>${F.nombre}</b> · ${F.w} × ${F.h} px` + (F.safe?` · zona segura ${F.safe.w} × ${Math.min(F.safe.h,F.h)} px`:'');
@@ -1043,7 +1186,8 @@ async function exportar(tipoMime){
   const ext=tipoMime==='image/jpeg'?'jpg':'png';
   const fecha=new Date().toISOString().slice(0,16).replace(/[T:]/g,'-');
   const prefijo=S.marca==='cdn'?'cdn':'sercotec';
-  const nombre=`${prefijo}_${F.archivo}_${S.tipo}_${fecha}.${ext}`;
+  const lamina=esCarrusel()?`_lamina-${String(S.carrusel.actual+1).padStart(2,'0')}`:'';
+  const nombre=`${prefijo}_${F.archivo}_${S.tipo}${lamina}_${fecha}.${ext}`;
   const blob=await blobDesdeCanvas(off,tipoMime);
   if(!blob){ alert('No se pudo generar la imagen. Intenta nuevamente.'); return; }
   if(esMovil()){
@@ -1057,17 +1201,149 @@ async function exportar(tipoMime){
 
 /* ================= Controles ================= */
 const $=id=>document.getElementById(id);
+function actualizarCarruselUI(){
+  const c=S.carrusel,slide=c.laminas[c.actual];
+  $('carruselLamina').replaceChildren(...c.laminas.map((_,i)=>new Option(`Lámina ${i+1}${i===0?' · portada':i===c.laminas.length-1?' · cierre':''}`,String(i),false,i===c.actual)));
+  $('carruselTitulo').value=slide.titulo;$('carruselTexto').value=slide.texto;
+  $('carruselEtiqueta').value=c.etiqueta;$('carruselCta').value=c.cta;
+  $('carruselZoom').value=slide.zoom*100;$('carruselX').value=slide.panX*100;$('carruselY').value=slide.panY*100;
+  $('carruselFoto').value='';$('carruselFotoEstado').textContent=slide.foto?'Esta lámina tiene una foto.':'Esta lámina usa solo color y texto.';
+  $('carruselEncuadre').hidden=!slide.foto;
+  $('carruselAnterior').disabled=c.actual===0;$('carruselSiguiente').disabled=c.actual===c.laminas.length-1;
+  $('carruselAgregar').disabled=c.laminas.length>=10;$('carruselQuitar').disabled=c.laminas.length<=2;
+  const group=$('carruselColores');group.replaceChildren();
+  for(const color of PALETAS[S.marca].colores){
+    const b=document.createElement('button');b.type='button';b.className='sw';b.style.background=color.hex;b.title=color.nombre;b.setAttribute('aria-label',color.nombre);
+    b.classList.toggle('sel',color.hex===c.colores[S.marca]);b.setAttribute('aria-pressed',String(color.hex===c.colores[S.marca]));
+    b.onclick=()=>{c.colores[S.marca]=color.hex;actualizarCarruselUI();renderPreview();};group.appendChild(b);
+  }
+}
+function irALamina(index){S.carrusel.actual=index;actualizarCarruselUI();renderPreview();}
+$('carruselLamina').onchange=e=>irALamina(Number(e.target.value));
+$('carruselAnterior').onclick=()=>irALamina(Math.max(0,S.carrusel.actual-1));
+$('carruselSiguiente').onclick=()=>irALamina(Math.min(S.carrusel.laminas.length-1,S.carrusel.actual+1));
+$('carruselAgregar').onclick=()=>{
+  if(S.carrusel.laminas.length>=10)return;
+  S.carrusel.laminas.push({titulo:'',texto:'',foto:null,zoom:1,panX:.5,panY:.5});irALamina(S.carrusel.laminas.length-1);
+};
+// Keep a recoverable copy when removing a slide during this session.
+let ultimaLaminaEliminada=null;
+$('carruselQuitar').onclick=()=>{
+  if(S.carrusel.laminas.length<=2)return;
+  const index=S.carrusel.actual;ultimaLaminaEliminada={index,slide:S.carrusel.laminas.splice(index,1)[0]};
+  $('carruselDeshacer').hidden=false;irALamina(Math.min(index,S.carrusel.laminas.length-1));
+};
+$('carruselDeshacer').onclick=()=>{
+  if(!ultimaLaminaEliminada || S.carrusel.laminas.length>=10)return;
+  const {index,slide}=ultimaLaminaEliminada;S.carrusel.laminas.splice(index,0,slide);ultimaLaminaEliminada=null;$('carruselDeshacer').hidden=true;irALamina(index);
+};
+for(const [id,key] of [['carruselTitulo','titulo'],['carruselTexto','texto']])$(id).oninput=e=>{S.carrusel.laminas[S.carrusel.actual][key]=e.target.value;renderPreview();};
+for(const [id,key] of [['carruselEtiqueta','etiqueta'],['carruselCta','cta']])$(id).oninput=e=>{S.carrusel[key]=e.target.value;renderPreview();};
+for(const [id,key] of [['carruselZoom','zoom'],['carruselX','panX'],['carruselY','panY']])$(id).oninput=e=>{S.carrusel.laminas[S.carrusel.actual][key]=Number(e.target.value)/100;renderPreview();};
+let lecturaCarrusel=0;
+function cargarFotoCarrusel(file){
+  if(!file)return;
+  if(!file.type.startsWith('image/')){$('carruselFotoEstado').textContent='Elige una fotografía para esta lámina.';return;}
+  const slide=S.carrusel.laminas[S.carrusel.actual],token=++lecturaCarrusel;
+  $('carruselFotoEstado').textContent='Cargando foto…';
+  const url=URL.createObjectURL(file),img=new Image();
+  img.onload=()=>{URL.revokeObjectURL(url);if(token!==lecturaCarrusel || !S.carrusel.laminas.includes(slide))return;slide.foto=img;slide.zoom=1;slide.panX=.5;slide.panY=.5;actualizarCarruselUI();renderPreview();};
+  img.onerror=()=>{URL.revokeObjectURL(url);$('carruselFotoEstado').textContent='No se pudo abrir. Prueba con una foto JPG o PNG.';};img.src=url;
+};
+$('carruselFoto').onchange=e=>cargarFotoCarrusel(e.target.files[0]);
+$('carruselQuitarFoto').onclick=()=>{lecturaCarrusel++;S.carrusel.laminas[S.carrusel.actual].foto=null;actualizarCarruselUI();renderPreview();};
+
+// ZIP without compression: PNG/JPG are already compressed. No server or dependency.
+function crcCarrusel(bytes){let crc=0xffffffff;for(const byte of bytes){crc^=byte;for(let k=0;k<8;k++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}return (crc^0xffffffff)>>>0;}
+function zipCarrusel(files){
+  const parts=[],directory=[];let offset=0,centralSize=0;
+  for(const file of files){
+    const name=new TextEncoder().encode(file.name),size=file.bytes.length,crc=crcCarrusel(file.bytes);
+    const local=new Uint8Array(30+name.length),lv=new DataView(local.buffer);
+    lv.setUint32(0,0x04034b50,true);lv.setUint16(4,20,true);lv.setUint16(12,33,true);
+    lv.setUint32(14,crc,true);lv.setUint32(18,size,true);lv.setUint32(22,size,true);lv.setUint16(26,name.length,true);local.set(name,30);
+    parts.push(local,file.bytes);
+    const central=new Uint8Array(46+name.length),dv=new DataView(central.buffer);
+    dv.setUint32(0,0x02014b50,true);dv.setUint16(4,20,true);dv.setUint16(6,20,true);dv.setUint16(14,33,true);
+    dv.setUint32(16,crc,true);dv.setUint32(20,size,true);dv.setUint32(24,size,true);dv.setUint16(28,name.length,true);dv.setUint32(42,offset,true);central.set(name,46);
+    directory.push(central);centralSize+=central.length;offset+=local.length+size;
+  }
+  const end=new Uint8Array(22),ev=new DataView(end.buffer);ev.setUint32(0,0x06054b50,true);ev.setUint16(8,files.length,true);ev.setUint16(10,files.length,true);ev.setUint32(12,centralSize,true);ev.setUint32(16,offset,true);
+  return new Blob([...parts,...directory,end],{type:'application/zip'});
+}
+let carruselPendiente=null;
+$('carruselCompartir').onclick=async()=>{if(carruselPendiente)await entregarArchivo(carruselPendiente.blob,carruselPendiente.nombre);};
+$('carruselExportar').onclick=async()=>{
+  if(!esCarrusel())return;
+  const aside=document.querySelector('aside'),tipo=$('carruselExportTipo').value,extension=tipo==='image/png'?'png':'jpg';
+  const marca=S.marca,files=[],count=S.carrusel.laminas.length,canvas=document.createElement('canvas');canvas.width=2000;canvas.height=2500;
+  const context=canvas.getContext('2d');aside.inert=true;$('carruselCompartir').hidden=true;carruselPendiente=null;
+  try{
+    await document.fonts.ready;
+    for(let i=0;i<count;i++){
+      $('carruselEstado').textContent=`Preparando lámina ${i+1} de ${count}…`;
+      context.clearRect(0,0,2000,2500);renderCarrusel(context,2000,2500,i);
+      const blob=await blobDesdeCanvas(canvas,tipo);if(!blob)throw new Error('No se pudo generar una lámina.');
+      files.push({name:`${marca}_carrusel_${String(i+1).padStart(2,'0')}.${extension}`,bytes:new Uint8Array(await blob.arrayBuffer())});
+    }
+    const blob=zipCarrusel(files),nombre=`${marca}_carrusel_4x5.zip`;carruselPendiente={blob,nombre};
+    $('carruselEstado').textContent=`Listas ${count} láminas. Descomprime el ZIP y publícalas en orden: 01, 02…`;
+    if(esMovil())$('carruselCompartir').hidden=false;else await entregarArchivo(blob,nombre);
+  }catch(error){$('carruselEstado').textContent='No se pudo preparar el carrusel. Intenta nuevamente.';console.error(error);}
+  finally{aside.inert=false;renderPreview();}
+};
+
+const opcionesTipos=Array.from($('selTipo').options).map(o=>({value:o.value,text:o.textContent}));
+function actualizarOpcionesInstitucion(){
+  const tipos=S.marca==='cdn'?opcionesTipos.filter(o=>['exito','efemerides','generica'].includes(o.value)):opcionesTipos;
+  if(!tipos.some(o=>o.value===S.tipo)){
+    S.tipo=S.marca==='cdn'?'generica':'programas';
+    if(!S.etiquetaManual){S.etiqueta=TIPOS[S.tipo].etiqueta;$('inEtiqueta').value=S.etiqueta;}
+  }
+  $('selTipo').replaceChildren(...tipos.map(o=>new Option(o.text,o.value,false,o.value===S.tipo)));
+  const opcion=$('selPlantilla').querySelector('[value="talleres"]');
+  opcion.hidden=S.marca!=='cdn';opcion.disabled=S.marca!=='cdn'||!!S.video;
+  if(S.plantilla==='carrusel' && S.formato!=='feed45') S.plantilla='foto';
+  if(S.plantilla==='talleres' && (S.marca!=='cdn'||S.formato!=='feed45')) S.plantilla='foto';
+  $('selPlantilla').value=S.plantilla;
+}
 function actualizarControlesPlantilla(){
+  const talleres=esTalleres(), carrusel=esCarrusel();
+  $('seccionCarrusel').style.display=carrusel?'':'none';
+  if(carrusel) actualizarCarruselUI();
   $('campoPosicionMedio').style.display=S.plantilla==='mixta'?'':'none';
   $('selPosicionMedio').value=S.posicionMedio;
+  $('seccionTalleres').style.display=talleres?'':'none';
+  $('seccionContenido').style.display=talleres||carrusel||S.video?'none':'';
+  $('opcionFotoTalleres').style.display=S.cantidadTalleres<=2?'':'none';
+  $('seccionMedio').style.display=carrusel || (talleres && (S.cantidadTalleres>2||!S.fotoTalleres))?'none':'';
+  for(let i=0;i<4;i++) $('tallerCampo'+i).hidden=i>=S.cantidadTalleres;
 }
-$('selFormato').onchange=e=>{S.formato=e.target.value; renderPreview();};
+const nombresColoresTalleres={encabezado:'Encabezado · inicio del degradado',finEncabezado:'Encabezado · fin del degradado',textoEncabezado:'Texto del encabezado',franja:'Franja del taller',textoFranja:'Título, centro y flecha',detalle:'Fondo de fecha y modalidad',textoDetalle:'Texto de fecha y modalidad',inscripcion:'Franja de inscripción',textoInscripcion:'Texto de inscripción',pie:'Fondo del pie',textoPie:'Texto del pie'};
+for(const [key,label] of Object.entries(nombresColoresTalleres)){
+  const campo=document.createElement('div');campo.className='campo';
+  const lab=document.createElement('label');lab.textContent=label;lab.id='labelTallerColor_'+key;
+  const grupo=document.createElement('div');grupo.className='swatches';grupo.setAttribute('role','group');grupo.setAttribute('aria-labelledby',lab.id);
+  for(const color of [...PALETAS.cdn.colores,{hex:'#ffffff',nombre:'Blanco'}]){
+    const b=document.createElement('button');b.type='button';b.className='sw';b.style.background=color.hex;b.title=color.nombre;b.setAttribute('aria-label',color.nombre);
+    const marcar=()=>Array.from(grupo.children).forEach(btn=>{const on=btn.dataset.color===S.coloresTalleres[key];btn.classList.toggle('sel',on);btn.setAttribute('aria-pressed',String(on));});
+    b.dataset.color=color.hex;b.onclick=()=>{S.coloresTalleres[key]=color.hex;marcar();renderPreview();};grupo.appendChild(b);marcar();
+  }
+  campo.append(lab,grupo);$('coloresTalleres').appendChild(campo);
+}
+for(let i=0;i<4;i++)for(const key of ['titulo','centro','fecha','modalidad']){
+  const input=$('taller'+i+'_'+key);input.value=S.talleres[i][key];input.oninput=e=>{S.talleres[i][key]=e.target.value;renderPreview();};
+}
+$('cantidadTalleres').onchange=e=>{S.cantidadTalleres=Number(e.target.value);actualizarControlesPlantilla();renderPreview();};
+$('fotoTalleres').onchange=e=>{S.fotoTalleres=e.target.checked;actualizarControlesPlantilla();renderPreview();};
+for(const key of ['tituloTalleres','ctaTalleres','pieTalleres'])$(key).oninput=e=>{S[key]=e.target.value;renderPreview();};
+$('selFormato').onchange=e=>{S.formato=e.target.value; actualizarOpcionesInstitucion();actualizarControlesPlantilla();renderPreview();};
 $('selTipo').onchange=e=>{
   S.tipo=e.target.value;
   if(!S.etiquetaManual){S.etiqueta=TIPOS[S.tipo].etiqueta; $('inEtiqueta').value=S.etiqueta;}
   renderPreview();
 };
-$('selPlantilla').onchange=e=>{S.plantilla=e.target.value; actualizarControlesPlantilla(); renderPreview();};
+$('selPlantilla').onchange=e=>{S.plantilla=e.target.value;if(S.plantilla==='carrusel'){S.formato='feed45';$('selFormato').value='feed45';}if(S.plantilla==='talleres'){S.formato='feed45';$('selFormato').value='feed45';if(S.bg===S.coloresTalleres.franja){S.bg='#55adaf';renderPaleta();}} actualizarControlesPlantilla(); renderPreview();};
 $('selPosicionMedio').onchange=e=>{S.posicionMedio=e.target.value; renderPreview();};
 $('inEtiqueta').oninput=e=>{S.etiqueta=e.target.value; S.etiquetaManual=true; renderPreview();};
 $('inTitulo').oninput=e=>{S.titulo=e.target.value; renderPreview();};
@@ -1268,6 +1544,7 @@ $('selMarca').onchange=e=>{
   S.marca=e.target.value;
   const paleta=PALETAS[S.marca];
   S.bg=paleta.oscuro;
+  actualizarOpcionesInstitucion();actualizarControlesPlantilla();
   renderPaleta();
   renderPreview();
 };
@@ -1329,7 +1606,7 @@ function modoVideoUI(on){
       $('inEtiqueta').value=S.etiqueta;
       ajustesAntesVideo=null;
     }
-    actualizarControlesPlantilla();
+    actualizarOpcionesInstitucion();actualizarControlesPlantilla();
   }
   $('grupoExportarImagen').style.display=on?'none':'';
   $('grupoExportarVideo').style.display=on?'':'none';
@@ -1390,7 +1667,7 @@ function cargarMedia(archivo){
 }
 $('inFoto').onchange=e=>cargarMedia(e.target.files[0]);
 ['dragover','dragenter'].forEach(ev=>document.body.addEventListener(ev,e=>e.preventDefault()));
-document.body.addEventListener('drop',e=>{e.preventDefault(); if(e.dataTransfer.files.length) cargarMedia(e.dataTransfer.files[0]);});
+document.body.addEventListener('drop',e=>{e.preventDefault(); if(e.dataTransfer.files.length){if(esCarrusel())cargarFotoCarrusel(e.dataTransfer.files[0]);else cargarMedia(e.dataTransfer.files[0]);}});
 
 /* Arrastre de la foto sobre el preview */
 let arrastre=null;
@@ -1420,7 +1697,7 @@ async function iniciar(){
   $('chkBajada').checked=S.mostrarBajada;
   $('chkCta').checked=S.mostrarCta;
   $('selPosicionMedio').value=S.posicionMedio;
-  actualizarControlesPlantilla();
+  actualizarOpcionesInstitucion();actualizarControlesPlantilla();
   // Dibuja de inmediato. En algunos iPhone la carga de tipografías locales
   // puede fallar; la vista previa debe seguir funcionando con la fuente del sistema.
   renderPreview();
